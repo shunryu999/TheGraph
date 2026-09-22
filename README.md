@@ -8,7 +8,7 @@ This repo holds the buildable parts: prototypes, datasets, specs and the public 
 
 | Path | What lives there |
 |---|---|
-| `site/` | The public front page (thegraph.shunryugarvey.com). |
+| `site/` | The public front page (twigzistence.shunryugarvey.com). |
 | `prototypes/<name>/` | One folder per roadmap project, each with its own `index.html` and `README.md`. Each is published at `/<name>/`. |
 | `data/` | Datasets the prototypes read (lineages, geocoded timesteps, extracts), with their sources. |
 | `docs/` | The roadmap, the notebook intake log, conventions, and specs for the design document. |
