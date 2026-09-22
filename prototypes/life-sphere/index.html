@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Conway's Game of Life played on a sphere, its history nested as shells with every birth joined to its three parents. Phylograph roadmap project 7.">
+<title>Life on the Stratasphere</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#FAF7F0; --panel:#F3EEE3; --rule:#E2DBCB;
+  --ink:#141414; --ink-2:#3C3A35; --grey:#8C8C8C; --fur:#A7A294;
+  --accent:#B03A2E;
+  --serif:"EB Garamond","Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#14130F; --panel:#1C1A16; --rule:#2E2B24;
+    --ink:#ECE6D8; --ink-2:#C9C2B2; --grey:#7F796D; --fur:#5E594F;
+    --accent:#E0634C;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#14130F; --panel:#1C1A16; --rule:#2E2B24;
+  --ink:#ECE6D8; --ink-2:#C9C2B2; --grey:#7F796D; --fur:#5E594F;
+  --accent:#E0634C;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--serif);font-size:17px;line-height:1.5;margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:20px;padding-block:28px 48px}
+header{display:grid;gap:6px;margin-bottom:22px;max-width:780px}
+.eyebrow{font-variant:small-caps;letter-spacing:.12em;color:var(--grey);font-size:15px}
+h1{font-weight:500;font-size:clamp(34px,5vw,48px);line-height:1.05;margin:0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:4px 0 0;color:var(--ink-2);font-size:18px;max-width:64ch;text-wrap:pretty}
+.main{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:28px;align-items:start}
+@media (max-width:880px){.main{grid-template-columns:1fr}}
+.stage{display:grid;gap:12px;min-width:0}
+.view{position:relative;width:100%;aspect-ratio:1/1;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);background:var(--ground)}
+.view canvas{position:absolute;inset:0;width:100%!important;height:100%!important;display:block;cursor:grab}
+.claim{font-variant:small-caps;letter-spacing:.14em;color:var(--accent);text-align:center;font-size:15px;margin:0}
+.key{display:flex;flex-wrap:wrap;gap:6px 22px;font-size:15px;color:var(--ink-2)}
+.key span{display:inline-flex;align-items:center;gap:8px}
+.key i{display:inline-block;width:26px;height:0;border-top:1.6px solid var(--ink)}
+.key i.fur{border-top:1px solid var(--fur)}
+.key i.red{border-top:2.2px solid var(--accent)}
+.hint{font-size:14px;color:var(--grey);margin:0}
+.fallback{position:absolute;inset:0;display:grid;place-items:center;padding:24px;text-align:center;color:var(--ink-2)}
+aside{display:grid;gap:18px}
+.readout{background:var(--panel);border:1px solid var(--rule);padding:14px 16px;display:grid;gap:10px}
+.stat{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.stat .k{font-variant:small-caps;letter-spacing:.1em;color:var(--grey);font-size:14px}
+.stat .v{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:14px;color:var(--ink)}
+.verdict{font-size:16px;line-height:1.4;border-top:1px solid var(--rule);padding-top:10px;margin:0}
+.verdict b{font-weight:500;color:var(--accent)}
+fieldset{border:0;border-top:1px solid var(--rule);margin:0;padding:12px 0 0;display:grid;gap:10px;min-width:0}
+legend{font-variant:small-caps;letter-spacing:.14em;color:var(--grey);font-size:14px;padding:0 8px 0 0}
+label{display:grid;gap:4px;font-size:15px;color:var(--ink-2)}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.row output{font-family:var(--mono);font-size:13px;color:var(--ink);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.check{display:flex;align-items:center;gap:8px}
+.check input{accent-color:var(--accent);width:16px;height:16px}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+button{font:inherit;font-size:15px;color:var(--ink);background:transparent;border:1px solid var(--ink);padding:6px 14px;border-radius:2px;cursor:pointer}
+button.primary{background:var(--ink);color:var(--ground)}
+button:hover{border-color:var(--accent)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.notes{margin-top:34px;border-top:1px solid var(--rule);padding-top:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px}
+.notes h2{font-size:15px;font-weight:500;font-variant:small-caps;letter-spacing:.12em;color:var(--grey);margin:0 0 6px}
+.notes p{margin:0;font-size:16px;color:var(--ink-2);max-width:62ch}
+.notes q{font-style:italic;color:var(--ink)}
+</style>
+<style>html{color-scheme:light dark}body{margin:0}</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Phylograph · Roadmap project 7 · after the Storyboarding notebook, p. 33</div>
+    <h1>Life on the Stratasphere</h1>
+    <p class="lede">Conway’s Game of Life, played on the surface of a sphere instead of a flat grid. Each generation becomes a shell. The present is outermost, and the past sinks inward toward the first generation at the center. Every newborn cell is joined to the three neighbours that gave rise to it, so the whole history hangs together as one figure.</p>
+  </header>
+
+  <div class="main">
+    <div class="stage">
+      <div class="view" id="view"><div class="fallback" id="fallback" hidden>This view needs WebGL, which this browser has turned off.</div></div>
+      <p class="claim">The inner shells are not smaller. They are farther.</p>
+      <div class="key" aria-hidden="true">
+        <span><i></i>lines leading to a cell alive now</span>
+        <span><i class="fur"></i>the fur: lines that ended</span>
+        <span><i class="red"></i>the history you picked</span>
+      </div>
+      <p class="hint">Drag to turn the sphere, scroll or pinch to zoom. Click a cell on the outer shell to light up everything it came from.</p>
+    </div>
+
+    <aside>
+      <div class="readout" aria-live="polite">
+        <div class="stat"><span class="k">generation</span><span class="v" id="sGen">0</span></div>
+        <div class="stat"><span class="k">cells on the sphere</span><span class="v" id="sCells">0</span></div>
+        <div class="stat"><span class="k">alive now</span><span class="v" id="sPop">0</span></div>
+        <div class="stat"><span class="k">lives so far</span><span class="v" id="sLives">0</span></div>
+        <div class="stat"><span class="k">on a line to the present</span><span class="v" id="sAnc">0</span></div>
+        <p class="verdict" id="verdict"></p>
+      </div>
+
+      <fieldset>
+        <legend>Run</legend>
+        <div class="btns">
+          <button class="primary" id="bPlay" type="button">Pause</button>
+          <button id="bStep" type="button">Step</button>
+          <button id="bReset" type="button">New sphere</button>
+        </div>
+        <label for="speed"><span class="row">Generations per second <output id="oSpeed">6</output></span>
+          <input id="speed" type="range" min="1" max="30" value="6"></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>View</legend>
+        <label for="grad"><span class="row">Density gradient <output id="oGrad">2.0</output></span>
+          <input id="grad" type="range" min="0" max="60" value="20"></label>
+        <label class="check" for="cut"><input id="cut" type="checkbox" checked> Cut away the near side</label>
+        <label class="check" for="fur"><input id="fur" type="checkbox" checked> Show the fur</label>
+        <label class="check" for="spin"><input id="spin" type="checkbox" checked> Turn slowly</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>World</legend>
+        <label for="res"><span class="row">Cells along each cube edge <output id="oRes">18</output></span>
+          <input id="res" type="range" min="10" max="26" step="2" value="18"></label>
+        <label for="dens"><span class="row">Starting density <output id="oDens">0.30</output></span>
+          <input id="dens" type="range" min="10" max="60" value="30"></label>
+        <label for="rain"><span class="row">Spontaneous births <output id="oRain">0.2%</output></span>
+          <input id="rain" type="range" min="0" max="20" value="2"></label>
+        <p class="hint">Spontaneous births are cells that appear with no parents, a trickle of new founders that keeps the sphere from settling into stillness. The size and density settings take effect with “New sphere.”</p>
+      </fieldset>
+    </aside>
+  </div>
+
+  <section class="notes">
+    <div>
+      <h2>Why a sphere</h2>
+      <p>On a flat grid the history of Life stacks into a box. On a sphere it nests, and nested spheres are what the stratasphere is: <q>a series of infinitely nested 2-spheres… an approximation of a 3-sphere.</q> The storyboard proposed Life as its first application because it would be <q>rapidly recognized by the general readership of science.</q></p>
+    </div>
+    <div>
+      <h2>Three parents, not two</h2>
+      <p>In Life a dead cell comes alive when exactly three of its neighbours are alive. Those three are its parents. A cell that survives is its own continuation, drawn as a short radial line. Because every birth has three parents, the lines braid together as well as branch, which is closer to how cultures and technologies descend than to a family tree.</p>
+    </div>
+    <div>
+      <h2>The grid</h2>
+      <p>The sphere is a cube inflated into a ball, with each face divided into squares. Each cell counts its eight nearest cells as neighbours. At the eight corners, where three faces meet, the eighth neighbour is slightly farther away than the rest. It is a small imperfection that the flat game never has to face.</p>
+    </div>
+  </section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const view = $('view');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!window.THREE) { $('fallback').hidden = false; $('fallback').textContent = 'The 3D library failed to load. Check the connection and reload.'; return; }
+  let renderer;
+  try { renderer = new THREE.WebGLRenderer({ antialias:true }); } catch(e) { $('fallback').hidden = false; return; }
+  renderer.setPixelRatio(Math.min(2, devicePixelRatio||1));
+  view.appendChild(renderer.domElement);
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(40, 1, 0.05, 100);
+  camera.position.set(2.2, 1.3, 3.1);
+  const controls = new THREE.OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true; controls.minDistance = 1.4; controls.maxDistance = 8; controls.autoRotate = !reduce; controls.autoRotateSpeed = 0.5;
+
+  const MAXG = 200, R = 1.0;
+  let n, C, dirs, nbr, gens, playing = !reduce, accum = 0, last = performance.now();
+  let pts, segs, ptCell, ptGen, segP, segC, anc, sel, selSeed = -1, livesTotal = 0, ancTotal = 0;
+
+  // ---------- the cube-sphere grid ----------
+  function buildGrid(){
+    n = +$('res').value; C = 6*n*n; dirs = new Float32Array(3*C);
+    const faces = [ [ [1,0,0],[0,1,0],[0,0,1] ], [ [-1,0,0],[0,1,0],[0,0,-1] ], [ [0,1,0],[0,0,1],[1,0,0] ],
+                    [ [0,-1,0],[0,0,1],[-1,0,0] ], [ [0,0,1],[1,0,0],[0,1,0] ], [ [0,0,-1],[1,0,0],[0,-1,0] ] ];
+    let c = 0;
+    for (const [N0,U,V] of faces) for (let i=0;i<n;i++) for (let j=0;j<n;j++){
+      const u = Math.tan(((i+.5)/n*2-1)*Math.PI/4), v = Math.tan(((j+.5)/n*2-1)*Math.PI/4);
+      let x = N0[0]+u*U[0]+v*V[0], y = N0[1]+u*U[1]+v*V[1], z = N0[2]+u*U[2]+v*V[2];
+      const L = Math.hypot(x,y,z); dirs[3*c]=x/L; dirs[3*c+1]=y/L; dirs[3*c+2]=z/L; c++;
+    }
+    // eight nearest neighbours by angle
+    nbr = new Int32Array(8*C);
+    const best = new Float32Array(8), bi = new Int32Array(8);
+    for (let a=0;a<C;a++){
+      best.fill(-2); bi.fill(-1);
+      const ax=dirs[3*a], ay=dirs[3*a+1], az=dirs[3*a+2];
+      for (let b=0;b<C;b++){ if (b===a) continue;
+        const d = ax*dirs[3*b]+ay*dirs[3*b+1]+az*dirs[3*b+2];
+        if (d > best[7]){ let k=7; while (k>0 && d > best[k-1]){ best[k]=best[k-1]; bi[k]=bi[k-1]; k--; } best[k]=d; bi[k]=b; }
+      }
+      nbr.set(bi, 8*a);
+    }
+  }
+
+  // ---------- history storage ----------
+  function Store(cap){ this.cap = cap; this.n = 0; }
+  function makeBuffers(capP, capS){
+    const P = { dir:new Float32Array(3*capP), gen:new Float32Array(capP), cls:new Float32Array(capP), cap:capP, n:0 };
+    const S = { dir:new Float32Array(6*capS), gen:new Float32Array(2*capS), cls:new Float32Array(2*capS), cap:capS, n:0 };
+    return [P,S];
+  }
+  function grow(obj, per){ // double capacity, keep contents
+    const nc = obj.cap*2, out = { cap:nc, n:obj.n };
+    for (const k of ['dir','gen','cls']){ const a = new Float32Array(obj[k].length/obj.cap*nc); a.set(obj[k]); out[k]=a; }
+    return out;
+  }
+
+  // ---------- GPU side ----------
+  const uniforms = {
+    tNow:{value:1}, grad:{value:2}, R:{value:R}, cInk:{value:new THREE.Color()}, cFur:{value:new THREE.Color()}, cAcc:{value:new THREE.Color()},
+    furOn:{value:1}, cutOn:{value:1}, cutN:{value:new THREE.Vector3(0,0,1)}, cutD:{value:.15}, psize:{value:3}
+  };
+  const vs = `
+    attribute vec3 dir; attribute float gen; attribute float cls;
+    uniform float tNow, grad, R, psize; varying float vCls; varying vec3 vPos;
+    void main(){
+      float age = (tNow - gen) / max(tNow, 1.0);
+      float f = grad < 0.01 ? age : (1.0 - exp(-grad*age)) / (1.0 - exp(-grad));
+      float r = R * (1.0 - f) * 0.97 + R * 0.03;
+      vec3 p = dir * r; vPos = p; vCls = cls;
+      vec4 mv = modelViewMatrix * vec4(p, 1.0);
+      gl_Position = projectionMatrix * mv;
+      gl_PointSize = psize * (cls > 0.5 ? 1.0 : 0.65) * (0.35 + 0.65*(1.0-f)) * (3.0 / -mv.z);
+    }`;
+  const fsCommon = `
+    uniform vec3 cInk, cFur, cAcc; uniform float furOn, cutOn, cutD; uniform vec3 cutN; varying float vCls; varying vec3 vPos;
+    vec4 shade(){
+      if (cutOn > 0.5 && dot(vPos, cutN) > cutD) discard;
+      if (vCls < 0.5 && furOn < 0.5) discard;
+      if (vCls > 1.5) return vec4(cAcc, 1.0);
+      if (vCls > 0.5) return vec4(cInk, 0.85);
+      return vec4(cFur, 0.45);
+    }`;
+  const matLines = new THREE.ShaderMaterial({ uniforms, vertexShader:vs, fragmentShader: fsCommon + `void main(){ gl_FragColor = shade(); }`, transparent:true, depthWrite:false });
+  const matPts = new THREE.ShaderMaterial({ uniforms, vertexShader:vs, fragmentShader: fsCommon + `void main(){ vec2 q = gl_PointCoord - 0.5; if (dot(q,q) > 0.25) discard; gl_FragColor = shade(); }`, transparent:true, depthWrite:false });
+  let geoP, geoS, objP, objS;
+  function attach(){
+    if (objP){ scene.remove(objP); scene.remove(objS); geoP.dispose(); geoS.dispose(); }
+    geoP = new THREE.BufferGeometry(); geoS = new THREE.BufferGeometry();
+    geoP.setAttribute('dir', new THREE.BufferAttribute(pts.dir,3).setUsage(THREE.DynamicDrawUsage));
+    geoP.setAttribute('gen', new THREE.BufferAttribute(pts.gen,1).setUsage(THREE.DynamicDrawUsage));
+    geoP.setAttribute('cls', new THREE.BufferAttribute(pts.cls,1).setUsage(THREE.DynamicDrawUsage));
+    geoP.setAttribute('position', new THREE.BufferAttribute(pts.dir,3));
+    geoS.setAttribute('dir', new THREE.BufferAttribute(segs.dir,3).setUsage(THREE.DynamicDrawUsage));
+    geoS.setAttribute('gen', new THREE.BufferAttribute(segs.gen,1).setUsage(THREE.DynamicDrawUsage));
+    geoS.setAttribute('cls', new THREE.BufferAttribute(segs.cls,1).setUsage(THREE.DynamicDrawUsage));
+    geoS.setAttribute('position', new THREE.BufferAttribute(segs.dir,3));
+    geoP.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 2); geoS.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 2);
+    objS = new THREE.LineSegments(geoS, matLines); objP = new THREE.Points(geoP, matPts);
+    objS.frustumCulled = objP.frustumCulled = false;
+    scene.add(objS); scene.add(objP);
+  }
+  // the present shell: a hairline great circle ring, redrawn in the accent
+  const ringGeo = new THREE.BufferGeometry().setFromPoints(Array.from({length:129},(_,i)=>{ const t=i/128*Math.PI*2; return new THREE.Vector3(Math.cos(t)*R*1.015,0,Math.sin(t)*R*1.015); }));
+  const ringMat = new THREE.LineBasicMaterial({ transparent:true, opacity:.6 });
+  const ring = new THREE.Line(ringGeo, ringMat); scene.add(ring);
+
+  // ---------- simulation ----------
+  function addPoint(g, c){
+    if (pts.n >= pts.cap){ pts = grow(pts); ptCell = growI(ptCell); ptGen = growI(ptGen); needAttach = true; }
+    const k = pts.n++;
+    pts.dir[3*k]=dirs[3*c]; pts.dir[3*k+1]=dirs[3*c+1]; pts.dir[3*k+2]=dirs[3*c+2]; pts.gen[k]=g; pts.cls[k]=0;
+    ptCell[k]=c; ptGen[k]=g; return k;
+  }
+  function addSeg(pp, pc){
+    if (segs.n >= segs.cap){ segs = grow(segs); segP = growI(segP); segC = growI(segC); needAttach = true; }
+    const k = segs.n++;
+    for (const [e,pt] of [[0,pp],[1,pc]]){ const c = ptCell[pt]; segs.dir.set([dirs[3*c],dirs[3*c+1],dirs[3*c+2]], 6*k+3*e); segs.gen[2*k+e] = ptGen[pt]; }
+    segP[k]=pp; segC[k]=pc;
+  }
+  function growI(a){ const b = new Int32Array(a.length*2); b.set(a); return b; }
+  let needAttach = false;
+
+  function reset(presim){
+    buildGrid();
+    [pts, segs] = makeBuffers(1<<14, 1<<15);
+    ptCell = new Int32Array(pts.cap); ptGen = new Int32Array(pts.cap); segP = new Int32Array(segs.cap); segC = new Int32Array(segs.cap);
+    gens = []; livesTotal = 0; selSeed = -1;
+    const d = +$('dens').value/100, map = new Int32Array(C).fill(-1);
+    for (let c=0;c<C;c++) if (Math.random() < d) map[c] = addPoint(0, c);
+    gens.push(map); livesTotal = count(map);
+    for (let i=0;i<presim;i++) step(true);
+    attach(); classify(); refresh(); stats();
+  }
+  const count = m => { let s=0; for (let i=0;i<m.length;i++) if (m[i]>=0) s++; return s; };
+  function step(){
+    if (gens.length >= MAXG){ playing = false; syncPlay(); return false; }
+    const prev = gens[gens.length-1], g = gens.length, map = new Int32Array(C).fill(-1);
+    const rain = +$('rain').value/1000;
+    for (let c=0;c<C;c++){
+      let live = 0; const par = [];
+      for (let k=0;k<8;k++){ const q = nbr[8*c+k]; if (prev[q]>=0){ live++; if (par.length<3) par.push(prev[q]); } }
+      if (prev[c]>=0){
+        if (live===2 || live===3){ const p = addPoint(g,c); map[c]=p; addSeg(prev[c], p); }
+      } else if (live===3){
+        const p = addPoint(g,c); map[c]=p; for (const q of par) addSeg(q, p);
+      } else if (rain && Math.random() < rain){ map[c] = addPoint(g,c); }
+    }
+    gens.push(map); livesTotal += count(map);
+    return true;
+  }
+  // mark every life on a line to a live cell, and the history of the picked cell
+  function classify(){
+    const T = gens.length-1, A = new Uint8Array(pts.n), S = new Uint8Array(pts.n);
+    const top = gens[T]; for (let c=0;c<C;c++) if (top[c]>=0) A[top[c]] = 1;
+    if (selSeed>=0 && selSeed<pts.n) S[selSeed] = 1;
+    for (let k=segs.n-1;k>=0;k--){ const ch = segC[k], p = segP[k]; if (A[ch]) A[p]=1; if (S[ch]) S[p]=1; }
+    ancTotal = 0;
+    for (let i=0;i<pts.n;i++){ pts.cls[i] = S[i] ? 2 : A[i] ? 1 : 0; ancTotal += A[i]; }
+    for (let k=0;k<segs.n;k++){ const ch = segC[k], p = segP[k]; const v = (S[ch]&&S[p]) ? 2 : A[ch] ? 1 : 0; segs.cls[2*k]=v; segs.cls[2*k+1]=v; }
+    anc = A; sel = S;
+  }
+  function refresh(){
+    if (needAttach){ attach(); needAttach = false; }
+    for (const [geo, o] of [[geoP, pts],[geoS, segs]]){
+      for (const k of ['dir','gen','cls','position']) geo.attributes[k].needsUpdate = true;
+    }
+    geoP.setDrawRange(0, pts.n); geoS.setDrawRange(0, segs.n*2);
+    uniforms.tNow.value = Math.max(1, gens.length-1);
+  }
+
+  function stats(){
+    const T = gens.length-1, pop = count(gens[T]);
+    $('sGen').textContent = T.toLocaleString(); $('sCells').textContent = C.toLocaleString();
+    $('sPop').textContent = pop.toLocaleString(); $('sLives').textContent = livesTotal.toLocaleString();
+    $('sAnc').textContent = ancTotal.toLocaleString();
+    let v;
+    if (pop===0) v = 'The sphere has gone still: nothing is alive. Start a new sphere, or turn up spontaneous births.';
+    else if (selSeed>=0){ let s=0; for (let i=0;i<sel.length;i++) s+=sel[i]; v = `The cell you picked descends from <b>${(s-1).toLocaleString()}</b> earlier lives, braided through ${ptGen[selSeed].toLocaleString()} generations.`; }
+    else v = `Of ${livesTotal.toLocaleString()} lives so far, <b>${ancTotal.toLocaleString()}</b> lie on a line to a cell alive now. Everything else is fur.`;
+    if (T >= MAXG-1) v += ' This sphere has reached its 200-generation limit.';
+    $('verdict').innerHTML = v;
+  }
+
+  // ---------- theme, size, loop ----------
+  const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  function theme(){
+    renderer.setClearColor(new THREE.Color(css('--ground')), 1);
+    uniforms.cInk.value.set(css('--ink')); uniforms.cFur.value.set(css('--fur')); uniforms.cAcc.value.set(css('--accent'));
+    ringMat.color.set(css('--accent'));
+  }
+  function size(){ const r = view.getBoundingClientRect(); renderer.setSize(r.width, r.height, false); camera.aspect = r.width/r.height; camera.updateProjectionMatrix(); uniforms.psize.value = Math.max(2, r.width/260); }
+  new ResizeObserver(size).observe(view);
+  new MutationObserver(theme).observe(document.documentElement, { attributes:true, attributeFilter:['data-theme'] });
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', theme);
+
+  function frame(now){
+    const dt = Math.min(.25, (now-last)/1000); last = now;
+    if (playing){ accum += dt * +$('speed').value; let k=0; while (accum>=1 && k<3){ step(); accum-=1; k++; } if (k){ classify(); refresh(); stats(); } }
+    // the cut faces the viewer, so the inner shells show
+    const eye = camera.position.clone().normalize();
+    uniforms.cutN.value.copy(eye).addScaledVector(camera.up, 0.75).normalize(); // an oblique cut shows the shells in section
+    ring.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0), eye);
+    controls.update(); renderer.render(scene, camera);
+    requestAnimationFrame(frame);
+  }
+
+  // ---------- picking ----------
+  const ray = new THREE.Raycaster(); let down = null;
+  renderer.domElement.addEventListener('pointerdown', e => down = [e.clientX, e.clientY]);
+  renderer.domElement.addEventListener('pointerup', e => {
+    if (!down || Math.hypot(e.clientX-down[0], e.clientY-down[1]) > 5) return;
+    const r = renderer.domElement.getBoundingClientRect();
+    ray.setFromCamera({ x:(e.clientX-r.left)/r.width*2-1, y:-(e.clientY-r.top)/r.height*2+1 }, camera);
+    const o = ray.ray.origin, d = ray.ray.direction, b = o.dot(d), c2 = o.lengthSq() - R*R, disc = b*b - c2;
+    if (disc < 0){ selSeed = -1; classify(); refresh(); stats(); return; }
+    const cand = [-b - Math.sqrt(disc), -b + Math.sqrt(disc)];
+    let hit = null;
+    for (const t of cand){ if (t<0) continue; const p = o.clone().addScaledVector(d, t);
+      if (uniforms.cutOn.value > .5 && p.clone().normalize().dot(uniforms.cutN.value) > uniforms.cutD.value) continue; hit = p.normalize(); break; }
+    if (!hit) return;
+    const top = gens[gens.length-1]; let best=-1, bd=-2;
+    for (let c=0;c<C;c++){ if (top[c]<0) continue; const dd = hit.x*dirs[3*c]+hit.y*dirs[3*c+1]+hit.z*dirs[3*c+2]; if (dd>bd){ bd=dd; best=c; } }
+    selSeed = (best>=0 && bd > Math.cos(3/n)) ? top[best] : -1;
+    classify(); refresh(); stats();
+  });
+
+  // ---------- controls ----------
+  function syncPlay(){ $('bPlay').textContent = playing ? 'Pause' : 'Play'; }
+  $('bPlay').onclick = () => { if (gens.length>=MAXG) return; playing = !playing; syncPlay(); };
+  $('bStep').onclick = () => { playing=false; syncPlay(); step(); classify(); refresh(); stats(); };
+  $('bReset').onclick = () => { reset(40); playing = !reduce; syncPlay(); };
+  const bind = (id,o,f,fn) => { const el=$(id); const u=()=>{ $(o).textContent=f(+el.value); fn&&fn(+el.value); }; el.addEventListener('input',u); u(); };
+  bind('speed','oSpeed',v=>v);
+  bind('grad','oGrad',v=>(v/10).toFixed(1),v=>uniforms.grad.value=v/10);
+  bind('res','oRes',v=>v); bind('dens','oDens',v=>(v/100).toFixed(2)); bind('rain','oRain',v=>(v/10).toFixed(1)+'%');
+  $('cut').onchange = e => uniforms.cutOn.value = e.target.checked ? 1 : 0;
+  $('fur').onchange = e => uniforms.furOn.value = e.target.checked ? 1 : 0;
+  $('spin').onchange = e => controls.autoRotate = e.target.checked; $('spin').checked = !reduce;
+
+  theme(); size(); reset(40); syncPlay();
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

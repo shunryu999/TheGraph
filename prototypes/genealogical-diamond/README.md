@@ -11,6 +11,7 @@ The notebook dates the convergence to about 100,000–200,000 years ago. That is
 - Each generation has N people (64–512). Each person gets two parents drawn at random, optionally from 2, 4 or 8 separate communities with a set rate of marriage between them.
 - Rows view or rings view. Your ancestors are in vermilion, ancestors of everyone alive now are ringed in ink, and people with no living descendants are faint. Click anyone in the present row to make them "you".
 - A chart compares the naive 2^g ancestor slots with your distinct ancestors and with the count of ancestors of everyone.
+- **Partner mode.** Add a second person and watch two cones widen until they meet on the ancestors you share. This is the literal diamond of the storyboard, with the generation of your first shared ancestor.
 - It finds the most recent common ancestor of all and the identical ancestors point, and compares both with Chang's theory (log₂N and 1.77·log₂N).
 
 ## Original plan

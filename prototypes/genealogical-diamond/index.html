@@ -47,6 +47,8 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:poi
 .d-you{background:var(--accent)}
 .d-all{background:transparent;border:1.6px solid var(--ink)}
 .d-none{background:transparent;border:1px solid var(--faint)}
+.d-par{background:var(--ink)}
+.d-both{background:var(--accent);box-shadow:inset 0 0 0 2.5px var(--accent),inset 0 0 0 5px var(--ink)}
 .chart-wrap{overflow-x:auto}
 svg.chart{display:block;width:100%;min-width:420px;height:auto}
 .chart text{font-family:var(--mono);font-size:10px;fill:var(--grey)}
@@ -97,8 +99,10 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
         <span><i class="dot d-you"></i>your ancestors</span>
         <span><i class="dot d-all"></i>ancestor of everyone alive now</span>
         <span><i class="dot d-none"></i>no descendants alive now</span>
+        <span class="pk" hidden><i class="dot d-par"></i>your partner’s ancestors</span>
+        <span class="pk" hidden><i class="dot d-both"></i>ancestors you share</span>
       </div>
-      <p class="hint">Click anyone in the top row (the present) to make them “you.”</p>
+      <p class="hint" id="hint">Click anyone in the top row (the present) to make them “you.”</p>
       <div class="chart-wrap"><svg class="chart" id="chart" viewBox="0 0 640 250" role="img" aria-label="Distinct ancestors per generation compared with the naive doubling"></svg></div>
       <p class="caption">The dashed line is the naive count of ancestor slots, 2ᵍ. The red line is how many distinct people actually fill those slots. The gap between them is pedigree collapse: the same ancestors appearing in many places in your family tree.</p>
     </div>
@@ -110,6 +114,8 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
         <div class="stat"><span class="k">identical ancestors point</span><span class="v" id="sI"></span></div>
         <div class="stat"><span class="k">theory, one mixed population</span><span class="v" id="sT"></span></div>
         <div class="stat"><span class="k" id="sCk">pedigree collapse</span><span class="v" id="sC"></span></div>
+        <div class="stat pk" hidden><span class="k">first ancestor you share</span><span class="v" id="sF"></span></div>
+        <div class="stat pk" hidden><span class="k" id="sSk">shared ancestors</span><span class="v" id="sS"></span></div>
         <p class="verdict" id="verdict"></p>
       </div>
 
@@ -125,6 +131,12 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
         <label for="gen"><span class="row">Years per generation <output id="oGen">28</output></span>
           <input id="gen" type="range" min="20" max="35" value="28"></label>
         <div class="btns" style="display:flex;gap:8px;flex-wrap:wrap"><button class="primary" id="bNew" type="button">New population</button></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>People</legend>
+        <label class="check" for="partner" style="display:flex;align-items:center;gap:8px"><input id="partner" type="checkbox" style="accent-color:var(--accent);width:16px;height:16px"> Add a partner</label>
+        <p class="hint">Two people, two widening cones. Where the cones meet is the diamond: the ancestors you share.</p>
       </fieldset>
 
       <fieldset>
@@ -169,6 +181,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
   let desc = [];     // desc[k] : Uint32Array(N*W) bitset of present-day descendants
   let W, univ = [], mrca = -1, iap = -1;
   let you = 0, yours = [], order = [];
+  let partnerOn = false, partner = 1, theirs = [], firstShared = -1, turn = 0;
 
   const migOut = v => { const r = v/100; return (r*r*50).toFixed(r*r*50 < 1 ? 1 : 0) + '%'; };
   const migRate = () => { const r = +$('mig').value/100; return r*r*0.5; };
@@ -208,19 +221,26 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
       if (mrca<0 && nU>0) mrca = k;
       if (iap<0 && nU + nZero === N && k>0) iap = k;
     }
-    you = Math.floor(N/2);
+    you = Math.floor(N/2); partner = (you + 1 + Math.floor(Math.random()*(N-1))) % N;
     trace();
   }
 
   function trace(){
-    yours = [new Uint8Array(N)]; yours[0][you] = 1;
-    for (let k=0;k<G;k++){ const nx = new Uint8Array(N); for (let i=0;i<N;i++) if (yours[k][i]){ nx[par[k][2*i]]=1; nx[par[k][2*i+1]]=1; } yours.push(nx); }
+    const up = who => { const rows = [new Uint8Array(N)]; rows[0][who] = 1;
+      for (let k=0;k<G;k++){ const nx = new Uint8Array(N); for (let i=0;i<N;i++) if (rows[k][i]){ nx[par[k][2*i]]=1; nx[par[k][2*i+1]]=1; } rows.push(nx); } return rows; };
+    yours = up(you); theirs = partnerOn ? up(partner) : []; firstShared = -1;
+    if (partnerOn) for (let k=0;k<=G && firstShared<0;k++) for (let i=0;i<N;i++) if (yours[k][i] && theirs[k][i]) { firstShared = k; break; }
     // order each row by the mean position of its children, so your ancestry opens as a cone
     order = []; const pos0 = new Float64Array(N);
-    const others = [...Array(N).keys()].filter(i=>i!==you);
-    const idx0 = new Int32Array(N); const mid = Math.floor(N/2);
-    let L = mid-1, R = mid+1, flip = 0; idx0[you] = mid;
-    for (const i of others){ if (flip++%2 && R<N) idx0[i]=R++; else if (L>=0) idx0[i]=L--; else idx0[i]=R++; }
+    const idx0 = new Int32Array(N);
+    if (partnerOn){
+      const a = Math.floor(N*0.3), b = Math.floor(N*0.7); idx0[you] = a; idx0[partner] = b;
+      let slot = 0; for (let i=0;i<N;i++){ if (i===you || i===partner) continue; while (slot===a || slot===b) slot++; idx0[i] = slot++; }
+    } else {
+      const others = [...Array(N).keys()].filter(i=>i!==you), mid = Math.floor(N/2);
+      let L = mid-1, R = mid+1, flip = 0; idx0[you] = mid;
+      for (const i of others){ if (flip++%2 && R<N) idx0[i]=R++; else if (L>=0) idx0[i]=L--; else idx0[i]=R++; }
+    }
     for (let i=0;i<N;i++) pos0[i] = idx0[i];
     order.push(idx0);
     let prevPos = pos0;
@@ -258,14 +278,20 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
     ctx.beginPath();
     for (let k=0;k<K;k++) for (let i=0;i<N;i++) if (yours[k][i]) for (const p of [par[k][2*i], par[k][2*i+1]]){ const a=P(k,i), b=P(k+1,p); ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]); }
     ctx.strokeStyle = C.acc; ctx.globalAlpha = N>256 ? .12 : .2; ctx.lineWidth = .6; ctx.stroke(); ctx.globalAlpha = 1;
+    if (partnerOn){
+      ctx.beginPath();
+      for (let k=0;k<K;k++) for (let i=0;i<N;i++) if (theirs[k][i]) for (const p of [par[k][2*i], par[k][2*i+1]]){ const a=P(k,i), b=P(k+1,p); ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]); }
+      ctx.strokeStyle = C.ink; ctx.globalAlpha = N>256 ? .08 : .14; ctx.lineWidth = .6; ctx.stroke(); ctx.globalAlpha = 1;
+    }
     const rad = Math.max(1, Math.min(3.2, (view==='rows' ? (Wd-36)/N : 5*Math.PI*Math.min(Wd,Hd)/2/N) * .38));
     for (let k=0;k<=K;k++){
       for (let i=0;i<N;i++){
-        const [x,y] = P(k,i), u = univ[k][i], yo = yours[k][i];
+        const [x,y] = P(k,i), u = univ[k][i], yo = yours[k][i], th = partnerOn && theirs[k][i];
         ctx.beginPath(); ctx.arc(x,y,rad,0,Math.PI*2);
-        if (yo){ ctx.fillStyle = C.acc; ctx.fill(); }
-        if (u){ ctx.strokeStyle = C.ink; ctx.lineWidth = 1.1; ctx.stroke(); }
-        else if (!yo){ let alive = false; const B = desc[k]; for (let w=0;w<W;w++) if (B[i*W+w]) { alive = true; break; }
+        if (yo){ ctx.fillStyle = C.acc; ctx.fill(); if (th){ ctx.beginPath(); ctx.arc(x,y,Math.max(.6,rad*.45),0,Math.PI*2); ctx.fillStyle = C.ink; ctx.fill(); } }
+        else if (th){ ctx.fillStyle = C.ink; ctx.fill(); }
+        if (u){ ctx.beginPath(); ctx.arc(x,y,rad+1.3,0,Math.PI*2); ctx.strokeStyle = C.ink; ctx.lineWidth = .9; ctx.stroke(); }
+        else if (!yo && !th){ let alive = false; const B = desc[k]; for (let w=0;w<W;w++) if (B[i*W+w]) { alive = true; break; }
           ctx.strokeStyle = alive ? C.grey : C.faint; ctx.lineWidth = .6; ctx.globalAlpha = alive ? .55 : .9; ctx.stroke(); ctx.globalAlpha = 1; }
       }
     }
@@ -278,6 +304,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
     };
     mark(mrca, 'first common ancestor of everyone · ' + mrca + ' generations back');
     mark(iap, 'identical ancestors point · ' + iap + ' back');
+    if (partnerOn && firstShared>0 && firstShared!==mrca) mark(firstShared, 'you and your partner first share an ancestor · ' + firstShared + ' back');
     ctx.fillStyle = C.grey; ctx.font = 'italic 13px ' + css('--serif');
     if (view==='rows'){ ctx.fillText('the present', 18, 16); }
     else { ctx.textAlign='center'; ctx.fillText('the present', Wd/2, 14); ctx.textAlign='left'; }
@@ -323,11 +350,20 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
     const kc = Math.min(rowsShown(), Math.ceil(L)+2), have = yours[kc].reduce((a,x)=>a+x,0), slots = 2**kc;
     $('sCk').textContent = `pedigree collapse, ${kc} gen back`;
     $('sC').innerHTML = `${have.toLocaleString()} <small>people for ${slots.toLocaleString()} slots</small>`;
+    document.querySelectorAll('.pk').forEach(el => el.hidden = !partnerOn);
+    if (partnerOn){
+      $('sF').innerHTML = firstShared>=0 ? `${firstShared} gen <small>≈ ${yrs(firstShared)}</small>` : `beyond ${G} gen`;
+      const ks = Math.min(rowsShown(), Math.max(1, firstShared+2));
+      let sh = 0, yc = 0; for (let i=0;i<N;i++){ if (yours[ks][i]) { yc++; if (theirs[ks][i]) sh++; } }
+      $('sSk').textContent = `shared ancestors, ${ks} gen back`;
+      $('sS').innerHTML = `${sh} <small>of your ${yc}</small>`;
+    }
     let v;
     if (mrca>=0 && iap>=0) v = `Everyone alive shares an ancestor <b>${mrca} generations</b> back. By <b>${iap}</b>, every person then living is an ancestor of all of us, or of none.`;
     else if (mrca>=0) v = `Everyone alive shares an ancestor <b>${mrca} generations</b> back; the identical ancestors point lies further back than this run reaches.`;
     else v = `The communities are too separate for a common ancestor within ${G} generations. Raise the marriage rate between them.`;
     if (D>1) v += ` Separation pushes both thresholds back; one mixed population of ${N} would give about ${Math.round(L)} and ${Math.round(1.77*L)}.`;
+    if (partnerOn && firstShared>=0) v += ` You and your partner first share an ancestor <b>${firstShared} generations</b> back${firstShared<mrca ? ', before that ancestor is shared by everyone' : ''}.`;
     $('verdict').innerHTML = v;
   }
 
@@ -340,6 +376,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
   ['pop','demes','mig'].forEach(id => $(id).addEventListener('change', regen));
   $('gen').addEventListener('input', e => { genYears = +e.target.value; stats(); });
   $('bNew').onclick = regen;
+  $('partner').onchange = e => { partnerOn = e.target.checked; turn = 0; $('hint').textContent = partnerOn ? 'Click in the top row to choose “you,” then your partner.' : 'Click anyone in the top row (the present) to make them “you.”'; trace(); };
   const setView = v => { view = v; $('vRows').setAttribute('aria-pressed', v==='rows'); $('vRings').setAttribute('aria-pressed', v==='rings'); box.classList.toggle('rings', v==='rings'); requestAnimationFrame(resize); };
   $('vRows').onclick = () => setView('rows'); $('vRings').onclick = () => setView('rings');
 
@@ -347,7 +384,11 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
     const r = cv.getBoundingClientRect(), x = e.clientX-r.left, y = e.clientY-r.top;
     let best=-1, bd = 12*12;
     for (let i=0;i<N;i++){ const [px,py] = P(0,i); const d=(px-x)**2+(py-y)**2; if (d<bd){ bd=d; best=i; } }
-    if (best>=0){ you = best; trace(); }
+    if (best<0) return;
+    if (partnerOn && turn%2===1){ if (best!==you) partner = best; } else { if (best===partner) partner = you; you = best; }
+    if (partnerOn) turn++;
+    $('hint').textContent = partnerOn ? (turn%2 ? 'Now click someone in the top row to be your partner.' : 'Click in the top row to choose “you,” then your partner.') : 'Click anyone in the top row (the present) to make them “you.”';
+    trace();
   });
 
   new MutationObserver(() => render()).observe(document.documentElement, { attributes:true, attributeFilter:['data-theme'] });
