@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="A pedigree simulation: how your ancestors multiply, collapse onto each other, and converge on ancestors shared by everyone alive. Phylograph roadmap project 2.">
+<title>Genealogical Diamond</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#FAF7F0; --panel:#F3EEE3; --rule:#E2DBCB;
+  --ink:#141414; --ink-2:#3C3A35; --grey:#8C8C8C; --faint:#CFC8B8;
+  --accent:#B03A2E;
+  --serif:"EB Garamond","Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#14130F; --panel:#1C1A16; --rule:#2E2B24;
+    --ink:#ECE6D8; --ink-2:#C9C2B2; --grey:#7F796D; --faint:#3A362E;
+    --accent:#E0634C;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#14130F; --panel:#1C1A16; --rule:#2E2B24;
+  --ink:#ECE6D8; --ink-2:#C9C2B2; --grey:#7F796D; --faint:#3A362E;
+  --accent:#E0634C;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--serif);font-size:17px;line-height:1.5;margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:20px;padding-block:28px 48px}
+header{display:grid;gap:6px;margin-bottom:22px;max-width:780px}
+.eyebrow{font-variant:small-caps;letter-spacing:.12em;color:var(--grey);font-size:15px}
+h1{font-weight:500;font-size:clamp(34px,5vw,48px);line-height:1.05;margin:0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:4px 0 0;color:var(--ink-2);font-size:18px;max-width:64ch;text-wrap:pretty}
+.main{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:28px;align-items:start}
+@media (max-width:880px){.main{grid-template-columns:1fr}}
+.stage{display:grid;gap:14px;min-width:0}
+.canvas-box{position:relative;width:100%;aspect-ratio:4/3;background:var(--ground);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.canvas-box.rings{aspect-ratio:1/1}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:pointer}
+.key{display:flex;flex-wrap:wrap;gap:6px 22px;font-size:15px;color:var(--ink-2)}
+.key span{display:inline-flex;align-items:center;gap:8px}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+.d-you{background:var(--accent)}
+.d-all{background:transparent;border:1.6px solid var(--ink)}
+.d-none{background:transparent;border:1px solid var(--faint)}
+.chart-wrap{overflow-x:auto}
+svg.chart{display:block;width:100%;min-width:420px;height:auto}
+.chart text{font-family:var(--mono);font-size:10px;fill:var(--grey)}
+.chart .lbl{font-family:var(--serif);font-size:13px;font-style:italic}
+.caption{font-size:15px;color:var(--grey);font-style:italic;margin:0;max-width:72ch}
+aside{display:grid;gap:18px}
+.readout{background:var(--panel);border:1px solid var(--rule);padding:14px 16px;display:grid;gap:10px}
+.stat{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.stat .k{font-variant:small-caps;letter-spacing:.1em;color:var(--grey);font-size:14px}
+.stat .v{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:14px;color:var(--ink);text-align:right}
+.stat .v small{color:var(--grey);font-size:12px}
+.verdict{font-size:16px;line-height:1.4;border-top:1px solid var(--rule);padding-top:10px;margin:0}
+.verdict b{font-weight:500;color:var(--accent)}
+fieldset{border:0;border-top:1px solid var(--rule);margin:0;padding:12px 0 0;display:grid;gap:10px;min-width:0}
+legend{font-variant:small-caps;letter-spacing:.14em;color:var(--grey);font-size:14px;padding:0 8px 0 0}
+label{display:grid;gap:4px;font-size:15px;color:var(--ink-2)}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.row output{font-family:var(--mono);font-size:13px;color:var(--ink);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.seg{display:flex;border:1px solid var(--ink);border-radius:2px;overflow:hidden}
+.seg button{flex:1;border:0;border-radius:0;background:transparent}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--ground)}
+button{font:inherit;font-size:15px;color:var(--ink);background:transparent;border:1px solid var(--ink);padding:6px 14px;border-radius:2px;cursor:pointer}
+button.primary{background:var(--ink);color:var(--ground)}
+button:hover{border-color:var(--accent)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.hint{font-size:14px;color:var(--grey);margin:0}
+.notes{margin-top:34px;border-top:1px solid var(--rule);padding-top:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px}
+.notes h2{font-size:15px;font-weight:500;font-variant:small-caps;letter-spacing:.12em;color:var(--grey);margin:0 0 6px}
+.notes p{margin:0;font-size:16px;color:var(--ink-2);max-width:62ch}
+.notes q{font-style:italic;color:var(--ink)}
+.notes a{color:var(--ink);text-decoration-color:var(--accent);text-underline-offset:3px}
+</style>
+<style>html{color-scheme:light dark}body{margin:0}</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Phylograph · Roadmap project 2 · after the Storyboarding notebook, p. 10</div>
+    <h1>Genealogical Diamond</h1>
+    <p class="lede">You have two parents, four grandparents, eight great-grandparents. Keep doubling and, a few dozen generations back, you would need more ancestors than there were people. The lines have to fold back into each other. Follow them far enough and they fold into ancestors you share with everyone alive.</p>
+  </header>
+
+  <div class="main">
+    <div class="stage">
+      <div class="canvas-box" id="box"><canvas id="cv" role="img" aria-label="Rows of a population, one row per generation, the present at the top, with your ancestors marked"></canvas></div>
+      <div class="key" aria-hidden="true">
+        <span><i class="dot d-you"></i>your ancestors</span>
+        <span><i class="dot d-all"></i>ancestor of everyone alive now</span>
+        <span><i class="dot d-none"></i>no descendants alive now</span>
+      </div>
+      <p class="hint">Click anyone in the top row (the present) to make them “you.”</p>
+      <div class="chart-wrap"><svg class="chart" id="chart" viewBox="0 0 640 250" role="img" aria-label="Distinct ancestors per generation compared with the naive doubling"></svg></div>
+      <p class="caption">The dashed line is the naive count of ancestor slots, 2ᵍ. The red line is how many distinct people actually fill those slots. The gap between them is pedigree collapse: the same ancestors appearing in many places in your family tree.</p>
+    </div>
+
+    <aside>
+      <div class="readout" aria-live="polite">
+        <div class="stat"><span class="k">population per generation</span><span class="v" id="sN"></span></div>
+        <div class="stat"><span class="k">common ancestor of all</span><span class="v" id="sM"></span></div>
+        <div class="stat"><span class="k">identical ancestors point</span><span class="v" id="sI"></span></div>
+        <div class="stat"><span class="k">theory, one mixed population</span><span class="v" id="sT"></span></div>
+        <div class="stat"><span class="k" id="sCk">pedigree collapse</span><span class="v" id="sC"></span></div>
+        <p class="verdict" id="verdict"></p>
+      </div>
+
+      <fieldset>
+        <legend>Population</legend>
+        <label for="pop"><span class="row">People per generation <output id="oPop">256</output></span>
+          <input id="pop" type="range" min="6" max="9" value="8" step="1"></label>
+        <label for="demes"><span class="row">Separate communities <output id="oDemes">1</output></span>
+          <input id="demes" type="range" min="0" max="3" value="0" step="1"></label>
+        <label for="mig"><span class="row">Marriages between communities <output id="oMig">5%</output></span>
+          <input id="mig" type="range" min="0" max="100" value="30"></label>
+        <p class="hint">With more than one community, most people take partners from their own. The rate sets how often a parent comes from elsewhere.</p>
+        <label for="gen"><span class="row">Years per generation <output id="oGen">28</output></span>
+          <input id="gen" type="range" min="20" max="35" value="28"></label>
+        <div class="btns" style="display:flex;gap:8px;flex-wrap:wrap"><button class="primary" id="bNew" type="button">New population</button></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>View</legend>
+        <div class="seg" role="group" aria-label="Layout">
+          <button type="button" id="vRows" aria-pressed="true">Rows</button>
+          <button type="button" id="vRings" aria-pressed="false">Rings</button>
+        </div>
+        <p class="hint">Rings nest the generations the Graph's way: the present outermost, the past falling inward.</p>
+      </fieldset>
+    </aside>
+  </div>
+
+  <section class="notes">
+    <div>
+      <h2>The diamond</h2>
+      <p>Seen from you, your ancestry widens generation by generation until it fills most of the population, then stops widening. The storyboard drew it as small trees for you and your spouse opening into a large-scale convergence. <q>A maximum network diameter would be reached at a finite time in history, after which your ancestors would converge on a common human ancestor.</q></p>
+    </div>
+    <div>
+      <h2>Two thresholds</h2>
+      <p>Going back, the first threshold is the <em>most recent common ancestor</em>: the first person who is an ancestor of everyone alive now. The second is the <em>identical ancestors point</em>, where everyone in a generation is either an ancestor of all of us or of none of us. For one well-mixed population of N people, Chang (1999) showed these fall near log₂N and 1.77·log₂N generations back.</p>
+    </div>
+    <div>
+      <h2>A correction to the notebook</h2>
+      <p>The storyboard put the convergence at 100,000–200,000 years ago. That is the range for mitochondrial Eve and Y-chromosomal Adam, who are ancestors along a single line of inheritance each. Counting every line, the genealogical common ancestor of everyone alive is far more recent. <a href="https://www.nature.com/articles/nature02842">Rohde, Olson &amp; Chang (2004)</a>, modelling real geography and migration, estimated it at only a few thousand years ago, with the identical ancestors point perhaps 5,000–15,000 years back.</p>
+    </div>
+    <div>
+      <h2>What the model leaves out</h2>
+      <p>Generations here don't overlap, each person has two parents chosen at random within the mixing rules, and the population is small enough to see. Real populations are billions strong and very unevenly mixed, which is why the real dates are thousands of years rather than the centuries a perfectly mixed world would give.</p>
+    </div>
+  </section>
+</div>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const cv = $('cv'), ctx = cv.getContext('2d'), box = $('box');
+  const DEMES = [1,2,4,8];
+  let N, D, m, G, genYears = 28, view = 'rows';
+  let par = [];      // par[k] : Int32Array(2N) parents in row k+1 of each person in row k (row 0 = present)
+  let kids = [];     // kids[k][j] : children (in row k-1) of person j in row k
+  let desc = [];     // desc[k] : Uint32Array(N*W) bitset of present-day descendants
+  let W, univ = [], mrca = -1, iap = -1;
+  let you = 0, yours = [], order = [];
+
+  const migOut = v => { const r = v/100; return (r*r*50).toFixed(r*r*50 < 1 ? 1 : 0) + '%'; };
+  const migRate = () => { const r = +$('mig').value/100; return r*r*0.5; };
+
+  function build(){
+    N = 1 << +$('pop').value; D = DEMES[+$('demes').value]; m = migRate();
+    G = Math.max(28, Math.ceil(2.4*Math.log2(N) * (D>1 ? 1.6 : 1)) + 4);
+    W = Math.ceil(N/32);
+    const per = N / D, demeOf = i => Math.floor(i/per);
+    par = []; kids = [];
+    for (let k=0;k<G;k++){
+      const P = new Int32Array(2*N);
+      for (let i=0;i<N;i++){
+        const pick = () => { const dm = Math.random() < m ? Math.floor(Math.random()*D) : demeOf(i); return dm*per + Math.floor(Math.random()*per); };
+        let a = pick(), b = pick(); let tries = 0; while (b===a && tries++<8) b = pick();
+        P[2*i]=a; P[2*i+1]=b;
+      }
+      par.push(P);
+    }
+    for (let k=0;k<=G;k++) kids.push(Array.from({length:N}, () => []));
+    for (let k=0;k<G;k++) for (let i=0;i<N;i++){ kids[k+1][par[k][2*i]].push(i); kids[k+1][par[k][2*i+1]].push(i); }
+    // descendant bitsets
+    desc = []; const d0 = new Uint32Array(N*W); for (let i=0;i<N;i++) d0[i*W + (i>>5)] |= 1 << (i&31); desc.push(d0);
+    for (let k=0;k<G;k++){
+      const cur = desc[k], nx = new Uint32Array(N*W);
+      for (let i=0;i<N;i++) for (const p of [par[k][2*i], par[k][2*i+1]]) for (let w=0;w<W;w++) nx[p*W+w] |= cur[i*W+w];
+      desc.push(nx);
+    }
+        univ = []; mrca = -1; iap = -1;
+    for (let k=0;k<=G;k++){
+      const B = desc[k], U = new Uint8Array(N); let nU = 0, nZero = 0;
+      for (let i=0;i<N;i++){
+        let c = 0; for (let w=0;w<W;w++){ let x = B[i*W+w]; x = x - ((x>>>1)&0x55555555); x = (x&0x33333333)+((x>>>2)&0x33333333); c += (((x+(x>>>4))&0x0F0F0F0F)*0x01010101)>>>24; }
+        if (c===N){ U[i]=1; nU++; } else if (c===0) nZero++;
+      }
+      univ.push(U);
+      if (mrca<0 && nU>0) mrca = k;
+      if (iap<0 && nU + nZero === N && k>0) iap = k;
+    }
+    you = Math.floor(N/2);
+    trace();
+  }
+
+  function trace(){
+    yours = [new Uint8Array(N)]; yours[0][you] = 1;
+    for (let k=0;k<G;k++){ const nx = new Uint8Array(N); for (let i=0;i<N;i++) if (yours[k][i]){ nx[par[k][2*i]]=1; nx[par[k][2*i+1]]=1; } yours.push(nx); }
+    // order each row by the mean position of its children, so your ancestry opens as a cone
+    order = []; const pos0 = new Float64Array(N);
+    const others = [...Array(N).keys()].filter(i=>i!==you);
+    const idx0 = new Int32Array(N); const mid = Math.floor(N/2);
+    let L = mid-1, R = mid+1, flip = 0; idx0[you] = mid;
+    for (const i of others){ if (flip++%2 && R<N) idx0[i]=R++; else if (L>=0) idx0[i]=L--; else idx0[i]=R++; }
+    for (let i=0;i<N;i++) pos0[i] = idx0[i];
+    order.push(idx0);
+    let prevPos = pos0;
+    for (let k=1;k<=G;k++){
+      const key = new Float64Array(N);
+      for (let j=0;j<N;j++){ const c = kids[k][j]; if (c.length){ let s=0; for (const x of c) s += prevPos[x]; key[j] = s/c.length; } else key[j] = (j%2 ? -1 : 1) * (N*2) + Math.random(); }
+      const ids = [...Array(N).keys()].sort((a,b)=>key[a]-key[b]);
+      const idx = new Int32Array(N); ids.forEach((j,r)=>idx[j]=r);
+      order.push(idx); prevPos = Float64Array.from(idx);
+    }
+    render();
+  }
+
+  // ---------- drawing ----------
+  let Wd=0,Hd=0,dpr=1;
+  function css(v){ return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+  function resize(){ const r = cv.getBoundingClientRect(); dpr = Math.min(2, devicePixelRatio||1); Wd=r.width; Hd=r.height; cv.width=Math.round(Wd*dpr); cv.height=Math.round(Hd*dpr); ctx.setTransform(dpr,0,0,dpr,0,0); drawPop(); }
+  const rowsShown = () => Math.min(G, Math.max(iap>0 ? iap+4 : G, 14));
+  function P(k,i){
+    const K = rowsShown(), r = order[k][i];
+    if (view==='rows'){
+      const padX = 18, top = 26, bottom = 22;
+      return [padX + (r+0.5)/N*(Wd-2*padX), top + k/K*(Hd-top-bottom)];
+    }
+    const cx = Wd/2, cy = Hd/2, R = Math.min(Wd,Hd)/2 - 22;
+    const rad = R * (1 - k/(K+1.2)), th = (r+0.5)/N*Math.PI*2 - Math.PI/2;
+    return [cx + rad*Math.cos(th), cy + rad*Math.sin(th)];
+  }
+  function drawPop(){
+    if (!order.length || !Wd) return;
+    const C = { ink:css('--ink'), grey:css('--grey'), faint:css('--faint'), acc:css('--accent') };
+    ctx.clearRect(0,0,Wd,Hd);
+    const K = rowsShown();
+    // your pedigree links
+    ctx.beginPath();
+    for (let k=0;k<K;k++) for (let i=0;i<N;i++) if (yours[k][i]) for (const p of [par[k][2*i], par[k][2*i+1]]){ const a=P(k,i), b=P(k+1,p); ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]); }
+    ctx.strokeStyle = C.acc; ctx.globalAlpha = N>256 ? .12 : .2; ctx.lineWidth = .6; ctx.stroke(); ctx.globalAlpha = 1;
+    const rad = Math.max(1, Math.min(3.2, (view==='rows' ? (Wd-36)/N : 5*Math.PI*Math.min(Wd,Hd)/2/N) * .38));
+    for (let k=0;k<=K;k++){
+      for (let i=0;i<N;i++){
+        const [x,y] = P(k,i), u = univ[k][i], yo = yours[k][i];
+        ctx.beginPath(); ctx.arc(x,y,rad,0,Math.PI*2);
+        if (yo){ ctx.fillStyle = C.acc; ctx.fill(); }
+        if (u){ ctx.strokeStyle = C.ink; ctx.lineWidth = 1.1; ctx.stroke(); }
+        else if (!yo){ let alive = false; const B = desc[k]; for (let w=0;w<W;w++) if (B[i*W+w]) { alive = true; break; }
+          ctx.strokeStyle = alive ? C.grey : C.faint; ctx.lineWidth = .6; ctx.globalAlpha = alive ? .55 : .9; ctx.stroke(); ctx.globalAlpha = 1; }
+      }
+    }
+    // row labels and threshold marks
+    ctx.font = '11px ' + css('--mono'); ctx.fillStyle = C.grey;
+    const mark = (k, text) => {
+      if (k<0 || k>K) return;
+      if (view==='rows'){ const y = P(k,0)[1]; ctx.strokeStyle = C.ink; ctx.lineWidth = .5; ctx.setLineDash([3,3]); ctx.beginPath(); ctx.moveTo(4,y); ctx.lineTo(Wd-4,y); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle = C.ink; ctx.font = 'italic 13px ' + css('--serif'); ctx.fillText(text, 18, y-6); }
+      else { const cx=Wd/2, cy=Hd/2, R=Math.min(Wd,Hd)/2-22, rr = R*(1-k/(K+1.2)); ctx.strokeStyle=C.ink; ctx.lineWidth=.5; ctx.setLineDash([3,3]); ctx.beginPath(); ctx.arc(cx,cy,rr,0,Math.PI*2); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle=C.ink; ctx.font='italic 13px '+css('--serif'); ctx.textAlign='center'; ctx.fillText(text, cx, cy-rr-6); ctx.textAlign='left'; }
+    };
+    mark(mrca, 'first common ancestor of everyone · ' + mrca + ' generations back');
+    mark(iap, 'identical ancestors point · ' + iap + ' back');
+    ctx.fillStyle = C.grey; ctx.font = 'italic 13px ' + css('--serif');
+    if (view==='rows'){ ctx.fillText('the present', 18, 16); }
+    else { ctx.textAlign='center'; ctx.fillText('the present', Wd/2, 14); ctx.textAlign='left'; }
+  }
+
+  function chart(){
+    const svg = $('chart'), w = 640, h = 250, l = 46, r = 150, t = 14, b = 30;
+    const K = rowsShown(), ymax = Math.log2(N*8);
+    const X = k => l + k/K*(w-l-r), Y = v => t + (1 - Math.log2(Math.max(1,v))/ymax)*(h-t-b);
+    const ink = 'var(--ink)', acc = 'var(--accent)', grey = 'var(--grey)';
+    let s = '';
+    for (let e=0;e<=ymax;e+=2){ const v = 2**e; s += `<line x1="${l}" x2="${w-r}" y1="${Y(v)}" y2="${Y(v)}" stroke="${'var(--rule)'}" stroke-width=".6"/><text x="${l-6}" y="${Y(v)+3}" text-anchor="end">${v.toLocaleString()}</text>`; }
+    for (let k=0;k<=K;k+=Math.max(1,Math.round(K/8))) s += `<text x="${X(k)}" y="${h-b+14}" text-anchor="middle">${k}</text>`;
+    s += `<text x="${(l+w-r)/2}" y="${h-4}" text-anchor="middle">generations back</text>`;
+    // population ceiling
+    s += `<line x1="${l}" x2="${w-r}" y1="${Y(N)}" y2="${Y(N)}" stroke="${grey}" stroke-width="1"/><text class="lbl" x="${w-r+6}" y="${Y(N)+4}" style="fill:var(--grey)">everyone alive then</text>`;
+    // naive doubling
+    let dN = ''; for (let k=0;k<=K;k++){ const v = 2**k; if (Math.log2(v) > ymax) break; dN += (dN?'L':'M') + X(k) + ' ' + Y(v); }
+    s += `<path d="${dN}" fill="none" stroke="${grey}" stroke-width="1.2" stroke-dasharray="4 3"/>`;
+    const kn = Math.min(K, Math.floor(ymax)); s += `<text class="lbl" x="${X(kn)+6}" y="${t+10}" style="fill:var(--grey)">2ᵍ slots</text>`;
+    // distinct ancestors and universal ancestors
+    let dY = '', dU = '', lastU = null;
+    for (let k=0;k<=K;k++){
+      const c = yours[k].reduce((a,x)=>a+x,0); dY += (dY?'L':'M') + X(k) + ' ' + Y(c);
+      const u = univ[k].reduce((a,x)=>a+x,0); if (u>0){ dU += (dU?'L':'M') + X(k) + ' ' + Y(u); lastU = [k,u]; }
+    }
+    s += `<path d="${dY}" fill="none" stroke="${acc}" stroke-width="2"/>`;
+    const cK = yours[K].reduce((a,x)=>a+x,0);
+    s += `<text class="lbl" x="${w-r+6}" y="${Math.min(Y(cK),Y(N))-14}" style="fill:var(--accent)">your distinct ancestors</text>`;
+    if (dU){ s += `<path d="${dU}" fill="none" stroke="${ink}" stroke-width="1.4"/>`; s += `<text class="lbl" x="${w-r+6}" y="${Math.max(Y(lastU[1]),Y(N))+20}" style="fill:var(--ink)">ancestors of everyone</text>`; }
+    if (mrca>=0) s += `<line x1="${X(mrca)}" x2="${X(mrca)}" y1="${t}" y2="${h-b}" stroke="${ink}" stroke-width=".6" stroke-dasharray="2 3"/>`;
+    if (iap>=0) s += `<line x1="${X(iap)}" x2="${X(iap)}" y1="${t}" y2="${h-b}" stroke="${ink}" stroke-width=".6" stroke-dasharray="2 3"/>`;
+    svg.innerHTML = s;
+  }
+
+  function stats(){
+    const yrs = g => (g*genYears).toLocaleString() + ' yrs';
+    $('sN').innerHTML = N + (D>1 ? ` <small>in ${D} communities</small>` : '');
+    $('sM').innerHTML = mrca>=0 ? `${mrca} gen <small>≈ ${yrs(mrca)}</small>` : `beyond ${G} gen`;
+    $('sI').innerHTML = iap>=0 ? `${iap} gen <small>≈ ${yrs(iap)}</small>` : `beyond ${G} gen`;
+    const L = Math.log2(N);
+    $('sT').innerHTML = `${L.toFixed(1)} · ${(1.77*L).toFixed(1)} gen`;
+    const kc = Math.min(rowsShown(), Math.ceil(L)+2), have = yours[kc].reduce((a,x)=>a+x,0), slots = 2**kc;
+    $('sCk').textContent = `pedigree collapse, ${kc} gen back`;
+    $('sC').innerHTML = `${have.toLocaleString()} <small>people for ${slots.toLocaleString()} slots</small>`;
+    let v;
+    if (mrca>=0 && iap>=0) v = `Everyone alive shares an ancestor <b>${mrca} generations</b> back. By <b>${iap}</b>, every person then living is an ancestor of all of us, or of none.`;
+    else if (mrca>=0) v = `Everyone alive shares an ancestor <b>${mrca} generations</b> back; the identical ancestors point lies further back than this run reaches.`;
+    else v = `The communities are too separate for a common ancestor within ${G} generations. Raise the marriage rate between them.`;
+    if (D>1) v += ` Separation pushes both thresholds back; one mixed population of ${N} would give about ${Math.round(L)} and ${Math.round(1.77*L)}.`;
+    $('verdict').innerHTML = v;
+  }
+
+  function render(){ drawPop(); chart(); stats(); }
+  function regen(){ build(); }
+
+  // ---------- controls ----------
+  const out = (id, o, f) => { const el=$(id); const u=()=>$(o).textContent=f(+el.value); el.addEventListener('input',u); u(); };
+  out('pop','oPop', v=>1<<v); out('demes','oDemes', v=>DEMES[v]); out('mig','oMig', v=>migOut(v)); out('gen','oGen', v=>v);
+  ['pop','demes','mig'].forEach(id => $(id).addEventListener('change', regen));
+  $('gen').addEventListener('input', e => { genYears = +e.target.value; stats(); });
+  $('bNew').onclick = regen;
+  const setView = v => { view = v; $('vRows').setAttribute('aria-pressed', v==='rows'); $('vRings').setAttribute('aria-pressed', v==='rings'); box.classList.toggle('rings', v==='rings'); requestAnimationFrame(resize); };
+  $('vRows').onclick = () => setView('rows'); $('vRings').onclick = () => setView('rings');
+
+  cv.addEventListener('click', e => {
+    const r = cv.getBoundingClientRect(), x = e.clientX-r.left, y = e.clientY-r.top;
+    let best=-1, bd = 12*12;
+    for (let i=0;i<N;i++){ const [px,py] = P(0,i); const d=(px-x)**2+(py-y)**2; if (d<bd){ bd=d; best=i; } }
+    if (best>=0){ you = best; trace(); }
+  });
+
+  new MutationObserver(() => render()).observe(document.documentElement, { attributes:true, attributeFilter:['data-theme'] });
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => render());
+  new ResizeObserver(resize).observe(cv);
+  build(); resize();
+})();
+</script>
+</body>
+</html>

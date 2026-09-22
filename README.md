@@ -19,7 +19,7 @@ This repo holds the buildable parts: prototypes, datasets, specs and the public 
 | # | Project | Status |
 |---|---|---|
 | 1 | [Lineland](prototypes/lineland/): ring-history toy | First version |
-| 2 | [Genealogical diamond](prototypes/genealogical-diamond/) | Planned |
+| 2 | [Genealogical diamond](prototypes/genealogical-diamond/): pedigree collapse and the common ancestor of all | First version |
 
 The full ranked list is in [`docs/roadmap.md`](docs/roadmap.md).
 
