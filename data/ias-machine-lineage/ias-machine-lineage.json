@@ -1,0 +1,315 @@
+{
+ "meta": {
+  "title": "The IAS machine family, 1946–1960",
+  "unit": "year",
+  "tStart": 1946,
+  "tEnd": 1960,
+  "description": "Computers built from, or closely modelled on, the Institute for Advanced Study machine designed under John von Neumann at Princeton, whose drawings were deliberately circulated. Each node is placed where and when the machine first ran. Each link says which design it was copied from.",
+  "sources": [
+   "Wikipedia, 'IAS machine' (list of IAS-derived machines), retrieved 22 Sept 2026",
+   "Wikipedia, 'ILLIAC I', 'BESK', 'JOHNNIAC', retrieved 22 Sept 2026"
+  ],
+  "caveats": "Years are first-operational years, rounded; several machines ran partially a year before formal completion. BESM is listed among IAS-family machines in some sources but was an independent Soviet design, so its link is marked as inference. SEAC, which also appears in some IAS lists, followed the EDVAC design and is left out. Machines copied directly from the IAS design are linked to the 1946 design reports rather than to the finished machine, since several ran before it did."
+ },
+ "nodes": [
+  {
+   "id": "design",
+   "label": "IAS design reports",
+   "place": "Institute for Advanced Study, Princeton",
+   "lat": 40.331,
+   "lng": -74.667,
+   "t": 1946,
+   "note": "Burks, Goldstine and von Neumann, 'Preliminary Discussion of the Logical Design of an Electronic Computing Instrument' (1946), with the progress reports that followed. They were circulated freely, so the machines below descend from the design as much as from the machine."
+  },
+  {
+   "id": "ias",
+   "label": "IAS machine",
+   "place": "Institute for Advanced Study, Princeton",
+   "lat": 40.331,
+   "lng": -74.667,
+   "t": 1952,
+   "note": "The template. Design reports circulated to other groups from 1946."
+  },
+  {
+   "id": "ordvac",
+   "label": "ORDVAC",
+   "place": "Built at Illinois for Aberdeen Proving Ground, Maryland",
+   "lat": 39.47,
+   "lng": -76.13,
+   "t": 1951,
+   "note": "Built at the University of Illinois from the IAS design and delivered to the Army. It ran before the IAS machine itself was finished."
+  },
+  {
+   "id": "illiac",
+   "label": "ILLIAC I",
+   "place": "University of Illinois, Urbana",
+   "lat": 40.11,
+   "lng": -88.227,
+   "t": 1952,
+   "note": "Twin of ORDVAC, kept at Illinois. Operational 1 September 1952."
+  },
+  {
+   "id": "maniac",
+   "label": "MANIAC I",
+   "place": "Los Alamos, New Mexico",
+   "lat": 35.881,
+   "lng": -106.298,
+   "t": 1952,
+   "note": "Built for weapons calculations."
+  },
+  {
+   "id": "ibm701",
+   "label": "IBM 701",
+   "place": "IBM, Poughkeepsie, New York",
+   "lat": 41.7,
+   "lng": -73.921,
+   "t": 1952,
+   "note": "IBM's first commercial scientific computer, influenced by the IAS design. Nineteen were installed."
+  },
+  {
+   "id": "johnniac",
+   "label": "JOHNNIAC",
+   "place": "RAND Corporation, Santa Monica",
+   "lat": 34.019,
+   "lng": -118.491,
+   "t": 1953,
+   "note": "Modelled on the IAS machine, with 40-bit words and Selectron memory."
+  },
+  {
+   "id": "avidac",
+   "label": "AVIDAC",
+   "place": "Argonne National Laboratory, Illinois",
+   "lat": 41.709,
+   "lng": -87.982,
+   "t": 1953,
+   "note": ""
+  },
+  {
+   "id": "oracle",
+   "label": "ORACLE",
+   "place": "Oak Ridge National Laboratory, Tennessee",
+   "lat": 35.931,
+   "lng": -84.31,
+   "t": 1953,
+   "note": "Built at Argonne for Oak Ridge."
+  },
+  {
+   "id": "besk",
+   "label": "BESK",
+   "place": "Stockholm",
+   "lat": 59.334,
+   "lng": 18.063,
+   "t": 1953,
+   "note": "Closely modelled on the IAS machine from drawings obtained in Princeton. Inaugurated 1 April 1954."
+  },
+  {
+   "id": "besm",
+   "label": "BESM",
+   "place": "Moscow",
+   "lat": 55.756,
+   "lng": 37.617,
+   "t": 1953,
+   "inferred": true,
+   "note": "Listed among IAS-family machines in some sources, but an independent design by S. A. Lebedev's group. Its link is inference, not record."
+  },
+  {
+   "id": "circle",
+   "label": "Circle Computer",
+   "place": "Hogan Laboratories, New York",
+   "lat": 40.713,
+   "lng": -74.006,
+   "t": 1954,
+   "note": ""
+  },
+  {
+   "id": "weizac",
+   "label": "WEIZAC",
+   "place": "Weizmann Institute, Rehovot",
+   "lat": 31.904,
+   "lng": 34.809,
+   "t": 1955,
+   "note": "The first computer in Israel, built from the IAS design."
+  },
+  {
+   "id": "perm",
+   "label": "PERM",
+   "place": "Technical University of Munich",
+   "lat": 48.149,
+   "lng": 11.568,
+   "t": 1956,
+   "note": ""
+  },
+  {
+   "id": "silliac",
+   "label": "SILLIAC",
+   "place": "University of Sydney",
+   "lat": -33.888,
+   "lng": 151.187,
+   "t": 1956,
+   "note": "The Sydney version of ILLIAC."
+  },
+  {
+   "id": "smil",
+   "label": "SMIL",
+   "place": "Lund University",
+   "lat": 55.705,
+   "lng": 13.191,
+   "t": 1956,
+   "note": "Highly inspired by BESK."
+  },
+  {
+   "id": "facit",
+   "label": "FACIT EDB",
+   "place": "Facit, Solna",
+   "lat": 59.36,
+   "lng": 18.0,
+   "t": 1957,
+   "note": "Software-compatible copies of BESK. Nine were built."
+  },
+  {
+   "id": "sara",
+   "label": "SARA",
+   "place": "SAAB, Linköping",
+   "lat": 58.411,
+   "lng": 15.621,
+   "t": 1957,
+   "note": "Highly inspired by BESK. Work started in 1955."
+  },
+  {
+   "id": "mistic",
+   "label": "MISTIC",
+   "place": "Michigan State University, East Lansing",
+   "lat": 42.731,
+   "lng": -84.482,
+   "t": 1957,
+   "note": "Built from the ILLIAC design."
+  },
+  {
+   "id": "george",
+   "label": "GEORGE",
+   "place": "Argonne National Laboratory, Illinois",
+   "lat": 41.715,
+   "lng": -87.975,
+   "t": 1957,
+   "note": "Argonne's successor to AVIDAC."
+  },
+  {
+   "id": "dask",
+   "label": "DASK",
+   "place": "Regnecentralen, Copenhagen",
+   "lat": 55.676,
+   "lng": 12.568,
+   "t": 1958,
+   "note": "Highly inspired by BESK."
+  },
+  {
+   "id": "cyclone",
+   "label": "CYCLONE",
+   "place": "Iowa State University, Ames",
+   "lat": 42.027,
+   "lng": -93.648,
+   "t": 1959,
+   "note": "Built from the ILLIAC design."
+  },
+  {
+   "id": "tifrac",
+   "label": "TIFRAC",
+   "place": "Tata Institute of Fundamental Research, Bombay",
+   "lat": 18.907,
+   "lng": 72.806,
+   "t": 1960,
+   "note": "India's first indigenously built computer, following the IAS design."
+  }
+ ],
+ "links": [
+  {
+   "from": "design",
+   "to": "ias"
+  },
+  {
+   "from": "design",
+   "to": "ordvac"
+  },
+  {
+   "from": "ordvac",
+   "to": "illiac"
+  },
+  {
+   "from": "design",
+   "to": "maniac"
+  },
+  {
+   "from": "design",
+   "to": "ibm701"
+  },
+  {
+   "from": "design",
+   "to": "johnniac"
+  },
+  {
+   "from": "design",
+   "to": "avidac"
+  },
+  {
+   "from": "design",
+   "to": "oracle"
+  },
+  {
+   "from": "design",
+   "to": "besk"
+  },
+  {
+   "from": "design",
+   "to": "besm",
+   "inferred": true
+  },
+  {
+   "from": "design",
+   "to": "circle"
+  },
+  {
+   "from": "design",
+   "to": "weizac"
+  },
+  {
+   "from": "design",
+   "to": "perm"
+  },
+  {
+   "from": "illiac",
+   "to": "silliac"
+  },
+  {
+   "from": "besk",
+   "to": "smil"
+  },
+  {
+   "from": "besk",
+   "to": "facit"
+  },
+  {
+   "from": "besk",
+   "to": "sara"
+  },
+  {
+   "from": "illiac",
+   "to": "mistic"
+  },
+  {
+   "from": "avidac",
+   "to": "george"
+  },
+  {
+   "from": "besk",
+   "to": "dask"
+  },
+  {
+   "from": "illiac",
+   "to": "cyclone"
+  },
+  {
+   "from": "design",
+   "to": "tifrac"
+  }
+ ]
+}

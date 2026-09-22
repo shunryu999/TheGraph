@@ -21,6 +21,8 @@ This repo holds the buildable parts: prototypes, datasets, specs and the public 
 | 1 | [Lineland](prototypes/lineland/): ring-history toy | First version |
 | 2 | [Genealogical diamond](prototypes/genealogical-diamond/): pedigree collapse and the common ancestor of all, with a partner mode | First version |
 | 7 | [Life on the Stratasphere](prototypes/life-sphere/): Conway's Life on a sphere, its history nested as shells | First version |
+| 8 | [IAS machine family](data/ias-machine-lineage/): 23 machines, 1946–1960, placed and dated with sources | First version |
+| 11 | [Stratasphere viewer](prototypes/stratasphere-viewer/): any dated, geolocated lineage as nested shells | First version |
 
 The full ranked list is in [`docs/roadmap.md`](docs/roadmap.md).
 
