@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="A circular one-dimensional world run forward in time and drawn as nested rings, with lineages traced back to their common ancestors. Phylograph roadmap project 1.">
+<title>Lineland</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#FAF7F0; --panel:#F3EEE3; --rule:#E2DBCB;
+  --ink:#141414; --ink-2:#3C3A35; --grey:#8C8C8C; --fur:#A7A294;
+  --accent:#B03A2E; --accent-soft:rgba(176,58,46,.12);
+  --serif:"EB Garamond", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --mono:"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#14130F; --panel:#1C1A16; --rule:#2E2B24;
+    --ink:#ECE6D8; --ink-2:#C9C2B2; --grey:#7F796D; --fur:#5E594F;
+    --accent:#E0634C; --accent-soft:rgba(224,99,76,.16);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#14130F; --panel:#1C1A16; --rule:#2E2B24;
+  --ink:#ECE6D8; --ink-2:#C9C2B2; --grey:#7F796D; --fur:#5E594F;
+  --accent:#E0634C; --accent-soft:rgba(224,99,76,.16);
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--serif);font-size:17px;line-height:1.5;margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:20px;padding-block:28px 48px}
+header{display:grid;gap:6px;margin-bottom:22px;max-width:760px}
+.eyebrow{font-family:var(--serif);font-variant:small-caps;letter-spacing:.12em;color:var(--grey);font-size:15px}
+h1{font-weight:500;font-size:clamp(34px,5vw,48px);line-height:1.05;margin:0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:4px 0 0;color:var(--ink-2);font-size:18px;max-width:62ch;text-wrap:pretty}
+.lede em{color:var(--ink)}
+.main{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:28px;align-items:start}
+@media (max-width:880px){.main{grid-template-columns:1fr}}
+.stage{display:grid;gap:12px;min-width:0}
+.canvas-box{position:relative;width:100%;aspect-ratio:1/1;max-width:100%;background:var(--ground);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:crosshair;touch-action:manipulation}
+.claim{font-variant:small-caps;letter-spacing:.14em;color:var(--accent);text-align:center;font-size:15px;min-height:1.5em;margin:0}
+.key{display:flex;flex-wrap:wrap;gap:6px 22px;font-size:15px;color:var(--ink-2)}
+.key span{display:inline-flex;align-items:center;gap:8px}
+.key i{display:inline-block;width:26px;height:0;border-top:1.6px solid var(--ink)}
+.key i.fur{border-top:1px solid var(--fur)}
+.key i.red{border-top:2.2px solid var(--accent)}
+.caption{font-size:15px;color:var(--grey);font-style:italic;margin:0;max-width:70ch}
+aside{display:grid;gap:18px}
+.readout{background:var(--panel);border:1px solid var(--rule);padding:14px 16px;display:grid;gap:10px}
+.stat{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.stat .k{font-variant:small-caps;letter-spacing:.1em;color:var(--grey);font-size:14px}
+.stat .v{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:14px;color:var(--ink)}
+.verdict{font-size:16px;line-height:1.4;color:var(--ink);border-top:1px solid var(--rule);padding-top:10px;margin:0}
+.verdict b{font-weight:500;color:var(--accent)}
+fieldset{border:0;border-top:1px solid var(--rule);margin:0;padding:12px 0 0;display:grid;gap:10px;min-width:0}
+legend{font-variant:small-caps;letter-spacing:.14em;color:var(--grey);font-size:14px;padding:0 8px 0 0}
+label{display:grid;gap:4px;font-size:15px;color:var(--ink-2)}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.row output{font-family:var(--mono);font-size:13px;color:var(--ink);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--accent)}
+select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);border:1px solid var(--rule);padding:5px 8px;border-radius:2px;width:100%}
+.check{display:flex;align-items:center;gap:8px;grid-template-columns:none}
+.check input{accent-color:var(--accent);width:16px;height:16px}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+button{font:inherit;font-size:15px;color:var(--ink);background:transparent;border:1px solid var(--ink);padding:6px 14px;border-radius:2px;cursor:pointer}
+button.primary{background:var(--ink);color:var(--ground)}
+button:hover{border-color:var(--accent)}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.hint{font-size:14px;color:var(--grey);margin:0}
+.notes{margin-top:34px;border-top:1px solid var(--rule);padding-top:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px}
+.notes h2{font-size:15px;font-weight:500;font-variant:small-caps;letter-spacing:.12em;color:var(--grey);margin:0 0 6px}
+.notes p{margin:0;font-size:16px;color:var(--ink-2);max-width:60ch}
+.notes q{font-style:italic;color:var(--ink)}
+.is-hidden{display:none!important}
+</style>
+<style>html{color-scheme:light dark}body{margin:0}</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Phylograph · Roadmap project 1 · after the Storyboarding notebook, 2007–08</div>
+    <h1>Lineland</h1>
+    <p class="lede">A one-dimensional world wrapped into a circle, run forward in time. Each generation is laid down as a ring, the present outermost, the beginning at the center. Connect every child to its parent and the whole history becomes one branching figure: <em>SUM Cₙ = tree of life</em>.</p>
+  </header>
+
+  <div class="main">
+    <div class="stage">
+      <div class="canvas-box"><canvas id="cv" aria-label="Lineland history drawn as nested rings" role="img"></canvas></div>
+      <p class="claim" id="claim">They are not smaller. They are farther.</p>
+      <div class="key" aria-hidden="true">
+        <span><i></i>lives with descendants alive now</span>
+        <span><i class="fur"></i>the fur: lines that ended</span>
+        <span><i class="red"></i>the line you picked</span>
+      </div>
+      <p class="hint" id="hint">Click any life to trace its line back to the beginning. Click a second to find where the two lines meet.</p>
+    </div>
+
+    <aside>
+      <div class="readout" aria-live="polite">
+        <div class="stat"><span class="k">generation</span><span class="v" id="sGen">0</span></div>
+        <div class="stat"><span class="k">alive now</span><span class="v" id="sPop">0</span></div>
+        <div class="stat"><span class="k">lives so far</span><span class="v" id="sLives">0</span></div>
+        <div class="stat"><span class="k">on a line to the present</span><span class="v" id="sAnc">0</span></div>
+        <div class="stat"><span class="k">founder lines surviving</span><span class="v" id="sFound">0</span></div>
+        <p class="verdict" id="verdict"></p>
+      </div>
+
+      <fieldset>
+        <legend>Run</legend>
+        <div class="btns">
+          <button class="primary" id="bPlay" type="button">Pause</button>
+          <button id="bStep" type="button">Step</button>
+          <button id="bReset" type="button">New world</button>
+        </div>
+        <label for="speed"><span class="row">Generations per second <output id="oSpeed">12</output></span>
+          <input id="speed" type="range" min="1" max="60" value="12"></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>View</legend>
+        <label for="morph"><span class="row">Extruded ⇄ nested <output id="oMorph">nested</output></span>
+          <input id="morph" type="range" min="0" max="100" value="100"></label>
+        <div class="btns"><button id="bMorph" type="button">Unroll the rings</button></div>
+        <label for="grad"><span class="row">Density gradient <output id="oGrad">3.0</output></span>
+          <input id="grad" type="range" min="0" max="80" value="30"></label>
+        <p class="hint">0 spaces every generation evenly. Higher values give the recent past room and press the deep past toward the center.</p>
+        <label class="check" for="fur"><input id="fur" type="checkbox" checked> Show the fur</label>
+        <label class="check" for="trait"><input id="trait" type="checkbox"> Color by inherited trait</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>World</legend>
+        <label for="mode">Rule of the world
+          <select id="mode">
+            <option value="heredity" selected>Heredity: one parent per life</option>
+            <option value="ca">Wolfram cellular automaton</option>
+          </select></label>
+        <label for="rule" id="ruleWrap" class="is-hidden">Wolfram rule
+          <select id="rule">
+            <option value="30">30 (chaotic)</option>
+            <option value="90">90 (Sierpiński)</option>
+            <option value="110" selected>110 (universal)</option>
+            <option value="150">150</option>
+            <option value="184">184 (traffic)</option>
+            <option value="18">18</option>
+          </select></label>
+        <div id="herWrap" style="display:grid;gap:10px">
+          <label for="sites"><span class="row">Sites around the circle <output id="oSites">96</output></span>
+            <input id="sites" type="range" min="24" max="160" step="8" value="96"></label>
+          <label for="founders"><span class="row">Founders <output id="oFounders">12</output></span>
+            <input id="founders" type="range" min="1" max="32" value="12"></label>
+          <label for="birth"><span class="row">Birth chance <output id="oBirth">0.30</output></span>
+            <input id="birth" type="range" min="5" max="80" value="30"></label>
+          <label for="death"><span class="row">Death chance <output id="oDeath">0.10</output></span>
+            <input id="death" type="range" min="1" max="40" value="10"></label>
+        </div>
+        <p class="hint">Birth and death chances apply at once. Sites and founders take effect with “New world.”</p>
+      </fieldset>
+    </aside>
+  </div>
+
+  <section class="notes">
+    <div>
+      <h2>What you are looking at</h2>
+      <p>Each ring is one state of a circular Lineland. Its creatures persist in place, give birth into the empty site beside them, and die. A creature that simply lives on draws a radial line: <q>the chain of continual existence</q>. A birth draws a short diagonal: a branching.</p>
+    </div>
+    <div>
+      <h2>The two views are one object</h2>
+      <p>Unrolled, the history is a cylinder, a circle times an interval (S¹ × I), with every generation the same size. Nested, the same generations become rings converging on the beginning. <q>Every time “state” is shrunk as it moves back.</q> Drag the first slider slowly to watch one turn into the other.</p>
+    </div>
+    <div>
+      <h2>Why the ancestor keeps moving</h2>
+      <p>Follow every living creature back and the lines converge, so everyone alive shares one ancestor some generations back. Lineages that end are the fur. <q>If we were to include all individuals that existed but were not ancestors, the tree would get progressively fuzzier.</q></p>
+    </div>
+    <div>
+      <h2>Heredity versus automaton</h2>
+      <p>Switch to a Wolfram rule and lines no longer come from one parent: each cell can draw on up to three. The figure becomes a braid instead of a tree. Perfect nesting, where no branches coincide, needs heredity with a single parent.</p>
+    </div>
+  </section>
+</div>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const cv = $('cv'), ctx = cv.getContext('2d');
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const MAXG = 720;
+
+  // ---------- state ----------
+  let N, mode, rule, gens, playing = !reduceMotion, accum = 0, last = performance.now();
+  let morph = 1, grad = 3, showFur = true, byTrait = false;
+  let selA = null, selB = null;           // {g,i}
+  let anc = [], mrcaG = -1, mrcaI = -1, foundersAlive = 0, livesTotal = 0, ancTotal = 0;
+  let rng = Math.random;
+
+  function params(){
+    return {
+      N: +$('sites').value, founders: +$('founders').value,
+      b: +$('birth').value/100, d: +$('death').value/100,
+      mode: $('mode').value, rule: +$('rule').value
+    };
+  }
+
+  function newGen(){ return { alive:new Uint8Array(N), par:new Int16Array(N).fill(-1), hue:new Float32Array(N), lives:0 }; }
+
+  function reset(presim){
+    const p = params(); N = p.N; mode = p.mode; rule = p.rule;
+    gens = []; selA = selB = null; livesTotal = 0;
+    const g0 = newGen();
+    if (mode === 'heredity'){
+      const f = Math.min(p.founders, N);
+      const sites = [...Array(N).keys()].sort(() => rng()-0.5).slice(0,f);
+      sites.forEach((s,k) => { g0.alive[s]=1; g0.hue[s] = (k/f)*360; });
+    } else {
+      g0.alive[Math.floor(N/2)] = 1;
+    }
+    push(g0);
+    for (let k=0;k<presim;k++) step();
+    // pick one present life to show the red line on arrival
+    const top = gens[gens.length-1];
+    const alive = []; for (let i=0;i<N;i++) if (top.alive[i]) alive.push(i);
+    if (alive.length) selA = { g: gens.length-1, i: alive[Math.floor(alive.length*0.37)] };
+    analyse(); draw(); stats();
+  }
+
+  function push(g){ g.lives = g.alive.reduce((a,b)=>a+b,0); livesTotal += g.lives; gens.push(g); }
+
+  function step(){
+    if (gens.length >= MAXG) { playing = false; syncPlay(); return; }
+    const prev = gens[gens.length-1], nx = newGen();
+    if (mode === 'heredity'){
+      const p = params();
+      for (let i=0;i<N;i++) if (prev.alive[i] && rng() > p.d){ nx.alive[i]=1; nx.par[i]=i; nx.hue[i]=prev.hue[i]; }
+      const order = [...Array(N).keys()].sort(() => rng()-0.5);
+      for (const i of order){
+        if (!prev.alive[i] || rng() > p.b) continue;
+        const dir = rng() < 0.5 ? -1 : 1;
+        let t = (i+dir+N)%N;
+        if (nx.alive[t]) { t = (i-dir+N)%N; if (nx.alive[t]) continue; }
+        nx.alive[t]=1; nx.par[t]=i; nx.hue[t]=(prev.hue[i] + (rng()-0.5)*14 + 360)%360;
+      }
+      if (!nx.alive.some(x=>x)) { playing=false; syncPlay(); }
+    } else {
+      for (let i=0;i<N;i++){
+        const l = prev.alive[(i-1+N)%N], c = prev.alive[i], r = prev.alive[(i+1)%N];
+        const idx = (l<<2)|(c<<1)|r;
+        nx.alive[i] = (rule >> idx) & 1;
+      }
+    }
+    push(nx);
+  }
+
+  // parents of cell (g,i) — heredity: one; automaton: every live neighbour
+  function parents(g, i){
+    if (g === 0) return [];
+    const prev = gens[g-1];
+    if (mode === 'heredity'){ const p = gens[g].par[i]; return p >= 0 ? [p] : []; }
+    const out = []; for (const d of [-1,0,1]){ const j=(i+d+N)%N; if (prev.alive[j]) out.push(j); } return out;
+  }
+
+  // mark every life that lies on a line to someone alive now
+  function analyse(){
+    const T = gens.length-1;
+    anc = gens.map(() => new Uint8Array(N));
+    for (let i=0;i<N;i++) anc[T][i] = gens[T].alive[i];
+    mrcaG = -1; mrcaI = -1; ancTotal = 0;
+    for (let g=T; g>=0; g--){
+      let cnt=0, last=-1;
+      for (let i=0;i<N;i++) if (anc[g][i]){ cnt++; last=i; for (const p of parents(g,i)) anc[g-1][p]=1; }
+      ancTotal += cnt;
+      if (mode==='heredity' && mrcaG<0 && cnt===1 && g<T){ mrcaG=g; mrcaI=last; }
+      if (g===0) foundersAlive = cnt;
+    }
+  }
+
+  function traceLine(sel){
+    const T = gens.length-1, marks = gens.map(()=>new Uint8Array(N));
+    if (!sel) return marks;
+    marks[sel.g][sel.i]=1;
+    for (let g=sel.g; g>0; g--) for (let i=0;i<N;i++) if (marks[g][i]) for (const p of parents(g,i)) marks[g-1][p]=1;
+    return marks;
+  }
+
+  function meet(a,b){
+    if (!a || !b || mode!=='heredity') return null;
+    let ga=a.g, ia=a.i, gb=b.g, ib=b.i;
+    while (ga>gb){ ia=gens[ga].par[ia]; ga--; }
+    while (gb>ga){ ib=gens[gb].par[ib]; gb--; }
+    while (ga>=0 && ia!==ib){ if (ga===0) return null; ia=gens[ga].par[ia]; ib=gens[gb].par[ib]; ga--; gb--; }
+    return ga>=0 ? {g:ga,i:ia} : null;
+  }
+
+  // ---------- geometry ----------
+  let W=0,H=0,dpr=1,cx=0,cy=0,R=0,ex0=0,ey0=0,ew=0,eh=0;
+  function resize(){
+    const r = cv.getBoundingClientRect(); dpr = Math.min(2, window.devicePixelRatio||1);
+    W = r.width; H = r.height; cv.width = Math.round(W*dpr); cv.height = Math.round(H*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    cx = W/2; cy = H/2; R = Math.min(W,H)/2 - 26;
+    ex0 = 26; ey0 = 30; ew = W-52; eh = H-60;
+    draw();
+  }
+  function radial(age){ // age in [0,1] → fraction of radius from centre
+    const f = grad < 0.01 ? age : (1-Math.exp(-grad*age))/(1-Math.exp(-grad));
+    return 1 - f;
+  }
+  function P(g,i){
+    const T = Math.max(1, gens.length-1), age = (gens.length-1-g)/T;
+    const th = (i+0.5)/N*Math.PI*2 - Math.PI/2, rr = R*radial(age);
+    const nx = cx + rr*Math.cos(th), ny = cy + rr*Math.sin(th);
+    const xx = ex0 + (i+0.5)/N*ew, yy = ey0 + age*eh;
+    return [xx + (nx-xx)*morph, yy + (ny-yy)*morph];
+  }
+
+  // ---------- drawing ----------
+  function css(v){ return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+  function draw(){
+    if (!gens || !W) return;
+    const C = { ink:css('--ink'), fur:css('--fur'), grey:css('--grey'), acc:css('--accent'), ground:css('--ground') };
+    ctx.clearRect(0,0,W,H);
+    const T = gens.length-1;
+
+    // shells: hairline guides every 100 generations (only in the pure views)
+    ctx.lineWidth = .5; ctx.strokeStyle = C.grey; ctx.fillStyle = C.grey;
+    ctx.font = '11px ' + css('--mono'); ctx.globalAlpha = .55;
+    if (morph > .98 || morph < .02){
+      for (let g=0; g<=T; g+=100){
+        const age = (T-g)/Math.max(1,T);
+        if (morph > .5){ const rr = R*radial(age); if (rr<6) continue; ctx.beginPath(); ctx.arc(cx,cy,rr,0,Math.PI*2); ctx.stroke(); ctx.fillText('t '+g, cx+4, cy-rr-3); }
+        else { const y = ey0+age*eh; ctx.beginPath(); ctx.moveTo(ex0,y); ctx.lineTo(ex0+ew,y); ctx.stroke(); ctx.fillText('t '+g, ex0+2, y-3); }
+      }
+    }
+    ctx.globalAlpha = 1;
+
+    // links
+    const seg = (g,i,p) => { if (morph < .5 && Math.abs(i-p) > 1) return false; const a=P(g-1,p), b=P(g,i); ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]); return true; };
+    // one sweep: sort every link into a bucket (ancestral or fur, times trait hue), then stroke each bucket once
+    const useHue = byTrait && mode==='heredity', NB = useHue ? 12 : 1;
+    const buckets = Array.from({length: NB*2}, () => []);
+    for (let g=1; g<=T; g++){ const G=gens[g], A=anc[g];
+      for (let i=0;i<N;i++){ if (!G.alive[i]) continue;
+        const isAnc = A[i]===1; if (!isAnc && !showFur) continue;
+        const b = (useHue ? Math.floor(G.hue[i]/30)%12 : 0)*2 + (isAnc?1:0);
+        for (const p of parents(g,i)){ if (morph < .5 && Math.abs(i-p) > 1) continue; buckets[b].push(g,i,p); }
+      } }
+    const lw = Math.max(.5, Math.min(1.3, 220/N));
+    const light = getComputedStyle(document.body).backgroundColor.replace(/[^\d,]/g,'').split(',').reduce((a,b)=>a+ +b,0) > 380;
+    for (let b=0; b<buckets.length; b++){
+      const L = buckets[b]; if (!L.length) continue;
+      const isAnc = b%2===1, hb = b>>1;
+      ctx.beginPath();
+      for (let k=0;k<L.length;k+=3){ const a=P(L[k]-1,L[k+2]), c=P(L[k],L[k+1]); ctx.moveTo(a[0],a[1]); ctx.lineTo(c[0],c[1]); }
+      ctx.strokeStyle = useHue ? `hsl(${hb*30+15} 40% ${light?36:66}%)` : (isAnc ? C.ink : C.fur);
+      ctx.lineWidth = isAnc ? lw*1.05 : lw*.55;
+      ctx.globalAlpha = isAnc ? .9 : (useHue ? .35 : .7);
+      ctx.stroke(); ctx.globalAlpha = 1;
+    }
+
+    // founders and the present as dots
+    ctx.fillStyle = C.ink;
+    for (let i=0;i<N;i++) if (gens[0].alive[i]){ const [x,y]=P(0,i); ctx.beginPath(); ctx.arc(x,y,1.6,0,Math.PI*2); ctx.fill(); }
+    for (let i=0;i<N;i++) if (gens[T].alive[i]){ const [x,y]=P(T,i); ctx.beginPath(); ctx.arc(x,y,1.5,0,Math.PI*2); ctx.fill(); }
+
+    // the present shell in vermilion
+    ctx.strokeStyle = C.acc; ctx.lineWidth = .8; ctx.globalAlpha = .55; ctx.beginPath();
+    if (morph > .98) ctx.arc(cx,cy,R+7,0,Math.PI*2); else if (morph < .02){ ctx.moveTo(ex0,ey0-7); ctx.lineTo(ex0+ew,ey0-7); }
+    ctx.stroke(); ctx.globalAlpha = 1;
+
+    // picked lines
+    const drawTrace = sel => {
+      if (!sel) return; const m = traceLine(sel);
+      ctx.beginPath();
+      for (let g=1; g<=sel.g; g++) for (let i=0;i<N;i++) if (m[g][i]) for (const p of parents(g,i)) if (m[g-1][p]) seg(g,i,p);
+      ctx.strokeStyle = C.acc; ctx.lineWidth = 2.1; ctx.stroke();
+      const [x,y]=P(sel.g, sel.i); ctx.fillStyle=C.acc; ctx.beginPath(); ctx.arc(x,y,3.4,0,Math.PI*2); ctx.fill();
+    };
+    drawTrace(selA); drawTrace(selB);
+    const mt = meet(selA, selB);
+    if (mt){ const [x,y]=P(mt.g,mt.i); ctx.strokeStyle=C.acc; ctx.lineWidth=1.4; ctx.beginPath(); ctx.arc(x,y,7,0,Math.PI*2); ctx.stroke(); }
+
+    // most recent common ancestor of everyone alive
+    if (mrcaG >= 0){ const [x,y]=P(mrcaG,mrcaI); ctx.strokeStyle=C.ink; ctx.lineWidth=1; ctx.setLineDash([2,2]); ctx.beginPath(); ctx.arc(x,y,6,0,Math.PI*2); ctx.stroke(); ctx.setLineDash([]); }
+
+    // labels
+    ctx.fillStyle = C.grey; ctx.font = 'italic 13px ' + css('--serif');
+    if (morph > .98){
+      ctx.textAlign='center';
+      ctx.lineWidth = 4; ctx.strokeStyle = C.ground; ctx.strokeText('the beginning', cx, cy+22); ctx.fillText('the beginning', cx, cy+22);
+      ctx.fillText('the present', cx, cy-R-12); ctx.textAlign='left';
+    }
+    else if (morph < .02){ ctx.fillText('the present', ex0, ey0-12); ctx.fillText('the beginning', ex0, ey0+eh+18); }
+
+    $('claim').textContent = morph > .98 ? 'They are not smaller. They are farther.' : morph < .02 ? 'Every generation the same size: S¹ × I.' : ' ';
+  }
+
+  function stats(){
+    const T = gens.length-1, pop = gens[T].lives;
+    $('sGen').textContent = T.toLocaleString();
+    $('sPop').textContent = pop.toLocaleString();
+    $('sLives').textContent = livesTotal.toLocaleString();
+    $('sAnc').textContent = ancTotal.toLocaleString();
+    $('sFound').textContent = mode==='heredity' ? foundersAlive + ' of ' + gens[0].lives : '—';
+    let v;
+    if (pop === 0) v = 'Lineland has died out. Start a new world.';
+    else if (mode !== 'heredity') v = 'In an automaton each cell draws on up to three parents, so lines merge instead of branching. No single common ancestor exists.';
+    else if (mrcaG >= 0) v = `Everyone alive shares one ancestor <b>${(T-mrcaG).toLocaleString()} generations</b> back.`;
+    else v = `No single ancestor yet: <b>${foundersAlive}</b> founder lines still have living descendants.`;
+    const mt = meet(selA, selB);
+    if (mt) v += ` Your two picked lines meet <b>${(Math.max(selA.g,selB.g)-mt.g).toLocaleString()} generations</b> before the later of them.`;
+    if (T >= MAXG-1) v += ' This world has reached its 720-generation limit.';
+    $('verdict').innerHTML = v;
+  }
+
+  // ---------- interaction ----------
+  cv.addEventListener('click', e => {
+    const r = cv.getBoundingClientRect(), x = e.clientX-r.left, y = e.clientY-r.top;
+    let best=null, bd=14*14;
+    for (let g=0; g<gens.length; g++){ const G=gens[g];
+      for (let i=0;i<N;i++){ if (!G.alive[i]) continue; const [px,py]=P(g,i); const d=(px-x)**2+(py-y)**2; if (d<bd){bd=d;best={g,i};} } }
+    if (!best) { selA = selB = null; }
+    else if (!selA || selB) { selA = best; selB = null; }
+    else selB = best;
+    $('hint').textContent = selB ? 'Click again to start a new comparison.' : selA ? 'Now click a second life to find where the two lines meet.' : 'Click any life to trace its line back to the beginning.';
+    draw(); stats();
+  });
+
+  function syncPlay(){ $('bPlay').textContent = playing ? 'Pause' : 'Play'; }
+  $('bPlay').onclick = () => { if (gens.length >= MAXG) return; playing = !playing; syncPlay(); };
+  $('bStep').onclick = () => { playing=false; syncPlay(); step(); analyse(); draw(); stats(); };
+  $('bReset').onclick = () => { reset(160); playing = !reduceMotion; syncPlay(); };
+
+  const bind = (id, out, fmt, fn) => { const el=$(id); const u=()=>{ $(out).textContent = fmt(+el.value); fn && fn(+el.value); }; el.addEventListener('input',u); u(); };
+  bind('speed','oSpeed', v=>v);
+  bind('sites','oSites', v=>v); bind('founders','oFounders', v=>v);
+  bind('birth','oBirth', v=>(v/100).toFixed(2)); bind('death','oDeath', v=>(v/100).toFixed(2));
+  bind('grad','oGrad', v=>(v/10).toFixed(1), v=>{ grad=v/10; draw(); });
+  bind('morph','oMorph', v=> v>=98?'nested':v<=2?'extruded':v+'%', v=>{ morph=v/100; draw(); });
+  $('fur').onchange = e => { showFur = e.target.checked; draw(); };
+  $('trait').onchange = e => { byTrait = e.target.checked; draw(); };
+  $('mode').onchange = e => {
+    const ca = e.target.value==='ca';
+    $('ruleWrap').classList.toggle('is-hidden', !ca);
+    $('herWrap').style.display = ca ? 'none' : 'grid';
+    $('trait').disabled = ca;
+    reset(160);
+  };
+  $('rule').onchange = () => reset(160);
+
+  let anim = null;
+  $('bMorph').onclick = () => {
+    const from = morph, to = morph > .5 ? 0 : 1;
+    $('bMorph').textContent = to ? 'Unroll the rings' : 'Nest the generations';
+    if (reduceMotion){ morph = to; $('morph').value = to*100; $('oMorph').textContent = to?'nested':'extruded'; draw(); return; }
+    const t0 = performance.now(), dur = 1600;
+    cancelAnimationFrame(anim);
+    const tick = now => {
+      const k = Math.min(1,(now-t0)/dur), e = k<.5 ? 2*k*k : 1-Math.pow(-2*k+2,2)/2;
+      morph = from + (to-from)*e; $('morph').value = Math.round(morph*100);
+      $('oMorph').textContent = morph>=.98?'nested':morph<=.02?'extruded':Math.round(morph*100)+'%';
+      draw(); if (k<1) anim = requestAnimationFrame(tick);
+    };
+    anim = requestAnimationFrame(tick);
+  };
+  $('morph').addEventListener('input', () => { $('bMorph').textContent = morph > .5 ? 'Unroll the rings' : 'Nest the generations'; });
+
+  function loop(now){
+    const dt = Math.min(.25, (now-last)/1000); last = now;
+    if (playing){
+      accum += dt * +$('speed').value;
+      let n = 0; while (accum >= 1 && n < 6){ step(); accum -= 1; n++; }
+      if (n){ analyse(); draw(); stats(); }
+    }
+    requestAnimationFrame(loop);
+  }
+
+  // repaint on theme change
+  new MutationObserver(draw).observe(document.documentElement, { attributes:true, attributeFilter:['data-theme'] });
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+  new ResizeObserver(resize).observe(cv);
+
+  reset(220); syncPlay(); resize();
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

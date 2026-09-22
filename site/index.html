@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Graph</title>
+<meta name="description" content="The Phylograph: a faux-4D representation of evolutionary history, and the working prototypes that build it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+:root{--ground:#FAF7F0;--ink:#141414;--ink-2:#3C3A35;--grey:#8C8C8C;--rule:#E2DBCB;--accent:#B03A2E;
+  --serif:"EB Garamond","Iowan Old Style",Palatino,Georgia,serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;color-scheme:light dark}
+@media (prefers-color-scheme:dark){:root{--ground:#14130F;--ink:#ECE6D8;--ink-2:#C9C2B2;--grey:#7F796D;--rule:#2E2B24;--accent:#E0634C}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--serif);font-size:18px;line-height:1.55}
+main{max-width:720px;margin:0 auto;padding-inline:20px;padding-block:64px 80px}
+.eyebrow{font-variant:small-caps;letter-spacing:.14em;color:var(--grey);font-size:15px}
+h1{font-weight:500;font-size:clamp(40px,7vw,60px);line-height:1;margin:6px 0 20px;letter-spacing:-.01em}
+.lede{font-size:21px;color:var(--ink-2);margin:0 0 12px;text-wrap:pretty}
+.claim{font-variant:small-caps;letter-spacing:.14em;color:var(--accent);margin:26px 0 44px}
+svg{display:block;width:100%;max-width:340px;height:auto;margin:0 0 40px}
+h2{font-weight:500;font-variant:small-caps;letter-spacing:.12em;font-size:16px;color:var(--grey);margin:0 0 10px;border-top:1px solid var(--rule);padding-top:16px}
+ol{list-style:none;padding:0;margin:0 0 40px;display:grid;gap:14px}
+li{display:grid;grid-template-columns:3ch 1fr;gap:10px}
+li .n{font-family:var(--mono);font-size:14px;color:var(--grey);padding-top:4px}
+a{color:var(--ink);text-decoration-color:var(--accent);text-underline-offset:3px}
+a:hover{color:var(--accent)}
+.s{color:var(--grey);font-style:italic}
+footer{color:var(--grey);font-size:15px;border-top:1px solid var(--rule);padding-top:16px}
+</style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">The Phylograph · with its pair, the Ontograph</div>
+  <h1>The Graph</h1>
+  <p class="lede">Around 1600, painters learned to set depth down on a flat canvas by letting parallel lines converge on a vanishing point. The Graph takes the same step one dimension up. It shows all of time inside a single sphere, with the present on the outside and the beginning at the center, and every life drawn as a line running between them.</p>
+  <p class="lede">Seen this way, the branching diagram of evolution and the globe are the same shape, and every reader can find their own line inside it.</p>
+
+  <svg viewBox="0 0 200 200" role="img" aria-label="Nested shells converging on a center, with one line in vermilion running from the center to the outermost shell">
+    <g fill="none" stroke="currentColor" style="color:var(--grey)" stroke-width=".5">
+      <circle cx="100" cy="100" r="92"/><circle cx="100" cy="100" r="62"/><circle cx="100" cy="100" r="40"/>
+      <circle cx="100" cy="100" r="25"/><circle cx="100" cy="100" r="15"/><circle cx="100" cy="100" r="8"/>
+    </g>
+    <circle cx="100" cy="100" r="96" fill="none" stroke="var(--accent)" stroke-width=".8"/>
+    <path d="M100 100 L108 90 L116 84 L131 72 L148 60 L166 44" fill="none" stroke="var(--accent)" stroke-width="1.6"/>
+    <circle cx="166" cy="44" r="2.6" fill="var(--accent)"/>
+  </svg>
+
+  <p class="claim">The inner shells are not smaller. They are farther.</p>
+
+  <h2>Working prototypes</h2>
+  <ol>
+    <li><span class="n">01</span><span><a href="lineland/">Lineland</a>: a one-dimensional world wrapped into a circle and run forward in time. Every generation is a ring, and every life can be traced to its common ancestors.</span></li>
+    <li><span class="n">02</span><span>Genealogical diamond: how your ancestors multiply and then converge. <span class="s">In preparation.</span></span></li>
+  </ol>
+
+  <footer>A project of Colin Shunryu Garvey, begun at Vassar in 2003 and continued in Niigata.</footer>
+</main>
+</body>
+</html>
