@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 432 432" width="432pt" height="432pt" role="img"><style>@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;1,400&amp;display=swap');text{font-family:'EB Garamond', 'Iowan Old Style', Palatino, Georgia, serif}</style><defs></defs><rect width="432" height="432" fill="#FAF7F0"/>
+<path d="M300 436L216 352C94.58 230.58 64 80 216 80C368 80 337.42 230.58 216 352L132 436" fill="none" stroke="#141414" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="216" y="117" text-anchor="middle" fill="#141414" style="font-variant-caps:all-small-caps;letter-spacing:.12em;font-size:9.5px">energy</text>
+<path d="M216 352C124.04 260.04 102 146 216 146C330 146 307.96 260.04 216 352" fill="none" stroke="#141414" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="216" y="180" text-anchor="middle" fill="#141414" style="font-variant-caps:all-small-caps;letter-spacing:.12em;font-size:9.5px">matter</text>
+<path d="M216 352C150.83 286.83 136 206 216 206C296 206 281.17 286.83 216 352" fill="none" stroke="#141414" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="216" y="237" text-anchor="middle" fill="#141414" style="font-variant-caps:all-small-caps;letter-spacing:.12em;font-size:9.5px">life</text>
+<path d="M216 352C174.93 310.93 166 260 216 260C266 260 257.07 310.93 216 352" fill="none" stroke="#141414" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="216" y="280" text-anchor="middle" fill="#141414" style="font-variant-caps:all-small-caps;letter-spacing:.12em;font-size:9.5px">mind</text>
+<path d="M216 352C196.36 332.36 192 308 216 308C240 308 235.64 332.36 216 352" fill="none" stroke="#B03A2E" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1.6 1.5"/>
+<text x="216" y="302" text-anchor="middle" fill="#141414" style="font-style:italic;font-size:10px">“I”</text>
+<path d="M218.59 78.12L216 80L218.59 81.88" fill="none" stroke="#141414" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="216" y="71" text-anchor="middle" fill="#141414" style="font-style:italic;font-size:8.5px">the flow of time, of energy</text>
+<text x="122" y="416" text-anchor="end" fill="#141414" style="font-variant-caps:all-small-caps;letter-spacing:.12em;font-size:9.5px">infinity</text>
+<text x="310" y="416" text-anchor="start" fill="#141414" style="font-variant-caps:all-small-caps;letter-spacing:.12em;font-size:9.5px">infinity</text>
+</svg>

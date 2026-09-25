@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 360" width="540pt" height="360pt" role="img"><style>@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;1,400&amp;display=swap');text{font-family:'EB Garamond', 'Iowan Old Style', Palatino, Georgia, serif}</style><defs><mask id="h" maskUnits="userSpaceOnUse" x="0" y="0" width="540" height="360"><rect width="540" height="360" fill="#fff"/><circle cx="120" cy="250" r="7.8" fill="#000"/><circle cx="270" cy="250" r="7.8" fill="#000"/><circle cx="420" cy="250" r="7.8" fill="#000"/></mask></defs><rect width="540" height="360" fill="#FAF7F0"/>
+<path d="M133 263L120 250C49.47 179.47 58 92 120 92C182 92 190.53 179.47 120 250L107 263" fill="none" stroke="#141414" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" mask="url(#h)"/>
+<path d="M120 250C97.68 227.68 99 200 120 200C141 200 142.32 227.68 120 250" fill="none" stroke="#141414" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round" mask="url(#h)"/>
+<circle cx="120" cy="250" r="6.0" fill="none" stroke="#141414" stroke-width="0.6" stroke-dasharray="1.6 1.5"/>
+<text x="120" y="118" text-anchor="middle" fill="#141414" style="font-variant-caps:all-small-caps;letter-spacing:.12em;font-size:9.5px">energy</text>
+<text x="120" y="192" text-anchor="middle" fill="#141414" style="font-style:italic;font-size:8.5px">matter condenses</text>
+<text x="120" y="276" text-anchor="middle" fill="#141414" style="font-variant-caps:all-small-caps;letter-spacing:.12em;font-size:9.5px">quantum</text>
+<path d="M122.59 90.12L120 92L122.59 93.88" fill="none" stroke="#141414" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M283 263L270 250C199.47 179.47 208 92 270 92C332 92 340.53 179.47 270 250L257 263" fill="none" stroke="#141414" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" mask="url(#h)"/>
+<path d="M270 250C247.68 227.68 249 200 270 200C291 200 292.32 227.68 270 250" fill="none" stroke="#141414" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round" mask="url(#h)"/>
+<circle cx="270" cy="250" r="6.0" fill="none" stroke="#141414" stroke-width="0.6" stroke-dasharray="1.6 1.5"/>
+<text x="270" y="118" text-anchor="middle" fill="#141414" style="font-variant-caps:all-small-caps;letter-spacing:.12em;font-size:9.5px">matter</text>
+<text x="270" y="192" text-anchor="middle" fill="#141414" style="font-style:italic;font-size:8.5px">life happens</text>
+<text x="270" y="276" text-anchor="middle" fill="#141414" style="font-variant-caps:all-small-caps;letter-spacing:.12em;font-size:9.5px">replication “singularity”</text>
+<path d="M272.59 90.12L270 92L272.59 93.88" fill="none" stroke="#141414" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M433 263L420 250C349.47 179.47 358 92 420 92C482 92 490.53 179.47 420 250L407 263" fill="none" stroke="#141414" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" mask="url(#h)"/>
+<path d="M420 250C397.68 227.68 399 200 420 200C441 200 442.32 227.68 420 250" fill="none" stroke="#141414" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round" mask="url(#h)"/>
+<circle cx="420" cy="250" r="6.0" fill="none" stroke="#B03A2E" stroke-width="0.6" stroke-dasharray="1.6 1.5"/>
+<text x="420" y="118" text-anchor="middle" fill="#141414" style="font-variant-caps:all-small-caps;letter-spacing:.12em;font-size:9.5px">life</text>
+<text x="420" y="192" text-anchor="middle" fill="#141414" style="font-style:italic;font-size:8.5px">mind occurs</text>
+<text x="420" y="276" text-anchor="middle" fill="#141414" style="font-variant-caps:all-small-caps;letter-spacing:.12em;font-size:9.5px">“I”</text>
+<path d="M422.59 90.12L420 92L422.59 93.88" fill="none" stroke="#141414" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M195 70L195 300" fill="none" stroke="#141414" stroke-width="0.25" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M345 70L345 300" fill="none" stroke="#141414" stroke-width="0.25" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

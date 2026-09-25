@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 432 540" width="432pt" height="540pt" role="img"><style>@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;1,400&amp;display=swap');text{font-family:'EB Garamond', 'Iowan Old Style', Palatino, Georgia, serif}</style><defs></defs><rect width="432" height="540" fill="#FAF7F0"/>
+<path d="M66 118L366 118" fill="none" stroke="#141414" stroke-width="0.25" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="66" y="109" text-anchor="start" fill="#141414" style="font-variant-caps:all-small-caps;letter-spacing:.12em;font-size:9.5px">the present</text>
+<path d="M138 118C152 214 146 268 164 330C182 392 212 378 216 418" fill="none" stroke="#141414" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M153.56 278.7C123.56 238.7 100 188 94 118" fill="none" stroke="#141414" stroke-width="0.25" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M192.13 379.38C162.13 371.38 138.13 349.38 126.13 321.38" fill="none" stroke="#8C8C8C" stroke-width="0.25" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M294 118C280 214 286 268 268 330C250 392 220 378 216 418" fill="none" stroke="#141414" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M278.44 278.7C308.44 238.7 332 188 338 118" fill="none" stroke="#141414" stroke-width="0.25" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M239.87 379.38C269.87 371.38 293.87 349.38 305.87 321.38" fill="none" stroke="#8C8C8C" stroke-width="0.25" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M138 118L294 118" fill="none" stroke="#B03A2E" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M216 124L216 412" fill="none" stroke="#141414" stroke-width="0.25" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.4 2.2"/>
+<circle cx="138" cy="118" r="2.2" fill="#141414"/>
+<text x="138" y="109" text-anchor="middle" fill="#141414" style="font-variant-caps:all-small-caps;letter-spacing:.12em;font-size:9.5px">a</text>
+<circle cx="294" cy="118" r="2.2" fill="#141414"/>
+<text x="294" y="109" text-anchor="middle" fill="#141414" style="font-variant-caps:all-small-caps;letter-spacing:.12em;font-size:9.5px">b</text>
+<circle cx="216" cy="418" r="2.2" fill="#141414"/>
+<text x="226" y="422" text-anchor="start" fill="#141414" style="font-variant-caps:all-small-caps;letter-spacing:.12em;font-size:9.5px">c, a common ancestor</text>
+<text x="216" y="486" text-anchor="middle" fill="#141414" style="font-variant-caps:all-small-caps;letter-spacing:.12em;font-size:9.5px">known factually before it is felt</text>
+</svg>

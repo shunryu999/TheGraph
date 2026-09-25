@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 360" width="540pt" height="360pt" role="img"><style>@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;1,400&amp;display=swap');text{font-family:'EB Garamond', 'Iowan Old Style', Palatino, Georgia, serif}</style><defs><mask id="h" maskUnits="userSpaceOnUse" x="0" y="0" width="540" height="360"><rect width="540" height="360" fill="#fff"/><circle cx="135" cy="250" r="7.8" fill="#000"/></mask></defs><rect width="540" height="360" fill="#FAF7F0"/>
+<path d="M148 263L135 250C63.58 178.58 57 90 135 90C213 90 206.42 178.58 135 250L122 263" fill="none" stroke="#B03A2E" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" mask="url(#h)"/>
+<circle cx="135" cy="250" r="6.0" fill="none" stroke="#141414" stroke-width="0.6" stroke-dasharray="1.6 1.5"/>
+<path d="M132.41 91.88L135 90L132.41 88.12" fill="none" stroke="#B03A2E" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="135" y="276" text-anchor="middle" fill="#141414" style="font-variant-caps:all-small-caps;letter-spacing:.12em;font-size:9.5px">birth · death</text>
+<text x="77" y="210" text-anchor="end" fill="#141414" style="font-style:italic;font-size:8.5px">infancy</text>
+<text x="193" y="210" text-anchor="start" fill="#141414" style="font-style:italic;font-size:8.5px">senility</text>
+<text x="135" y="318" text-anchor="middle" fill="#141414" style="font-variant-caps:all-small-caps;letter-spacing:.12em;font-size:9.5px">p-type: a lineage in time</text>
+<path d="M270 70L270 300" fill="none" stroke="#141414" stroke-width="0.25" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M371 180a34 34 0 1 0 68 0a34 34 0 1 0 -68 0" fill="none" stroke="#141414" stroke-width="0.25" stroke-linecap="round" stroke-linejoin="round"/>
+<g transform="rotate(0 405 146)">
+<path d="M405 146C389.82 130.82 391 112 405 112C419 112 420.18 130.82 405 146" fill="none" stroke="#141414" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<path d="M419.4 127.96A54 54 0 0 1 427.42 130.87" fill="none" stroke="#141414" stroke-width="0.25" stroke-linecap="round" stroke-linejoin="round"/>
+<g transform="rotate(40 426.85 153.95)">
+<path d="M426.85 153.95C411.68 138.78 412.85 119.95 426.85 119.95C440.85 119.95 442.03 138.78 426.85 153.95" fill="none" stroke="#141414" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<path d="M449.49 149.39A54 54 0 0 1 453.75 156.78" fill="none" stroke="#141414" stroke-width="0.25" stroke-linecap="round" stroke-linejoin="round"/>
+<g transform="rotate(80 438.48 174.1)">
+<path d="M438.48 174.1C423.31 158.92 424.48 140.1 438.48 140.1C452.48 140.1 453.66 158.92 438.48 174.1" fill="none" stroke="#141414" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<path d="M458.75 185.15A54 54 0 0 1 457.27 193.55" fill="none" stroke="#141414" stroke-width="0.25" stroke-linecap="round" stroke-linejoin="round"/>
+<g transform="rotate(120 434.44 197)">
+<path d="M434.44 197C419.27 181.82 420.44 163 434.44 163C448.44 163 449.62 181.82 434.44 197" fill="none" stroke="#141414" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<path d="M442.87 218.5A54 54 0 0 1 436.33 223.98" fill="none" stroke="#141414" stroke-width="0.25" stroke-linecap="round" stroke-linejoin="round"/>
+<g transform="rotate(160 416.63 211.95)">
+<path d="M416.63 211.95C401.45 196.77 402.63 177.95 416.63 177.95C430.63 177.95 431.81 196.77 416.63 211.95" fill="none" stroke="#141414" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<path d="M409.27 233.83A54 54 0 0 1 400.73 233.83" fill="none" stroke="#141414" stroke-width="0.25" stroke-linecap="round" stroke-linejoin="round"/>
+<g transform="rotate(200 393.37 211.95)">
+<path d="M393.37 211.95C378.19 196.77 379.37 177.95 393.37 177.95C407.37 177.95 408.55 196.77 393.37 211.95" fill="none" stroke="#141414" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<path d="M373.67 223.98A54 54 0 0 1 367.13 218.5" fill="none" stroke="#141414" stroke-width="0.25" stroke-linecap="round" stroke-linejoin="round"/>
+<g transform="rotate(240 375.56 197)">
+<path d="M375.56 197C360.38 181.82 361.56 163 375.56 163C389.56 163 390.73 181.82 375.56 197" fill="none" stroke="#141414" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<path d="M352.73 193.55A54 54 0 0 1 351.25 185.15" fill="none" stroke="#141414" stroke-width="0.25" stroke-linecap="round" stroke-linejoin="round"/>
+<g transform="rotate(280 371.52 174.1)">
+<path d="M371.52 174.1C356.34 158.92 357.52 140.1 371.52 140.1C385.52 140.1 386.69 158.92 371.52 174.1" fill="none" stroke="#141414" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<path d="M356.25 156.78A54 54 0 0 1 360.51 149.39" fill="none" stroke="#141414" stroke-width="0.25" stroke-linecap="round" stroke-linejoin="round"/>
+<g transform="rotate(320 383.15 153.95)">
+<path d="M383.15 153.95C367.97 138.78 369.15 119.95 383.15 119.95C397.15 119.95 398.32 138.78 383.15 153.95" fill="none" stroke="#141414" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<path d="M382.58 130.87A54 54 0 0 1 390.6 127.96" fill="none" stroke="#141414" stroke-width="0.25" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="471" y="114" text-anchor="start" fill="#141414" style="font-style:italic;font-size:8.5px">exchange</text>
+<text x="405" y="318" text-anchor="middle" fill="#141414" style="font-variant-caps:all-small-caps;letter-spacing:.12em;font-size:9.5px">o-type: a community in the present</text>
+</svg>
