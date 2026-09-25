@@ -115,7 +115,7 @@ The viewer converts every date to a decimal year before drawing, so months and d
       "title": "The IAS machine family, 1946–1960", "blurb": "…" } ] }
 ```
 
-`id` is what permalinks use (`?d=ias`). `path` is relative to `data/`. The rest is shown in the picker.
+`id` is what permalinks use (`?d=ias`). `path` is relative to `data/`. `title`, `span` and `blurb` are shown in the picker, and `why` (a short paragraph on why the dataset is in the Graph) fills the viewer's "Why this dataset" note.
 
 ## Permalinks
 

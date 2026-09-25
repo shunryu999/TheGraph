@@ -6,7 +6,16 @@
    "path": "ias-machine-lineage/ias-machine-lineage.json",
    "title": "The IAS machine family, 1946–1960",
    "span": "1946–1960",
-   "blurb": "Every copy of von Neumann’s computer, placed where and when it first ran. Its design reports were circulated freely, so the family spread by copying."
+   "blurb": "Every copy of von Neumann’s computer, placed where and when it first ran. Its design reports were circulated freely, so the family spread by copying.",
+   "why": "The storyboard named it in 2007–08: “Computer graphing of computer spread is ideal. Each computer was local to a position in spacetime and the design (genotype) spread through clear lines of transmission.” The IAS design is a clean case. Its reports were circulated deliberately, and its copies are dated, placed and documented. BESM appears on some lists of IAS-family machines but was an independent Soviet design, so it is shown and flagged rather than left out."
+  },
+  {
+   "id": "printing",
+   "path": "printing-1450-1500/printing-1450-1500.json",
+   "title": "The spread of printing, 1454–1500",
+   "span": "1454–1500",
+   "blurb": "The first press in 57 towns, from Mainz to Lisbon, Stockholm and Cetinje, each linked to where its printer came from.",
+   "why": "Printing is the IAS family five hundred years earlier: a method that spread by people carrying it from shop to shop. In fifty years it went from one town on the Rhine to presses from Lisbon to Stockholm and Buda, and it is the medium every later cultural lineage in the Graph, Paradise Lost among them, travelled through. The towns and dates are well recorded. Who trained whom is recorded for only some of them, so most links are drawn grey until they are checked."
   }
  ]
 }

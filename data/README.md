@@ -11,5 +11,6 @@ python3 tools/validate.py --catalog data/catalog.json
 CI runs the same check on every pull request.
 
 - [`ias-machine-lineage/`](ias-machine-lineage/) (#8): the IAS machine family, 1946–1960. Read by the stratasphere viewer (#11).
+- [`printing-1450-1500/`](printing-1450-1500/) (viewer M1): the spread of printing, 1454–1500, 57 towns.
 
-Planned for the viewer roadmap: `printing-1450-1500/`, `sars-cov-2-lineages/`, `unix-family/`. Later: `paradise-lost-editions/` (#15), `pbdb-extract/` (#17).
+Planned for the viewer roadmap: `sars-cov-2-lineages/`, `unix-family/`. Later: `paradise-lost-editions/` (#15), `pbdb-extract/` (#17).

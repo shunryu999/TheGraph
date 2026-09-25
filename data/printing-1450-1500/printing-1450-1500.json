@@ -1,0 +1,865 @@
+{
+ "format": 1,
+ "meta": {
+  "title": "The spread of printing, 1454–1500",
+  "unit": "year",
+  "tStart": 1454,
+  "tEnd": 1500,
+  "description": "The first press in each of 57 towns, placed where and when it began. Each link says where the printer came from: the shop he trained in, the type he used, or the town he moved on from.",
+  "sources": [
+   "Incunabula Short Title Catalogue (ISTC), British Library / CERL",
+   "L. Febvre and H.-J. Martin, The Coming of the Book (1958; Eng. tr. 1976), appendix on the spread of printing",
+   "Encyclopaedia Britannica (1911), 'Incunabula'",
+   "Dates and printers cross-checked by web search on 25 Sept 2026; see SOURCE.md"
+  ],
+  "caveats": "Each town is dated by its first dated or securely datable print, so a press may have begun a year earlier. Links in grey are inference: where a printer trained or came from is recorded for only some towns, and the rest are joined to the nearest earlier press on a plausible route until the record is checked. Places are the town, not the shop. The whole set is awaiting a line-by-line check against the ISTC.",
+  "defaultPick": "westminster",
+  "linkKinds": {
+   "training": "the printer learned the craft there",
+   "copy": "type or method taken from there",
+   "move": "the same printer moved on from there",
+   "influence": "shaped by, without training or type"
+  },
+  "licence": "CC BY 4.0 (compilation)"
+ },
+ "nodes": [
+  {
+   "id": "mainz",
+   "label": "Mainz",
+   "place": "Mainz",
+   "lat": 49.9929,
+   "lng": 8.2473,
+   "t": 1454,
+   "note": "Johann Gutenberg. The 1454–55 indulgences and the 42-line Bible; Fust and Schoeffer carry the shop on after 1455."
+  },
+  {
+   "id": "strasbourg",
+   "label": "Strasbourg",
+   "place": "Strasbourg",
+   "lat": 48.5734,
+   "lng": 7.7521,
+   "t": 1460,
+   "note": "Johann Mentelin. A Latin Bible finished no later than 1460. Where he learned to print is not recorded."
+  },
+  {
+   "id": "bamberg",
+   "label": "Bamberg",
+   "place": "Bamberg",
+   "lat": 49.8988,
+   "lng": 10.9028,
+   "t": 1461,
+   "note": "Albrecht Pfister. His first dated book is of 1461; the 36-line Bible, in a type first used by Gutenberg, is probably a little earlier."
+  },
+  {
+   "id": "subiaco",
+   "label": "Subiaco",
+   "place": "Benedictine abbey of Santa Scolastica, Subiaco",
+   "lat": 41.9249,
+   "lng": 13.0947,
+   "t": 1465,
+   "note": "Konrad Sweynheym and Arnold Pannartz, the first press in Italy. Sweynheym is thought to have worked for Fust and Schoeffer in Mainz."
+  },
+  {
+   "id": "cologne",
+   "label": "Cologne",
+   "place": "Cologne",
+   "lat": 50.9375,
+   "lng": 6.9603,
+   "t": 1466,
+   "note": "Ulrich Zell, a cleric of the Mainz diocese who learned the art there; the 1499 Cologne Chronicle names him as its source on Gutenberg."
+  },
+  {
+   "id": "eltville",
+   "label": "Eltville",
+   "place": "Eltville am Rhein",
+   "lat": 50.0286,
+   "lng": 8.118,
+   "t": 1467,
+   "note": "The Bechtermünze brothers, printing the Vocabularius ex quo in type from Gutenberg's shop."
+  },
+  {
+   "id": "rome",
+   "label": "Rome",
+   "place": "Rome",
+   "lat": 41.9028,
+   "lng": 12.4964,
+   "t": 1467,
+   "note": "Sweynheym and Pannartz move here from Subiaco; Ulrich Han prints in Rome the same year."
+  },
+  {
+   "id": "basel",
+   "label": "Basel",
+   "place": "Basel",
+   "lat": 47.5596,
+   "lng": 7.5886,
+   "t": 1468,
+   "note": "Berthold Ruppel, named as a member of Gutenberg's household in the 1455 Helmasperger notarial instrument. Some sources date his first work to 1467."
+  },
+  {
+   "id": "augsburg",
+   "label": "Augsburg",
+   "place": "Augsburg",
+   "lat": 48.3705,
+   "lng": 10.8978,
+   "t": 1468,
+   "note": "Günther Zainer, who probably learned in Strasbourg."
+  },
+  {
+   "id": "venice",
+   "label": "Venice",
+   "place": "Venice",
+   "lat": 45.4408,
+   "lng": 12.3155,
+   "t": 1469,
+   "note": "Johannes de Spira (Johann of Speyer), granted a five-year monopoly on printing in Venice; Nicolas Jenson follows in 1470."
+  },
+  {
+   "id": "nuremberg",
+   "label": "Nuremberg",
+   "place": "Nuremberg",
+   "lat": 49.4521,
+   "lng": 11.0767,
+   "t": 1470,
+   "note": "Johann Sensenschmidt; Anton Koberger from 1471."
+  },
+  {
+   "id": "foligno",
+   "label": "Foligno",
+   "place": "Foligno",
+   "lat": 42.9561,
+   "lng": 12.7033,
+   "t": 1470,
+   "note": "Johann Neumeister, who printed the first edition of Dante's Commedia here in 1472."
+  },
+  {
+   "id": "paris",
+   "label": "Paris",
+   "place": "Collège de la Sorbonne, Paris",
+   "lat": 48.8488,
+   "lng": 2.3431,
+   "t": 1470,
+   "note": "Ulrich Gering, Michael Friburger and Martin Crantz, brought to the Sorbonne by Guillaume Fichet and Johann Heynlin; Heynlin had studied at Basel."
+  },
+  {
+   "id": "milan",
+   "label": "Milan",
+   "place": "Milan",
+   "lat": 45.4642,
+   "lng": 9.19,
+   "t": 1470,
+   "note": "Antonio Zarotto and Philippus de Lavagnia; an earlier start in 1469 is claimed but not proven."
+  },
+  {
+   "id": "beromunster",
+   "label": "Beromünster",
+   "place": "Beromünster",
+   "lat": 47.2058,
+   "lng": 8.1934,
+   "t": 1470,
+   "note": "Helias Helye, canon of the collegiate church. The Mammotrectus, finished 10 November 1470, is the first dated book printed in Switzerland."
+  },
+  {
+   "id": "naples",
+   "label": "Naples",
+   "place": "Naples",
+   "lat": 40.8518,
+   "lng": 14.2681,
+   "t": 1471,
+   "note": "Sixtus Riessinger, a priest from Strasbourg."
+  },
+  {
+   "id": "florence",
+   "label": "Florence",
+   "place": "Florence",
+   "lat": 43.7696,
+   "lng": 11.2558,
+   "t": 1471,
+   "note": "Bernardo Cennini, a goldsmith who is said to have worked out the method for himself."
+  },
+  {
+   "id": "bologna",
+   "label": "Bologna",
+   "place": "Bologna",
+   "lat": 44.4949,
+   "lng": 11.3426,
+   "t": 1471,
+   "note": "Balthasar Azoguidus."
+  },
+  {
+   "id": "ferrara",
+   "label": "Ferrara",
+   "place": "Ferrara",
+   "lat": 44.8381,
+   "lng": 11.6198,
+   "t": 1471,
+   "note": "André Belfort, a Frenchman."
+  },
+  {
+   "id": "treviso",
+   "label": "Treviso",
+   "place": "Treviso",
+   "lat": 45.6669,
+   "lng": 12.243,
+   "t": 1471,
+   "note": "Gerardus de Lisa."
+  },
+  {
+   "id": "speyer",
+   "label": "Speyer",
+   "place": "Speyer",
+   "lat": 49.3173,
+   "lng": 8.4412,
+   "t": 1471,
+   "note": "Peter Drach."
+  },
+  {
+   "id": "verona",
+   "label": "Verona",
+   "place": "Verona",
+   "lat": 45.4384,
+   "lng": 10.9916,
+   "t": 1472,
+   "note": "Johannes of Verona."
+  },
+  {
+   "id": "padua",
+   "label": "Padua",
+   "place": "Padua",
+   "lat": 45.4064,
+   "lng": 11.8768,
+   "t": 1472,
+   "note": "Bartholomaeus de Valdezoccho and Martinus de Septem Arboribus."
+  },
+  {
+   "id": "segovia",
+   "label": "Segovia",
+   "place": "Segovia",
+   "lat": 40.9429,
+   "lng": -4.1088,
+   "t": 1472,
+   "note": "Johannes Párix, a German printer hired in Rome by the Bishop of Segovia: the Sinodal de Aguilafuente, the first book printed in Spain."
+  },
+  {
+   "id": "ulm",
+   "label": "Ulm",
+   "place": "Ulm",
+   "lat": 48.4011,
+   "lng": 9.9876,
+   "t": 1473,
+   "note": "Johann Zainer, a kinsman of Günther Zainer of Augsburg, from Strasbourg."
+  },
+  {
+   "id": "buda",
+   "label": "Buda",
+   "place": "Buda",
+   "lat": 47.4979,
+   "lng": 19.0402,
+   "t": 1473,
+   "note": "Andreas Hess, invited from Georg Lauer's printing house in Rome: the Chronica Hungarorum, finished 5 June 1473, the first book printed in Hungary."
+  },
+  {
+   "id": "krakow",
+   "label": "Kraków",
+   "place": "Kraków",
+   "lat": 50.0647,
+   "lng": 19.945,
+   "t": 1473,
+   "note": "Kasper Straube, an itinerant printer from Bavaria; the almanac for 1474, printed in 1473, is the oldest known print from Poland."
+  },
+  {
+   "id": "lyon",
+   "label": "Lyon",
+   "place": "Lyon",
+   "lat": 45.764,
+   "lng": 4.8357,
+   "t": 1473,
+   "note": "Guillaume Le Roy of Liège, backed by the merchant Barthélemy Buyer; his first dated book is of 17 September 1473."
+  },
+  {
+   "id": "utrecht",
+   "label": "Utrecht",
+   "place": "Utrecht",
+   "lat": 52.0907,
+   "lng": 5.1214,
+   "t": 1473,
+   "note": "Nicolaus Ketelaer and Gerardus de Leempt: the Historia scholastica, the earliest dated book printed in the Low Countries."
+  },
+  {
+   "id": "aalst",
+   "label": "Aalst",
+   "place": "Aalst",
+   "lat": 50.9378,
+   "lng": 4.0393,
+   "t": 1473,
+   "note": "Dirk Martens, with Johannes de Westfalia; Martens is said to have learned printing in Venice."
+  },
+  {
+   "id": "valencia",
+   "label": "Valencia",
+   "place": "Valencia",
+   "lat": 39.4699,
+   "lng": -0.3763,
+   "t": 1474,
+   "note": "Lambert Palmart. Obres o trobes en lahors de la Verge Maria, 1474; some sources place the first press in 1473."
+  },
+  {
+   "id": "leuven",
+   "label": "Leuven",
+   "place": "Leuven",
+   "lat": 50.8798,
+   "lng": 4.7005,
+   "t": 1474,
+   "note": "Johannes de Westfalia moves here from Aalst."
+  },
+  {
+   "id": "vicenza",
+   "label": "Vicenza",
+   "place": "Vicenza",
+   "lat": 45.5455,
+   "lng": 11.5354,
+   "t": 1474,
+   "note": "Leonardus Achates."
+  },
+  {
+   "id": "bruges",
+   "label": "Bruges",
+   "place": "Bruges",
+   "lat": 51.2093,
+   "lng": 3.2247,
+   "t": 1474,
+   "note": "William Caxton and Colard Mansion: The Recuyell of the Historyes of Troye, the first book printed in English. Caxton had learned to print in Cologne in 1471–72."
+  },
+  {
+   "id": "lubeck",
+   "label": "Lübeck",
+   "place": "Lübeck",
+   "lat": 53.8655,
+   "lng": 10.6866,
+   "t": 1475,
+   "note": "Lucas Brandis: the Rudimentum novitiorum."
+  },
+  {
+   "id": "zaragoza",
+   "label": "Zaragoza",
+   "place": "Zaragoza",
+   "lat": 41.6488,
+   "lng": -0.8891,
+   "t": 1475,
+   "note": "Matthew Flander and German printers."
+  },
+  {
+   "id": "toulouse",
+   "label": "Toulouse",
+   "place": "Toulouse",
+   "lat": 43.6047,
+   "lng": 1.4442,
+   "t": 1476,
+   "note": "A Repetitio on Roman law dated 21 June 1476; printing there may have begun in 1475."
+  },
+  {
+   "id": "angers",
+   "label": "Angers",
+   "place": "Angers",
+   "lat": 47.4784,
+   "lng": -0.5632,
+   "t": 1476,
+   "note": "Jean de La Tour and Jean Morel."
+  },
+  {
+   "id": "westminster",
+   "label": "Westminster",
+   "place": "Westminster",
+   "lat": 51.4995,
+   "lng": -0.1248,
+   "t": 1476,
+   "note": "William Caxton sets up at Westminster Abbey after Bruges: the first press in England."
+  },
+  {
+   "id": "plzen",
+   "label": "Plzeň",
+   "place": "Plzeň",
+   "lat": 49.7384,
+   "lng": 13.3736,
+   "t": 1476,
+   "note": "The first dated Czech print; the Trojan Chronicle may be earlier."
+  },
+  {
+   "id": "seville",
+   "label": "Seville",
+   "place": "Seville",
+   "lat": 37.3891,
+   "lng": -5.9845,
+   "t": 1477,
+   "note": "Antonio Martínez, Bartolomé Segura and Alfonso del Puerto."
+  },
+  {
+   "id": "gouda",
+   "label": "Gouda",
+   "place": "Gouda",
+   "lat": 52.0115,
+   "lng": 4.7105,
+   "t": 1477,
+   "note": "Gerard Leeu."
+  },
+  {
+   "id": "deventer",
+   "label": "Deventer",
+   "place": "Deventer",
+   "lat": 52.2551,
+   "lng": 6.1639,
+   "t": 1477,
+   "note": "Richard Pafraet."
+  },
+  {
+   "id": "delft",
+   "label": "Delft",
+   "place": "Delft",
+   "lat": 52.0116,
+   "lng": 4.3571,
+   "t": 1477,
+   "note": "Jacob Jacobszoon van der Meer and Mauricius Yemantszoon: the Delft Bible, the first Bible printed in Dutch."
+  },
+  {
+   "id": "oxford",
+   "label": "Oxford",
+   "place": "Oxford",
+   "lat": 51.752,
+   "lng": -1.2577,
+   "t": 1478,
+   "note": "Theoderic Rood of Cologne, who seems to have brought his press from there. His first book is dated 17 December 1478, misprinted as 1468."
+  },
+  {
+   "id": "geneva",
+   "label": "Geneva",
+   "place": "Geneva",
+   "lat": 46.2044,
+   "lng": 6.1432,
+   "t": 1478,
+   "note": "Adam Steinschaber."
+  },
+  {
+   "id": "st-albans",
+   "label": "St Albans",
+   "place": "St Albans",
+   "lat": 51.7527,
+   "lng": -0.3394,
+   "t": 1480,
+   "note": "The anonymous Schoolmaster Printer."
+  },
+  {
+   "id": "london",
+   "label": "London",
+   "place": "City of London",
+   "lat": 51.5155,
+   "lng": -0.0922,
+   "t": 1480,
+   "note": "John Lettou, joined by William de Machlinia."
+  },
+  {
+   "id": "salamanca",
+   "label": "Salamanca",
+   "place": "Salamanca",
+   "lat": 40.9701,
+   "lng": -5.6635,
+   "t": 1480,
+   "note": "An anonymous press serving the university."
+  },
+  {
+   "id": "antwerp",
+   "label": "Antwerp",
+   "place": "Antwerp",
+   "lat": 51.2194,
+   "lng": 4.4025,
+   "t": 1481,
+   "note": "Mathias van der Goes; Gerard Leeu moves here from Gouda in 1484."
+  },
+  {
+   "id": "leipzig",
+   "label": "Leipzig",
+   "place": "Leipzig",
+   "lat": 51.3397,
+   "lng": 12.3731,
+   "t": 1481,
+   "note": "Marcus Brandis, of the Brandis family of printers."
+  },
+  {
+   "id": "vienna",
+   "label": "Vienna",
+   "place": "Vienna",
+   "lat": 48.2082,
+   "lng": 16.3738,
+   "t": 1482,
+   "note": "A Vocabolista of 1482, possibly printed by Stephan Koblinger, who had printed in Vicenza in 1479–80. The attribution is uncertain."
+  },
+  {
+   "id": "odense",
+   "label": "Odense",
+   "place": "Odense",
+   "lat": 55.4038,
+   "lng": 10.4024,
+   "t": 1482,
+   "note": "Johann Snell, brought by Bishop Karl Rønnow to print the Breviarium Ottoniense, the first book printed in Denmark."
+  },
+  {
+   "id": "stockholm",
+   "label": "Stockholm",
+   "place": "Stockholm",
+   "lat": 59.3293,
+   "lng": 18.0686,
+   "t": 1483,
+   "note": "Johann Snell again: the Dialogus creaturarum, the first book printed in Sweden."
+  },
+  {
+   "id": "faro",
+   "label": "Faro",
+   "place": "Faro",
+   "lat": 37.0194,
+   "lng": -7.9304,
+   "t": 1487,
+   "note": "Samuel Gacon: a Hebrew Pentateuch finished 30 June 1487, the first book printed in Portugal."
+  },
+  {
+   "id": "lisbon",
+   "label": "Lisbon",
+   "place": "Lisbon",
+   "lat": 38.7223,
+   "lng": -9.1393,
+   "t": 1489,
+   "note": "Eliezer Toledano, printing in Hebrew."
+  },
+  {
+   "id": "cetinje",
+   "label": "Cetinje",
+   "place": "Crnojević press, Obod and Cetinje",
+   "lat": 42.3931,
+   "lng": 18.9116,
+   "t": 1494,
+   "note": "Hieromonk Makarije, sent to Venice to learn printing: the Octoechos of the First Tone, finished 4 January 1494, the first book printed in Cyrillic among the South Slavs."
+  }
+ ],
+ "links": [
+  {
+   "from": "mainz",
+   "to": "strasbourg",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "mainz",
+   "to": "bamberg",
+   "kind": "copy"
+  },
+  {
+   "from": "mainz",
+   "to": "subiaco",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "mainz",
+   "to": "cologne",
+   "kind": "training"
+  },
+  {
+   "from": "mainz",
+   "to": "eltville",
+   "kind": "copy"
+  },
+  {
+   "from": "subiaco",
+   "to": "rome",
+   "kind": "move"
+  },
+  {
+   "from": "mainz",
+   "to": "basel",
+   "kind": "training"
+  },
+  {
+   "from": "strasbourg",
+   "to": "augsburg",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "mainz",
+   "to": "venice",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "bamberg",
+   "to": "nuremberg",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "mainz",
+   "to": "foligno",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "basel",
+   "to": "paris",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "venice",
+   "to": "milan",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "basel",
+   "to": "beromunster",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "strasbourg",
+   "to": "naples",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "rome",
+   "to": "florence",
+   "kind": "influence",
+   "inferred": true
+  },
+  {
+   "from": "venice",
+   "to": "bologna",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "venice",
+   "to": "ferrara",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "venice",
+   "to": "treviso",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "mainz",
+   "to": "speyer",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "venice",
+   "to": "verona",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "venice",
+   "to": "padua",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "rome",
+   "to": "segovia",
+   "kind": "move"
+  },
+  {
+   "from": "strasbourg",
+   "to": "ulm",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "rome",
+   "to": "buda",
+   "kind": "training"
+  },
+  {
+   "from": "augsburg",
+   "to": "krakow",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "cologne",
+   "to": "lyon",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "cologne",
+   "to": "utrecht",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "venice",
+   "to": "aalst",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "segovia",
+   "to": "valencia",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "aalst",
+   "to": "leuven",
+   "kind": "move"
+  },
+  {
+   "from": "venice",
+   "to": "vicenza",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "cologne",
+   "to": "bruges",
+   "kind": "training"
+  },
+  {
+   "from": "cologne",
+   "to": "lubeck",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "valencia",
+   "to": "zaragoza",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "lyon",
+   "to": "toulouse",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "paris",
+   "to": "angers",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "bruges",
+   "to": "westminster",
+   "kind": "move"
+  },
+  {
+   "from": "nuremberg",
+   "to": "plzen",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "valencia",
+   "to": "seville",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "utrecht",
+   "to": "gouda",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "cologne",
+   "to": "deventer",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "utrecht",
+   "to": "delft",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "cologne",
+   "to": "oxford",
+   "kind": "move"
+  },
+  {
+   "from": "basel",
+   "to": "geneva",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "westminster",
+   "to": "st-albans",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "westminster",
+   "to": "london",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "segovia",
+   "to": "salamanca",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "leuven",
+   "to": "antwerp",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "lubeck",
+   "to": "leipzig",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "vicenza",
+   "to": "vienna",
+   "kind": "move",
+   "inferred": true
+  },
+  {
+   "from": "lubeck",
+   "to": "odense",
+   "kind": "move",
+   "inferred": true
+  },
+  {
+   "from": "odense",
+   "to": "stockholm",
+   "kind": "move"
+  },
+  {
+   "from": "seville",
+   "to": "faro",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "faro",
+   "to": "lisbon",
+   "kind": "training",
+   "inferred": true
+  },
+  {
+   "from": "venice",
+   "to": "cetinje",
+   "kind": "training"
+  }
+ ]
+}

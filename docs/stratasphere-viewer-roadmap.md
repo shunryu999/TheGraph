@@ -46,7 +46,10 @@ The format in `conventions.md` is still a draft. Settle it as v1, backward compa
 
 *Done when:* the viewer loads IAS from the catalog, the picker lists it, a permalink restores the view, and `validate.py` passes on IAS in CI.
 
-### M1 · The spread of printing, 1450–1500 (M)
+### M1 · The spread of printing, 1450–1500 (M) — first version 25 Sept 2026
+
+*Status:* 57 towns and 56 links are in; 13 links are record and 43 are inference. A line-by-line check against the ISTC is still owed, because the ISTC, Wikipedia and Wikisource could not be reached from the build environment (see the dataset's `SOURCE.md`). Per-node citations will come with that check.
+
 
 **Data.** `data/printing-1450-1500/`. One node per town's first press (place, year, first printer), with a link to the shop the printer trained in or came from. Where the training line is documented it is `record`; where it is only the nearest earlier press on the printer's route it is `inferred`.
 - *Sources:* the Incunabula Short Title Catalogue (ISTC) for towns and first dated imprints, and standard printing histories for the printer lines.
