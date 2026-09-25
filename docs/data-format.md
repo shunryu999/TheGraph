@@ -35,7 +35,7 @@ python3 tools/validate.py --catalog data/catalog.json     # every dataset in the
 | `sources` | no | A list of citations for the dataset as a whole. |
 | `caveats` | no | What a careful reader should know: rounding, choices, omissions. |
 | `defaultPick` | no | The id of the node selected when the dataset opens. |
-| `linkKinds` | no | A caption for each `kind` of link used, e.g. `{"copy": "a design copied"}`. The viewer builds its key from these. |
+| `linkKinds` | no | A caption for each `kind` of link used, e.g. `{"copy": "a design copied"}`. The viewer builds its key from these, and the card shows each parent as "From *parent*: *caption*", so write captions that read well after that. |
 | `kinds` | no | A caption for each `kind` of node used, e.g. `{"translation": "a translation"}`. |
 | `inferredSpans` | no | Stretches of time that are reconstructed rather than recorded, as `[[t0, t1], …]`. The viewer hatches these shells (M4). |
 | `licence` | no | The licence the compilation is released under. |
@@ -115,7 +115,7 @@ The viewer converts every date to a decimal year before drawing, so months and d
       "title": "The IAS machine family, 1946–1960", "blurb": "…" } ] }
 ```
 
-`id` is what permalinks use (`?d=ias`). `path` is relative to `data/`. The rest is shown in the picker.
+`id` is what permalinks use (`?d=ias`). `path` is relative to `data/`. `title`, `span` and `blurb` are shown in the picker, and `why` (a short paragraph on why the dataset is in the Graph) fills the viewer's "Why this dataset" note.
 
 ## Permalinks
 

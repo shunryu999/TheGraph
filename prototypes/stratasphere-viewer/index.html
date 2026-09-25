@@ -52,6 +52,8 @@ h1{font-weight:500;font-size:clamp(34px,5vw,48px);line-height:1.05;margin:0;lett
 .key span{display:inline-flex;align-items:center;gap:8px}
 .key i{display:inline-block;width:26px;height:0;border-top:1.6px solid var(--ink)}
 .key i.inf{border-top:1.2px dashed var(--grey)}
+.key [hidden]{display:none}
+.key i.ring{width:9px;height:9px;border:1.6px solid var(--ink);border-radius:50%;border-top-width:1.6px}
 .key i.red{border-top:2.2px solid var(--accent)}
 .key i.land{border-top:1px solid var(--land)}
 .hint{font-size:14px;color:var(--grey);margin:0}
@@ -64,6 +66,9 @@ aside{display:grid;gap:18px}
 .card p{margin:0;font-size:16px;color:var(--ink-2)}
 .card .lineage{font-size:15px;color:var(--ink)}
 .card .lineage b{font-weight:500;color:var(--accent)}
+.card .from{font-size:15px}
+.card .from b.p{font-weight:500;color:var(--ink)}
+.card .from i{color:var(--grey)}
 fieldset{border:0;border-top:1px solid var(--rule);margin:0;padding:12px 0 0;display:grid;gap:10px;min-width:0}
 legend{font-variant:small-caps;letter-spacing:.14em;color:var(--grey);font-size:14px;padding:0 8px 0 0}
 label{display:grid;gap:4px;font-size:15px;color:var(--ink-2)}
@@ -98,7 +103,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
 <body>
 <div class="wrap">
   <header>
-    <div class="eyebrow">Phylograph · Roadmap projects 11 and 8 · the stratasphere viewer, with its first real dataset</div>
+    <div class="eyebrow">Phylograph · Roadmap project 11 · the stratasphere viewer</div>
     <h1 id="title">Stratasphere Viewer</h1>
     <p class="lede" id="desc"></p>
   </header>
@@ -113,10 +118,11 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
       </div>
       <p class="claim">The inner shells are not smaller. They are farther.</p>
       <div class="key" aria-hidden="true">
-        <span><i></i>record: a design copied</span>
-        <span><i class="inf"></i>inference, not record</span>
+        <span><i></i><span id="keyRec">record</span></span>
+        <span><i class="inf"></i><span id="keyInf">inference, not record</span></span>
+        <span id="keyDet" hidden><i class="ring"></i>first detected here, not where it began</span>
         <span><i class="red"></i>the lineage you picked</span>
-        <span><i class="land"></i>the Earth, one shell per year</span>
+        <span><i class="land"></i>the Earth, redrawn through time</span>
       </div>
       <p class="hint">Drag to turn, scroll or pinch to zoom. Move the time slider: each year becomes the outer shell in turn, and earlier years sink inward. Click a name to see where it came from and what came from it.</p>
     </div>
@@ -157,15 +163,15 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
   <section class="notes">
     <div>
       <h2>How to read it</h2>
-      <p>Each shell is the Earth in one year. The present is the outer shell, and every earlier year is nested inside it. A machine appears on the shell of the year it first ran, at the place it ran, and a radial line carries it outward to the present. A link runs from the design it was copied from, curving inward through time and across the globe to where the copy was built.</p>
+      <p>Each shell is the Earth at one moment. The present is the outer shell, and every earlier moment is nested inside it. Each thing appears on the shell of the moment it began, at the place it began, and a radial line carries it outward to the present, or stops where it ended. A link runs from where it came from, curving inward through time and across the globe.</p>
     </div>
-    <div>
+    <div id="whyBox">
       <h2>Why this dataset</h2>
-      <p>The storyboard named it in 2007–08: <em>“Computer graphing of computer spread is ideal. Each computer was local to a position in spacetime and the design (genotype) spread through clear lines of transmission.”</em> The IAS design is a clean case. Its reports were circulated deliberately, and its copies are dated, placed and documented.</p>
+      <p id="why"></p>
     </div>
     <div>
       <h2>Record and inference</h2>
-      <p>Links drawn in grey and names in italic are inference, not record. BESM appears on some lists of IAS-family machines but was an independent Soviet design, so it is shown and flagged rather than left out. Keeping inference visibly distinct from record is the first rule of the instrument.</p>
+      <p>Links drawn in grey and names in italic are inference, not record. Each dataset says in its notes (shown on the card when nothing is picked) what was reconstructed and why. Keeping inference visibly distinct from record is the first rule of the instrument.</p>
     </div>
     <div>
       <h2>The format</h2>
@@ -531,7 +537,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
   const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(38, 1, .05, 100);
   camera.position.set(-1.2, 1.6, 3.4);
   const controls = new THREE.OrbitControls(camera, renderer.domElement);
-  controls.enableDamping = true; controls.minDistance = 1.3; controls.maxDistance = 8; controls.autoRotate = !reduce; controls.autoRotateSpeed = .35;
+  controls.enableDamping = true; controls.minDistance = .4; controls.maxDistance = 8; controls.autoRotate = !reduce; controls.autoRotateSpeed = .35;
 
   const R = 1, LAND = JSON.parse($('data-land').textContent);
   const uniforms = {
@@ -539,7 +545,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
     cInk:{value:new THREE.Color()}, cGrey:{value:new THREE.Color()}, cAcc:{value:new THREE.Color()}, cLand:{value:new THREE.Color()},
     cutOn:{value:0}, cutN:{value:new THREE.Vector3(0,0,1)}, cutD:{value:.1}, psize:{value:4}
   };
-  // cls: 0 land · 1 record · 2 selected · 3 inference
+  // cls: 0 land · 1 record · 2 selected · 3 inference, or a line that ended · 4 first detected here (ring) · 5 detected, selected
   const vs = `
     attribute vec3 dir; attribute float gen; attribute float cls;
     uniform float tNow, tStart, grad, R, psize; varying float vCls; varying vec3 vPos; varying float vHide; varying float vF;
@@ -550,7 +556,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
       float r = R * (1.0 - f) * 0.94 + R * 0.06;
       vec3 p = normalize(dir) * r; vPos = p; vCls = cls; vF = f;
       vec4 mv = modelViewMatrix * vec4(p, 1.0); gl_Position = projectionMatrix * mv;
-      gl_PointSize = psize * (cls > 1.5 && cls < 2.5 ? 1.35 : 1.0) * (0.45 + 0.55*(1.0-f)) * (3.4 / -mv.z);
+      gl_PointSize = psize * ((cls > 1.5 && cls < 2.5) || cls > 4.5 ? 1.35 : 1.0) * (cls > 3.5 ? 1.25 : 1.0) * (0.45 + 0.55*(1.0-f)) * (3.4 / -mv.z);
     }`;
   const fs = pt => `
     uniform vec3 cInk, cGrey, cAcc, cLand; uniform float cutOn, cutD; uniform vec3 cutN;
@@ -560,6 +566,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
       if (cutOn > 0.5 && dot(vPos, cutN) > cutD) discard;
       ${pt ? 'vec2 q = gl_PointCoord - 0.5; if (dot(q,q) > 0.25) discard;' : ''}
       if (vCls < 0.5) { gl_FragColor = vec4(cLand, 0.55 * (0.25 + 0.75*(1.0-vF))); return; }
+      ${pt ? 'if (vCls > 3.5) { vec2 r = gl_PointCoord - 0.5; if (dot(r,r) < 0.085) discard; gl_FragColor = vec4(vCls > 4.5 ? cAcc : cInk, 1.0); return; }' : ''}
       if (vCls < 1.5) { gl_FragColor = vec4(cInk, 0.9); return; }
       if (vCls < 2.5) { gl_FragColor = vec4(cAcc, 1.0); return; }
       gl_FragColor = vec4(cGrey, 0.8);
@@ -631,9 +638,11 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
     const clsOf = (inf, on) => on ? 2 : inf ? 3 : 1;
     for (const nd of D.nodes){
       const d = nodeDir[nd.id], on = S && S.has(nd.id), c = clsOf(isInf(nd), on), e = Math.min(tE, nd.tEnd ?? tE);
+      const ended = nd.tEnd != null && nd.tEnd < tE, cw = ended && !on ? 3 : c; // a line that ended is drawn grey
       // the worldline: from when it began out to when it ended, or to the present
-      const n = 12; for (let k=0;k<n;k++){ const t0 = nd.t + (e-nd.t)*k/n, t1 = nd.t + (e-nd.t)*(k+1)/n; L.push(...d,t0,c,...d,t1,c); }
-      P.push(...d, nd.t, c);
+      const n = 12; for (let k=0;k<n;k++){ const t0 = nd.t + (e-nd.t)*k/n, t1 = nd.t + (e-nd.t)*(k+1)/n; L.push(...d,t0,cw,...d,t1,cw); }
+      if (ended) P.push(...d, e, cw); // a plain terminus
+      P.push(...d, nd.t, nd.provenance === 'detected' && !isInf(nd) ? (on ? 5 : 4) : c);
     }
     for (const lk of D.links){
       const a = byId[lk.from], b = byId[lk.to]; if (!a || !b) continue;
@@ -647,7 +656,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
   }
 
   // ---------- labels ----------
-  let labs = [];
+  let labs = [], hoverId = null; // a name hovered in the list always shows
   function buildLabels(){
     labelsEl.innerHTML = ''; labs = D.nodes.map(nd => { const el = document.createElement('div'); el.className = 'lab' + (isInf(nd) ? ' inf' : ''); el.textContent = nd.label; el.onclick = () => pick(nd.id); labelsEl.appendChild(el); return { nd, el }; });
   }
@@ -658,20 +667,20 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
     const r = renderer.domElement.getBoundingClientRect(), show = $('labs').checked, cand = [];
     for (const { nd, el } of labs){
       const d = nodeDir[nd.id], vis = nd.t <= uniforms.tNow.value + 1e-3;
-      // label at the machine's present tip if alive, i.e. on the outer shell
-      const rr = radiusAt(Math.min(uniforms.tNow.value, D.meta.tEnd));
+      // the name sits where the thing began, on its own shell
+      const rr = radiusAt(Math.min(nd.t, uniforms.tNow.value));
       v3.set(d[0]*rr, d[1]*rr, d[2]*rr);
       const cut = uniforms.cutOn.value > .5 && v3.dot(uniforms.cutN.value) > uniforms.cutD.value;
       const facing = v3.clone().normalize().dot(camera.position.clone().normalize()) > -0.15;
-      const onSel = sel === nd.id;
+      const onSel = sel === nd.id || hoverId === nd.id;
       if (!show && !onSel || !vis || cut || !facing){ el.style.display = 'none'; continue; }
       v3.project(camera);
       const inL = !!(sel && lineageSet && lineageSet.has(nd.id));
       el.classList.toggle('sel', inL);
-      cand.push({ el, x:(v3.x+1)/2*r.width, y:(1-v3.y)/2*r.height, pri: onSel ? 0 : inL ? 1 : 2, t: nd.t });
+      cand.push({ el, x:(v3.x+1)/2*r.width, y:(1-v3.y)/2*r.height, pri: onSel ? 0 : inL ? 1 : 2, deg: (children[nd.id]||[]).length, t: nd.t });
     }
-    // names that would overlap an earlier one are dropped; the picked lineage wins, then older machines
-    cand.sort((a,b) => a.pri - b.pri || a.t - b.t);
+    // names that would overlap an earlier one are dropped: the picked lineage wins, then the hubs that led on to most, then the oldest
+    cand.sort((a,b) => a.pri - b.pri || b.deg - a.deg || a.t - b.t);
     const boxes = [];
     for (const c of cand){
       const w = c.el._w || (c.el.style.display = '', c.el._w = c.el.offsetWidth || 60), h = 16;
@@ -692,11 +701,14 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
     }
     const nd = byId[sel], up = []; let x = sel; const seen = new Set();
     while ((parents[x]||[]).length && !seen.has(x)){ seen.add(x); x = parents[x][0]; up.unshift(byId[x].label); }
-    const kids = (children[sel]||[]).map(k => byId[k].label);
+    const kids = (children[sel]||[]).map(k => byId[k].label), kinds = D.meta.linkKinds || {};
+    const from = D.links.filter(l => l.to === sel && byId[l.from]).map(l => '<b class="p">' + esc(byId[l.from].label) + '</b>' +
+      (kinds[l.kind] ? ': ' + esc(kinds[l.kind]) : '') + (l.inferred ? ' <i>(inference)</i>' : ''));
     c.innerHTML = `<h2>${esc(nd.label)}</h2><div class="meta">${nd.provenance === 'detected' ? 'first detected ' : ''}${fmtT(nd.t)}${nd.tEnd != null ? '–' + fmtT(nd.tEnd) : ''} · ${esc(nd.place||'')}${isInf(nd) ? ' · inference' : ''}</div>` +
       (nd.note ? `<p>${esc(nd.note)}</p>` : '') +
-      `<p class="lineage">${up.length ? 'Descends from ' + up.map(esc).join(' → ') + ' → <b>' + esc(nd.label) + '</b>.' : '<b>' + esc(nd.label) + '</b> is a root of this lineage.'}` +
-      (kids.length ? ` Copied by ${kids.map(esc).join(', ')}.` : '') + `</p><div><button type="button" id="bClear">Clear selection</button></div>`;
+      (from.length ? `<p class="from">From ${from.join('; ')}.</p>` : '') +
+      `<p class="lineage">${up.length ? 'Traced back: ' + up.map(esc).join(' → ') + ' → <b>' + esc(nd.label) + '</b>.' : '<b>' + esc(nd.label) + '</b> is a root of this lineage.'}` +
+      (kids.length ? ` Led on to ${kids.map(esc).join(', ')}.` : '') + `</p><div><button type="button" id="bClear">Clear selection</button></div>`;
     $('bClear').onclick = () => pick(null);
   }
   const esc = s => String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
@@ -704,7 +716,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
     const L = $('list'); L.innerHTML = '';
     [...D.nodes].sort((a,b)=>a.t-b.t || a.label.localeCompare(b.label)).forEach(nd => {
       const b = document.createElement('button'); b.type = 'button'; b.className = 'item' + (isInf(nd) ? ' inf' : '');
-      b.innerHTML = `<span class="y">${fmtT(nd.t)}</span><span>${esc(nd.label)}</span>`; b.onclick = () => pick(nd.id); b.dataset.id = nd.id; L.appendChild(b);
+      b.innerHTML = `<span class="y">${fmtT(nd.t)}</span><span>${esc(nd.label)}</span>`; b.onclick = () => pick(nd.id); b.onmouseenter = b.onfocus = () => hoverId = nd.id; b.onmouseleave = b.onblur = () => hoverId = null; b.dataset.id = nd.id; L.appendChild(b);
     });
     syncList();
   }
@@ -744,9 +756,28 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
     let t0 = D.meta.tEnd;
     if (want.t != null){ try { const w = toNum(unit === 'year' || unit === 'yearBP' ? +want.t : want.t); if (w >= D.meta.tStart && w <= D.meta.tEnd) t0 = w; } catch(e){} }
     setT(t0);
+    const lk = Object.values(D.meta.linkKinds || {});
+    $('keyRec').textContent = lk.length === 1 ? 'record: ' + lk[0] : 'record';
+    $('keyInf').textContent = D.nodes.some(n => n.tEnd != null && n.tEnd < D.meta.tEnd) ? 'inference, or a line that has ended' : 'inference, not record';
+    $('keyDet').hidden = !D.nodes.some(n => n.provenance === 'detected');
+    frame0();
     buildLand(); buildLabels(); list();
     const first = [want.pick, D.meta.defaultPick].find(x => x != null && byId[x]);
     pick(first ?? null);
+  }
+  function frame0(){ // face the data; stop turning if it all sits in one region
+    const c = [0,0,0]; for (const n of D.nodes){ const d = nodeDir[n.id]; c[0]+=d[0]; c[1]+=d[1]; c[2]+=d[2]; }
+    const len = Math.hypot(...c); if (len < 1e-6) return;
+    const u = c.map(v => v/len); let spread = 0;
+    for (const n of D.nodes){ const d = nodeDir[n.id]; spread = Math.max(spread, Math.acos(Math.max(-1, Math.min(1, d[0]*u[0]+d[1]*u[1]+d[2]*u[2])))); }
+    // three-quarter view: off the data's centre by ~55°, so the radial lines of time are seen side-on
+    const U = new THREE.Vector3(...u), east = new THREE.Vector3(0,1,0).cross(U); if (east.lengthSq() < 1e-6) east.set(1,0,0); east.normalize();
+    const dist = camera.position.length(), v = U.clone().multiplyScalar(Math.cos(.95)).addScaledVector(east, Math.sin(.95)).add(new THREE.Vector3(0,.25,0)).normalize().multiplyScalar(dist);
+    const regional = spread < 1.2;
+    // a regional dataset is a narrow cone of the globe: orbit the middle of that cone, close in; a global one, the centre
+    controls.target.copy(regional ? U.clone().multiplyScalar(.5) : new THREE.Vector3());
+    camera.position.copy(regional ? controls.target.clone().add(v.normalize().multiplyScalar(1.7 + spread)) : v); controls.update();
+    $('spin').checked = !reduce && !regional; controls.autoRotate = $('spin').checked;
   }
   function setT(v){ uniforms.tNow.value = v; $('oT').textContent = fmtT(v); $('yearTag').textContent = 'present · ' + fmtT(v); $('tnow').value = v; if (byId) syncList(); }
 
@@ -760,7 +791,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
   }
 
   // ---------- the catalog ----------
-  const EMBEDDED = { id:'ias', title:'The IAS machine family, 1946–1960', data:() => JSON.parse($('data-default').textContent) };
+  const EMBEDDED = { id:'ias', title:'The IAS machine family, 1946–1960', why:"The storyboard named it in 2007–08: “Computer graphing of computer spread is ideal. Each computer was local to a position in spacetime and the design (genotype) spread through clear lines of transmission.” The IAS design is a clean case. Its reports were circulated deliberately, and its copies are dated, placed and documented. BESM appears on some lists of IAS-family machines but was an independent Soviet design, so it is shown and flagged rather than left out.", data:() => JSON.parse($('data-default').textContent) };
   let catalog = [EMBEDDED], base = null;
   async function fetchJSON(url){ const r = await fetch(url, { cache:'no-cache' }); if (!r.ok) throw new Error(r.status + ' ' + url); return r.json(); }
   async function openCatalog(){
@@ -778,12 +809,13 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
     catch(x){ if (e.id === EMBEDDED.id){ data = EMBEDDED.data(); } else throw x; }
     load(data, e.id, e.id === id ? want : {});
     $('ds').value = e.id; $('dsBlurb').textContent = e.blurb || '';
+    $('why').textContent = e.why || ''; $('whyBox').hidden = !e.why;
   }
   $('ds').addEventListener('change', e => openDataset(e.target.value).catch(x => { $('err').hidden = false; $('err').textContent = 'Could not open that dataset: ' + x.message; }));
 
   $('file').addEventListener('change', e => {
     const f = e.target.files[0]; if (!f) return; const rd = new FileReader();
-    rd.onload = () => { try { load(JSON.parse(rd.result)); $('ds').value = ''; $('dsBlurb').textContent = f.name; $('err').hidden = true; } catch(x){ $('err').hidden = false; $('err').textContent = 'Could not load that file: ' + x.message; } };
+    rd.onload = () => { try { load(JSON.parse(rd.result)); $('ds').value = ''; $('dsBlurb').textContent = f.name; $('whyBox').hidden = true; $('err').hidden = true; } catch(x){ $('err').hidden = false; $('err').textContent = 'Could not load that file: ' + x.message; } };
     rd.readAsText(f);
   });
 

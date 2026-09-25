@@ -13,6 +13,10 @@ The first dataset is the IAS machine family (#8), in [`data/ias-machine-lineage/
 - **Labels.** Names sit at each node's present tip. When names would overlap, the picked lineage wins, then older nodes.
 - **Time.** A slider and a Play button run the lineage forward from its start. Nodes not yet built are hidden.
 - **Cutaway.** An optional oblique cut facing the viewer shows the shells in section.
+- **Framing.** Each dataset opens in a three-quarter view of its own region, so the radial lines of time are seen side-on. A regional dataset (all within about 70° of arc, like the spread of printing) is orbited from the middle of its cone and does not turn by itself. A global one is orbited from the centre.
+- **Names.** Each name sits where its node began, on its own shell. When names would overlap, the picked lineage wins, then the hubs that led on to most, then the oldest. Hovering an entry in the list always shows its name.
+- **Endings and detection.** A node with `tEnd` has its line stop there, with a plain terminus, drawn grey (the convention's "lines that ended") unless it is in the picked lineage. A node with `"provenance": "detected"` is drawn as an open ring, and its card says "first detected". The key shows these entries only when the dataset uses them.
+- **The card** lists every parent with the kind of link (from the dataset's `linkKinds`), traces the line back to its root, and names what it led on to.
 - **Datasets.** A picker lists the datasets in [`data/catalog.json`](../../data/catalog.json), fetched from `/data/` on the site (or `../../data/` in a checkout). The IAS family is also embedded in the page, so it still opens offline or from a file.
 - **Permalinks.** The address bar keeps `?d=<dataset>&pick=<node>&t=<date>`, so a link reopens the same lineage at the same moment.
 - **Your own data.** Load any JSON file in the v1 format: [`docs/data-format.md`](../../docs/data-format.md). Dates may be years, months, days or years before present, and a node with `tEnd` stops there.
