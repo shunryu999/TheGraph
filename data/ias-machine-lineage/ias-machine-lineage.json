@@ -1,4 +1,5 @@
 {
+ "format": 1,
  "meta": {
   "title": "The IAS machine family, 1946–1960",
   "unit": "year",
@@ -9,7 +10,11 @@
    "Wikipedia, 'IAS machine' (list of IAS-derived machines), retrieved 22 Sept 2026",
    "Wikipedia, 'ILLIAC I', 'BESK', 'JOHNNIAC', retrieved 22 Sept 2026"
   ],
-  "caveats": "Years are first-operational years, rounded; several machines ran partially a year before formal completion. BESM is listed among IAS-family machines in some sources but was an independent Soviet design, so its link is marked as inference. SEAC, which also appears in some IAS lists, followed the EDVAC design and is left out. Machines copied directly from the IAS design are linked to the 1946 design reports rather than to the finished machine, since several ran before it did."
+  "caveats": "Years are first-operational years, rounded; several machines ran partially a year before formal completion. BESM is listed among IAS-family machines in some sources but was an independent Soviet design, so its link is marked as inference. SEAC, which also appears in some IAS lists, followed the EDVAC design and is left out. Machines copied directly from the IAS design are linked to the 1946 design reports rather than to the finished machine, since several ran before it did.",
+  "defaultPick": "illiac",
+  "linkKinds": {
+   "copy": "a design copied"
+  }
  },
  "nodes": [
   {
@@ -224,92 +229,114 @@
  "links": [
   {
    "from": "design",
-   "to": "ias"
+   "to": "ias",
+   "kind": "copy"
   },
   {
    "from": "design",
-   "to": "ordvac"
+   "to": "ordvac",
+   "kind": "copy"
   },
   {
    "from": "ordvac",
-   "to": "illiac"
+   "to": "illiac",
+   "kind": "copy"
   },
   {
    "from": "design",
-   "to": "maniac"
+   "to": "maniac",
+   "kind": "copy"
   },
   {
    "from": "design",
-   "to": "ibm701"
+   "to": "ibm701",
+   "kind": "copy"
   },
   {
    "from": "design",
-   "to": "johnniac"
+   "to": "johnniac",
+   "kind": "copy"
   },
   {
    "from": "design",
-   "to": "avidac"
+   "to": "avidac",
+   "kind": "copy"
   },
   {
    "from": "design",
-   "to": "oracle"
+   "to": "oracle",
+   "kind": "copy"
   },
   {
    "from": "design",
-   "to": "besk"
+   "to": "besk",
+   "kind": "copy"
   },
   {
    "from": "design",
    "to": "besm",
+   "kind": "copy",
    "inferred": true
   },
   {
    "from": "design",
-   "to": "circle"
+   "to": "circle",
+   "kind": "copy"
   },
   {
    "from": "design",
-   "to": "weizac"
+   "to": "weizac",
+   "kind": "copy"
   },
   {
    "from": "design",
-   "to": "perm"
+   "to": "perm",
+   "kind": "copy"
   },
   {
    "from": "illiac",
-   "to": "silliac"
+   "to": "silliac",
+   "kind": "copy"
   },
   {
    "from": "besk",
-   "to": "smil"
+   "to": "smil",
+   "kind": "copy"
   },
   {
    "from": "besk",
-   "to": "facit"
+   "to": "facit",
+   "kind": "copy"
   },
   {
    "from": "besk",
-   "to": "sara"
+   "to": "sara",
+   "kind": "copy"
   },
   {
    "from": "illiac",
-   "to": "mistic"
+   "to": "mistic",
+   "kind": "copy"
   },
   {
    "from": "avidac",
-   "to": "george"
+   "to": "george",
+   "kind": "copy"
   },
   {
    "from": "besk",
-   "to": "dask"
+   "to": "dask",
+   "kind": "copy"
   },
   {
    "from": "illiac",
-   "to": "cyclone"
+   "to": "cyclone",
+   "kind": "copy"
   },
   {
    "from": "design",
-   "to": "tifrac"
+   "to": "tifrac",
+   "kind": "copy"
   }
  ]
 }

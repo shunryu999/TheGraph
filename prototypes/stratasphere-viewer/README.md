@@ -13,18 +13,14 @@ The first dataset is the IAS machine family (#8), in [`data/ias-machine-lineage/
 - **Labels.** Names sit at each node's present tip. When names would overlap, the picked lineage wins, then older nodes.
 - **Time.** A slider and a Play button run the lineage forward from its start. Nodes not yet built are hidden.
 - **Cutaway.** An optional oblique cut facing the viewer shows the shells in section.
-- **Your own data.** Load any JSON file of the form below.
-
-```json
-{"meta": {"title": "", "tStart": 0, "tEnd": 0, "description": "", "sources": [], "caveats": ""},
- "nodes": [{"id": "", "label": "", "lat": 0, "lng": 0, "t": 0, "place": "", "note": "", "inferred": false}],
- "links": [{"from": "", "to": "", "inferred": false}]}
-```
+- **Datasets.** A picker lists the datasets in [`data/catalog.json`](../../data/catalog.json), fetched from `/data/` on the site (or `../../data/` in a checkout). The IAS family is also embedded in the page, so it still opens offline or from a file.
+- **Permalinks.** The address bar keeps `?d=<dataset>&pick=<node>&t=<date>`, so a link reopens the same lineage at the same moment.
+- **Your own data.** Load any JSON file in the v1 format: [`docs/data-format.md`](../../docs/data-format.md). Dates may be years, months, days or years before present, and a node with `tEnd` stops there.
 
 ## Dependencies
 
-three.js r128 (cdnjs) and OrbitControls (jsDelivr). The dataset and land outlines are embedded in the page. There is no build step.
+three.js r128 (cdnjs) and OrbitControls (jsDelivr). Land outlines are embedded in the page. There is no build step.
 
 ## Next
 
-Species (#17, a Paleobiology Database extract), manuscripts and editions (#15), and software forks all fit this schema unchanged.
+The build-out to MVP is planned in [`docs/stratasphere-viewer-roadmap.md`](../../docs/stratasphere-viewer-roadmap.md): the spread of printing, SARS-CoV-2 variants and the Unix family, then hominin fossils.

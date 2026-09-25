@@ -19,10 +19,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Check datasets
+        run: python3 tools/validate.py --catalog data/catalog.json
       - name: Assemble site
         run: |
           mkdir -p _site
           cp -r site/. _site/
+          mkdir -p _site/data && cp -r data/. _site/data/
           for d in prototypes/*/; do
             name=$(basename "$d")
             if [ -f "$d/index.html" ]; then mkdir -p "_site/$name" && cp -r "$d". "_site/$name/"; fi

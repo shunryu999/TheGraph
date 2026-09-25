@@ -2,6 +2,8 @@
 
 *Drawn from the Twigzistence Reader (through the Storyboarding and Ontograph notebooks), the Recapitulation, the Gleanings, the Illustration Brief, and the Notebook Intake Log. Compiled 22 Sept 2026.*
 
+> **Current priority (25 Sept 2026):** building out the Stratasphere Viewer (#11) to MVP, with three new case studies: the spread of printing, SARS-CoV-2 variants and the Unix family. See [`stratasphere-viewer-roadmap.md`](stratasphere-viewer-roadmap.md).
+
 Projects run from the lowest-hanging fruit down to the heavy lifts. Each one names the thread in the archive it comes from, what it produces, and what it needs first. Effort is a rough guess at focused work: **S** = a day or two, **M** = one to three weeks, **L** = one to three months, **XL** = a season or more, or a team.
 
 ## At a glance

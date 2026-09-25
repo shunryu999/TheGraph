@@ -15,14 +15,9 @@ Taken from the *Illustration Brief* for the Recapitulation plates, so the protot
 - **No** gradients, glows, starfields or 3D gloss. Inference is drawn hatched or grey, never as record.
 - **The present** is always outermost. **The inner shells are not smaller; they are farther.**
 
-## Data (draft)
+## Data
 
-Every prototype should be able to read the same two things:
-
-- **timestep**: `{ t, label, cells|points: [...], provenance, inferred: bool }`
-- **worldline link**: `{ from: {t, id}, to: {t, id}, kind: "persist" | "birth" | "copy" | "descent" }`
-
-This will be firmed up for the stratasphere viewer (roadmap #11).
+Lineage datasets use the v1 format in [`data-format.md`](data-format.md): nodes placed in space and time, and links saying what came from what. Check a file with `python3 tools/validate.py`.
 
 ## Commit messages
 
