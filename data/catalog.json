@@ -1,0 +1,12 @@
+{
+ "format": 1,
+ "datasets": [
+  {
+   "id": "ias",
+   "path": "ias-machine-lineage/ias-machine-lineage.json",
+   "title": "The IAS machine family, 1946–1960",
+   "span": "1946–1960",
+   "blurb": "Every copy of von Neumann’s computer, placed where and when it first ran. Its design reports were circulated freely, so the family spread by copying."
+  }
+ ]
+}

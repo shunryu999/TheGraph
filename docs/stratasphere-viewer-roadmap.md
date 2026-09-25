@@ -29,7 +29,7 @@ These are the limits the case studies run into. Each is fixed in the milestone t
 
 Effort uses the roadmap's scale: **S** = a day or two, **M** = one to three weeks.
 
-### M0 · Data format v1 and a catalog (S)
+### M0 · Data format v1 and a catalog (S) — done 25 Sept 2026
 
 The format in `conventions.md` is still a draft. Settle it as v1, backward compatible with the IAS file.
 

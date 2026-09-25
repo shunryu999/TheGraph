@@ -77,14 +77,17 @@ button.primary{background:var(--ink);color:var(--ground)}
 button:hover{border-color:var(--accent)}
 button:focus-visible,input:focus-visible,.item:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .list{display:grid;gap:0;max-height:300px;overflow:auto;border-top:1px solid var(--rule)}
-.item{display:grid;grid-template-columns:4.5ch 1fr;gap:10px;padding:5px 2px;border-bottom:1px solid var(--rule);font-size:15px;cursor:pointer;background:none;border-left:0;border-right:0;border-top:0;text-align:left;color:var(--ink);border-radius:0}
+.item{display:grid;grid-template-columns:var(--ycol,4.5ch) 1fr;gap:10px;padding:5px 2px;border-bottom:1px solid var(--rule);font-size:15px;cursor:pointer;background:none;border-left:0;border-right:0;border-top:0;text-align:left;color:var(--ink);border-radius:0}
 .item .y{font-family:var(--mono);font-size:13px;color:var(--grey);padding-top:2px}
 .item.inf{color:var(--grey);font-style:italic}
 .item.sel{color:var(--accent)}
 .item.future{opacity:.4}
+select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);border:1px solid var(--rule);border-radius:2px;padding:5px 6px;max-width:100%}
+.blurb{font-size:14px;color:var(--grey);margin:0}
 .file{font-size:14px;color:var(--ink-2)}
 .file input{font:inherit;font-size:13px;max-width:100%}
 .err{color:var(--accent);font-size:14px;margin:0}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .notes{margin-top:34px;border-top:1px solid var(--rule);padding-top:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px}
 .notes h2{font-size:15px;font-weight:500;font-variant:small-caps;letter-spacing:.12em;color:var(--grey);margin:0 0 6px}
 .notes p{margin:0;font-size:16px;color:var(--ink-2);max-width:62ch}
@@ -119,6 +122,13 @@ button:focus-visible,input:focus-visible,.item:focus-visible{outline:2px solid v
     </div>
 
     <aside>
+      <fieldset class="pick-ds">
+        <legend>Dataset</legend>
+        <label for="ds" class="sr">Choose a dataset</label>
+        <select id="ds"></select>
+        <p class="blurb" id="dsBlurb"></p>
+      </fieldset>
+
       <div class="card" id="card"></div>
 
       <fieldset>
@@ -159,12 +169,13 @@ button:focus-visible,input:focus-visible,.item:focus-visible{outline:2px solid v
     </div>
     <div>
       <h2>The format</h2>
-      <p><code>{"meta":{"title","tStart","tEnd","description"}, "nodes":[{"id","label","lat","lng","t","place","note","inferred"}], "links":[{"from","to","inferred"}]}</code>. Any lineage with places and dates can be loaded the same way: species, manuscripts, editions, software forks.</p>
+      <p><code>{"meta":{"title","unit","tStart","tEnd"}, "nodes":[{"id","label","lat","lng","t","tEnd","provenance"}], "links":[{"from","to","kind","inferred"}]}</code>. Dates may be years, months, days or years before present. Any lineage with places and dates can be loaded the same way: species, manuscripts, editions, software forks. The full format is in <a href="https://github.com/shunryu999/TheGraph/blob/main/docs/data-format.md">data-format.md</a>.</p>
     </div>
   </section>
 </div>
 
 <script type="application/json" id="data-default">{
+ "format": 1,
  "meta": {
   "title": "The IAS machine family, 1946–1960",
   "unit": "year",
@@ -175,7 +186,11 @@ button:focus-visible,input:focus-visible,.item:focus-visible{outline:2px solid v
    "Wikipedia, 'IAS machine' (list of IAS-derived machines), retrieved 22 Sept 2026",
    "Wikipedia, 'ILLIAC I', 'BESK', 'JOHNNIAC', retrieved 22 Sept 2026"
   ],
-  "caveats": "Years are first-operational years, rounded; several machines ran partially a year before formal completion. BESM is listed among IAS-family machines in some sources but was an independent Soviet design, so its link is marked as inference. SEAC, which also appears in some IAS lists, followed the EDVAC design and is left out. Machines copied directly from the IAS design are linked to the 1946 design reports rather than to the finished machine, since several ran before it did."
+  "caveats": "Years are first-operational years, rounded; several machines ran partially a year before formal completion. BESM is listed among IAS-family machines in some sources but was an independent Soviet design, so its link is marked as inference. SEAC, which also appears in some IAS lists, followed the EDVAC design and is left out. Machines copied directly from the IAS design are linked to the 1946 design reports rather than to the finished machine, since several ran before it did.",
+  "defaultPick": "illiac",
+  "linkKinds": {
+   "copy": "a design copied"
+  }
  },
  "nodes": [
   {
@@ -390,92 +405,114 @@ button:focus-visible,input:focus-visible,.item:focus-visible{outline:2px solid v
  "links": [
   {
    "from": "design",
-   "to": "ias"
+   "to": "ias",
+   "kind": "copy"
   },
   {
    "from": "design",
-   "to": "ordvac"
+   "to": "ordvac",
+   "kind": "copy"
   },
   {
    "from": "ordvac",
-   "to": "illiac"
+   "to": "illiac",
+   "kind": "copy"
   },
   {
    "from": "design",
-   "to": "maniac"
+   "to": "maniac",
+   "kind": "copy"
   },
   {
    "from": "design",
-   "to": "ibm701"
+   "to": "ibm701",
+   "kind": "copy"
   },
   {
    "from": "design",
-   "to": "johnniac"
+   "to": "johnniac",
+   "kind": "copy"
   },
   {
    "from": "design",
-   "to": "avidac"
+   "to": "avidac",
+   "kind": "copy"
   },
   {
    "from": "design",
-   "to": "oracle"
+   "to": "oracle",
+   "kind": "copy"
   },
   {
    "from": "design",
-   "to": "besk"
+   "to": "besk",
+   "kind": "copy"
   },
   {
    "from": "design",
    "to": "besm",
+   "kind": "copy",
    "inferred": true
   },
   {
    "from": "design",
-   "to": "circle"
+   "to": "circle",
+   "kind": "copy"
   },
   {
    "from": "design",
-   "to": "weizac"
+   "to": "weizac",
+   "kind": "copy"
   },
   {
    "from": "design",
-   "to": "perm"
+   "to": "perm",
+   "kind": "copy"
   },
   {
    "from": "illiac",
-   "to": "silliac"
+   "to": "silliac",
+   "kind": "copy"
   },
   {
    "from": "besk",
-   "to": "smil"
+   "to": "smil",
+   "kind": "copy"
   },
   {
    "from": "besk",
-   "to": "facit"
+   "to": "facit",
+   "kind": "copy"
   },
   {
    "from": "besk",
-   "to": "sara"
+   "to": "sara",
+   "kind": "copy"
   },
   {
    "from": "illiac",
-   "to": "mistic"
+   "to": "mistic",
+   "kind": "copy"
   },
   {
    "from": "avidac",
-   "to": "george"
+   "to": "george",
+   "kind": "copy"
   },
   {
    "from": "besk",
-   "to": "dask"
+   "to": "dask",
+   "kind": "copy"
   },
   {
    "from": "illiac",
-   "to": "cyclone"
+   "to": "cyclone",
+   "kind": "copy"
   },
   {
    "from": "design",
-   "to": "tifrac"
+   "to": "tifrac",
+   "kind": "copy"
   }
  ]
 }</script>
@@ -508,7 +545,7 @@ button:focus-visible,input:focus-visible,.item:focus-visible{outline:2px solid v
     uniform float tNow, tStart, grad, R, psize; varying float vCls; varying vec3 vPos; varying float vHide; varying float vF;
     void main(){
       vHide = gen > tNow + 0.001 ? 1.0 : 0.0;
-      float age = clamp((tNow - gen) / max(tNow - tStart, 1.0), 0.0, 1.0);
+      float age = clamp((tNow - gen) / max(tNow - tStart, 1e-6), 0.0, 1.0);
       float f = grad < 0.01 ? age : (1.0 - exp(-grad*age)) / (1.0 - exp(-grad));
       float r = R * (1.0 - f) * 0.94 + R * 0.06;
       vec3 p = normalize(dir) * r; vPos = p; vCls = cls; vF = f;
@@ -536,7 +573,37 @@ button:focus-visible,input:focus-visible,.item:focus-visible{outline:2px solid v
   function slerp(a,b,t){ const d = Math.max(-1,Math.min(1,a[0]*b[0]+a[1]*b[1]+a[2]*b[2])), w = Math.acos(d);
     if (w < 1e-4) return a.slice(); const s = Math.sin(w), k1 = Math.sin((1-t)*w)/s, k2 = Math.sin(t*w)/s; return [a[0]*k1+b[0]*k2, a[1]*k1+b[1]*k2, a[2]*k1+b[2]*k2]; }
 
-  let D, byId, parents, children, nodeDir, sel = null, objs = [], landObj = null;
+  let D, byId, parents, children, nodeDir, sel = null, objs = [], landObj = null, dsId = null;
+
+  // ---------- time: every unit becomes a decimal year (years BP become negative) ----------
+  const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  let unit = 'year';
+  function toNum(t){
+    if (unit === 'year') { if (typeof t !== 'number') throw new Error(`${JSON.stringify(t)} should be a number`); return t; }
+    if (unit === 'yearBP') { if (typeof t !== 'number') throw new Error(`${JSON.stringify(t)} should be a number of years BP`); return -t; }
+    const m = /^(-?\d{1,6})-(\d{2})(?:-(\d{2}))?$/.exec(String(t));
+    if (!m || (unit === 'day') !== (m[3] !== undefined)) throw new Error(`${JSON.stringify(t)} is not a ${unit === 'day' ? 'YYYY-MM-DD' : 'YYYY-MM'} date`);
+    const y = +m[1], mo = +m[2];
+    if (unit === 'month') return y + (mo - 1)/12;
+    const d0 = Date.UTC(2001, 0, 1), d1 = Date.UTC(2001, mo - 1, +m[3]); // day of year, in a common year
+    return y + ((d1 - d0)/864e5 + (mo > 2 && (y%4===0 && (y%100!==0 || y%400===0)) ? 1 : 0))/365.25;
+  }
+  function fmtT(x){
+    if (unit === 'year') return String(Math.round(x));
+    if (unit === 'yearBP'){ const a = -x; return a >= 1e6 ? (a/1e6).toFixed(a >= 1e7 ? 0 : 1) + ' Ma' : a >= 1e4 ? Math.round(a/1e3) + ' ka' : Math.round(a) + ' BP'; }
+    const y = Math.floor(x + 1e-9), f = x - y;
+    if (unit === 'month') return MON[Math.min(11, Math.round(f*12))] + ' ' + y;
+    const d = new Date(Date.UTC(2001, 0, 1) + Math.round(f*365.25)*864e5); return d.getUTCDate() + ' ' + MON[d.getUTCMonth()] + ' ' + y;
+  }
+  function rawT(x){ // back to the file's own notation, for permalinks
+    if (unit === 'year') return String(Math.round(x));
+    if (unit === 'yearBP') return String(Math.round(-x));
+    const y = Math.floor(x + 1e-9), f = x - y, p = n => String(n).padStart(2, '0');
+    if (unit === 'month') return y + '-' + p(Math.min(12, Math.round(f*12) + 1));
+    const d = new Date(Date.UTC(2001, 0, 1) + Math.round(f*365.25)*864e5); return y + '-' + p(d.getUTCMonth()+1) + '-' + p(d.getUTCDate());
+  }
+  const stepOf = span => ({ year:1, month:1/12, day:1/365.25 })[unit] || span/1000;
+  const isInf = nd => nd.provenance ? nd.provenance === 'inferred' : !!nd.inferred;
 
   function geo(verts){ // verts: [dir3, gen, cls]*
     const n = verts.length/5, g = new THREE.BufferGeometry(), dir = new Float32Array(3*n), gen = new Float32Array(n), cls = new Float32Array(n);
@@ -547,8 +614,8 @@ button:focus-visible,input:focus-visible,.item:focus-visible{outline:2px solid v
   }
   function buildLand(){
     if (landObj){ scene.remove(landObj); landObj.geometry.dispose(); }
-    const v = [], span = D.meta.tEnd - D.meta.tStart, step = Math.max(1, Math.round(span/16));
-    for (let y = D.meta.tStart; y <= D.meta.tEnd; y += step) for (const r of LAND) for (let i=0;i+3<r.length;i+=2){ const a = ll(r[i+1],r[i]), b = ll(r[i+3],r[i+2]); v.push(...a,y,0,...b,y,0); }
+    const v = [], span = D.meta.tEnd - D.meta.tStart, n = Math.max(1, Math.min(16, Math.round(span / stepOf(span))));
+    for (let k = 0; k <= n; k++){ const y = D.meta.tStart + span*k/n; for (const r of LAND) for (let i=0;i+3<r.length;i+=2){ const a = ll(r[i+1],r[i]), b = ll(r[i+3],r[i+2]); v.push(...a,y,0,...b,y,0); } }
     landObj = new THREE.LineSegments(geo(v), matL); landObj.frustumCulled = false; scene.add(landObj);
   }
   function lineageOf(id){ // ancestors and descendants of the picked node
@@ -563,14 +630,14 @@ button:focus-visible,input:focus-visible,.item:focus-visible{outline:2px solid v
     const L = [], P = [];
     const clsOf = (inf, on) => on ? 2 : inf ? 3 : 1;
     for (const nd of D.nodes){
-      const d = nodeDir[nd.id], on = S && S.has(nd.id), c = clsOf(nd.inferred, on);
-      // the machine's worldline: from its first year out to the present
-      const n = 12; for (let k=0;k<n;k++){ const t0 = nd.t + (tE-nd.t)*k/n, t1 = nd.t + (tE-nd.t)*(k+1)/n; L.push(...d,t0,c,...d,t1,c); }
+      const d = nodeDir[nd.id], on = S && S.has(nd.id), c = clsOf(isInf(nd), on), e = Math.min(tE, nd.tEnd ?? tE);
+      // the worldline: from when it began out to when it ended, or to the present
+      const n = 12; for (let k=0;k<n;k++){ const t0 = nd.t + (e-nd.t)*k/n, t1 = nd.t + (e-nd.t)*(k+1)/n; L.push(...d,t0,c,...d,t1,c); }
       P.push(...d, nd.t, c);
     }
     for (const lk of D.links){
       const a = byId[lk.from], b = byId[lk.to]; if (!a || !b) continue;
-      const on = S && S.has(a.id) && S.has(b.id), c = clsOf(lk.inferred || b.inferred, on);
+      const on = S && S.has(a.id) && S.has(b.id), c = clsOf(lk.inferred || isInf(b), on);
       const da = nodeDir[a.id], db = nodeDir[b.id], ta = Math.min(a.t, b.t), tb = b.t, n = 32;
       for (let k=0;k<n;k++){ const u0=k/n, u1=(k+1)/n; L.push(...slerp(da,db,u0), ta+(tb-ta)*u0, c, ...slerp(da,db,u1), ta+(tb-ta)*u1, c); }
     }
@@ -582,10 +649,10 @@ button:focus-visible,input:focus-visible,.item:focus-visible{outline:2px solid v
   // ---------- labels ----------
   let labs = [];
   function buildLabels(){
-    labelsEl.innerHTML = ''; labs = D.nodes.map(nd => { const el = document.createElement('div'); el.className = 'lab' + (nd.inferred ? ' inf' : ''); el.textContent = nd.label; el.onclick = () => pick(nd.id); labelsEl.appendChild(el); return { nd, el }; });
+    labelsEl.innerHTML = ''; labs = D.nodes.map(nd => { const el = document.createElement('div'); el.className = 'lab' + (isInf(nd) ? ' inf' : ''); el.textContent = nd.label; el.onclick = () => pick(nd.id); labelsEl.appendChild(el); return { nd, el }; });
   }
   const radiusAt = t => { const tn = uniforms.tNow.value, ts = uniforms.tStart.value, g = uniforms.grad.value;
-    const age = Math.min(1, Math.max(0, (tn - t)/Math.max(tn - ts, 1))); const f = g < .01 ? age : (1-Math.exp(-g*age))/(1-Math.exp(-g)); return R*(1-f)*.94 + R*.06; };
+    const age = Math.min(1, Math.max(0, (tn - t)/Math.max(tn - ts, 1e-6))); const f = g < .01 ? age : (1-Math.exp(-g*age))/(1-Math.exp(-g)); return R*(1-f)*.94 + R*.06; };
   const v3 = new THREE.Vector3();
   function placeLabels(){
     const r = renderer.domElement.getBoundingClientRect(), show = $('labs').checked, cand = [];
@@ -619,14 +686,14 @@ button:focus-visible,input:focus-visible,.item:focus-visible{outline:2px solid v
   function card(){
     const c = $('card');
     if (!sel){
-      c.innerHTML = `<h2>${esc(D.meta.title)}</h2><div class="meta">${D.nodes.length} nodes · ${D.links.length} links · ${D.meta.tStart}–${D.meta.tEnd}</div>` +
+      c.innerHTML = `<h2>${esc(D.meta.title)}</h2><div class="meta">${D.nodes.length} nodes · ${D.links.length} links · ${fmtT(D.meta.tStart)}–${fmtT(D.meta.tEnd)}</div>` +
         (D.meta.caveats ? `<p>${esc(D.meta.caveats)}</p>` : '') + (D.meta.sources ? `<p class="meta">Sources: ${D.meta.sources.map(esc).join('; ')}</p>` : '');
       return;
     }
     const nd = byId[sel], up = []; let x = sel; const seen = new Set();
     while ((parents[x]||[]).length && !seen.has(x)){ seen.add(x); x = parents[x][0]; up.unshift(byId[x].label); }
     const kids = (children[sel]||[]).map(k => byId[k].label);
-    c.innerHTML = `<h2>${esc(nd.label)}</h2><div class="meta">${nd.t} · ${esc(nd.place||'')}${nd.inferred ? ' · inference' : ''}</div>` +
+    c.innerHTML = `<h2>${esc(nd.label)}</h2><div class="meta">${nd.provenance === 'detected' ? 'first detected ' : ''}${fmtT(nd.t)}${nd.tEnd != null ? '–' + fmtT(nd.tEnd) : ''} · ${esc(nd.place||'')}${isInf(nd) ? ' · inference' : ''}</div>` +
       (nd.note ? `<p>${esc(nd.note)}</p>` : '') +
       `<p class="lineage">${up.length ? 'Descends from ' + up.map(esc).join(' → ') + ' → <b>' + esc(nd.label) + '</b>.' : '<b>' + esc(nd.label) + '</b> is a root of this lineage.'}` +
       (kids.length ? ` Copied by ${kids.map(esc).join(', ')}.` : '') + `</p><div><button type="button" id="bClear">Clear selection</button></div>`;
@@ -636,42 +703,94 @@ button:focus-visible,input:focus-visible,.item:focus-visible{outline:2px solid v
   function list(){
     const L = $('list'); L.innerHTML = '';
     [...D.nodes].sort((a,b)=>a.t-b.t || a.label.localeCompare(b.label)).forEach(nd => {
-      const b = document.createElement('button'); b.type = 'button'; b.className = 'item' + (nd.inferred ? ' inf' : '');
-      b.innerHTML = `<span class="y">${nd.t}</span><span>${esc(nd.label)}</span>`; b.onclick = () => pick(nd.id); b.dataset.id = nd.id; L.appendChild(b);
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'item' + (isInf(nd) ? ' inf' : '');
+      b.innerHTML = `<span class="y">${fmtT(nd.t)}</span><span>${esc(nd.label)}</span>`; b.onclick = () => pick(nd.id); b.dataset.id = nd.id; L.appendChild(b);
     });
     syncList();
   }
   function syncList(){ for (const b of $('list').children){ const nd = byId[b.dataset.id]; b.classList.toggle('sel', !!(lineageSet && lineageSet.has(nd.id))); b.classList.toggle('future', nd.t > uniforms.tNow.value); } }
-  function pick(id){ sel = id; lineageSet = id ? lineageOf(id) : null; buildGraph(); card(); syncList(); }
+  function pick(id){ sel = id; lineageSet = id ? lineageOf(id) : null; buildGraph(); card(); syncList(); saveURL(); }
 
   // ---------- loading ----------
-  function load(data){
-    if (!data || !Array.isArray(data.nodes) || !data.nodes.length) throw new Error('The file needs a "nodes" array.');
-    for (const n of data.nodes) if (n.id==null || typeof n.lat!=='number' || typeof n.lng!=='number' || typeof n.t!=='number') throw new Error('Every node needs id, lat, lng and t (a number).');
+  function load(src, id = null, want = {}){
+    if (!src || !Array.isArray(src.nodes) || !src.nodes.length) throw new Error('The file needs a "nodes" array.');
+    const data = JSON.parse(JSON.stringify(src)); // the file stays as written; the viewer works in decimal years
     data.links = data.links || []; data.meta = data.meta || {};
-    const ts = data.nodes.map(n=>n.t);
-    data.meta.tStart = data.meta.tStart ?? Math.min(...ts); data.meta.tEnd = data.meta.tEnd ?? Math.max(...ts);
+    const u = data.meta.unit || 'year';
+    if (!['year','month','day','yearBP'].includes(u)) throw new Error(`Unknown unit "${u}".`);
+    const prev = unit; unit = u; // the dates convert in the new unit; on any error the old dataset keeps its own
+    try {
+      for (const n of data.nodes){
+        if (n.id==null || typeof n.lat!=='number' || typeof n.lng!=='number' || n.t==null) throw new Error('Every node needs id, lat, lng and t.');
+        n.t = toNum(n.t); if (n.tEnd != null) n.tEnd = toNum(n.tEnd);
+        if (n.label == null) n.label = String(n.id);
+      }
+      const ts = data.nodes.map(n=>n.t);
+      data.meta.tStart = data.meta.tStart != null ? toNum(data.meta.tStart) : Math.min(...ts);
+      data.meta.tEnd = data.meta.tEnd != null ? toNum(data.meta.tEnd) : Math.max(...ts);
+    } catch(x){ unit = prev; throw x; }
     data.meta.title = data.meta.title || 'Untitled lineage';
+    dsId = id;
     D = data; byId = {}; parents = {}; children = {}; nodeDir = {};
     for (const n of D.nodes){ byId[n.id] = n; nodeDir[n.id] = ll(n.lat, n.lng); }
     for (const l of D.links){ (parents[l.to] = parents[l.to]||[]).push(l.from); (children[l.from] = children[l.from]||[]).push(l.to); }
     sel = null; lineageSet = null;
     $('title').textContent = D.meta.title; $('desc').textContent = D.meta.description || '';
-    const t = $('tnow'); t.min = D.meta.tStart; t.max = D.meta.tEnd; t.step = 1; t.value = D.meta.tEnd;
-    uniforms.tStart.value = D.meta.tStart; setT(D.meta.tEnd);
-    buildLand(); buildGraph(); buildLabels(); card(); list();
+    const span = D.meta.tEnd - D.meta.tStart, t = $('tnow');
+    t.min = D.meta.tStart; t.max = D.meta.tEnd; t.step = stepOf(span); t.value = D.meta.tEnd;
+    document.documentElement.style.setProperty('--ycol', ({year:'4.5ch', month:'8ch', day:'11ch', yearBP:'7ch'})[unit]);
+    uniforms.tStart.value = D.meta.tStart;
+    $('list').innerHTML = ''; labs = []; labelsEl.innerHTML = '';
+    let t0 = D.meta.tEnd;
+    if (want.t != null){ try { const w = toNum(unit === 'year' || unit === 'yearBP' ? +want.t : want.t); if (w >= D.meta.tStart && w <= D.meta.tEnd) t0 = w; } catch(e){} }
+    setT(t0);
+    buildLand(); buildLabels(); list();
+    const first = [want.pick, D.meta.defaultPick].find(x => x != null && byId[x]);
+    pick(first ?? null);
   }
-  function setT(v){ uniforms.tNow.value = v; $('oT').textContent = Math.round(v); $('yearTag').textContent = 'present · ' + Math.round(v); $('tnow').value = v; if (byId) syncList(); }
+  function setT(v){ uniforms.tNow.value = v; $('oT').textContent = fmtT(v); $('yearTag').textContent = 'present · ' + fmtT(v); $('tnow').value = v; if (byId) syncList(); }
+
+  // ---------- permalinks: ?d=<dataset>&pick=<id>&t=<date> ----------
+  function saveURL(){
+    if (!D) return;
+    const q = new URLSearchParams();
+    if (dsId){ q.set('d', dsId); if (sel) q.set('pick', sel); if (uniforms.tNow.value < D.meta.tEnd - 1e-9) q.set('t', rawT(uniforms.tNow.value)); }
+    const url = location.pathname + (q.toString() ? '?' + q : '');
+    try { history.replaceState(null, '', url); } catch(e){}
+  }
+
+  // ---------- the catalog ----------
+  const EMBEDDED = { id:'ias', title:'The IAS machine family, 1946–1960', data:() => JSON.parse($('data-default').textContent) };
+  let catalog = [EMBEDDED], base = null;
+  async function fetchJSON(url){ const r = await fetch(url, { cache:'no-cache' }); if (!r.ok) throw new Error(r.status + ' ' + url); return r.json(); }
+  async function openCatalog(){
+    for (const b of ['../data/', '../../data/']){ // published site, then a checkout of the repo
+      try { const c = await fetchJSON(b + 'catalog.json'); if (Array.isArray(c.datasets) && c.datasets.length){ catalog = c.datasets; base = b; break; } } catch(e){}
+    }
+    const s = $('ds'); s.innerHTML = '';
+    for (const e of catalog){ const o = document.createElement('option'); o.value = e.id; o.textContent = e.title || e.id; s.appendChild(o); }
+    const f = document.createElement('option'); f.value = ''; f.textContent = 'A file you load'; f.disabled = true; f.id = 'dsFile'; s.appendChild(f);
+  }
+  async function openDataset(id, want = {}){
+    const e = catalog.find(x => x.id === id) || catalog[0];
+    let data;
+    try { data = e.data ? e.data() : await fetchJSON(base + e.path); }
+    catch(x){ if (e.id === EMBEDDED.id){ data = EMBEDDED.data(); } else throw x; }
+    load(data, e.id, e.id === id ? want : {});
+    $('ds').value = e.id; $('dsBlurb').textContent = e.blurb || '';
+  }
+  $('ds').addEventListener('change', e => openDataset(e.target.value).catch(x => { $('err').hidden = false; $('err').textContent = 'Could not open that dataset: ' + x.message; }));
 
   $('file').addEventListener('change', e => {
     const f = e.target.files[0]; if (!f) return; const rd = new FileReader();
-    rd.onload = () => { try { load(JSON.parse(rd.result)); $('err').hidden = true; } catch(x){ $('err').hidden = false; $('err').textContent = 'Could not load that file: ' + x.message; } };
+    rd.onload = () => { try { load(JSON.parse(rd.result)); $('ds').value = ''; $('dsBlurb').textContent = f.name; $('err').hidden = true; } catch(x){ $('err').hidden = false; $('err').textContent = 'Could not load that file: ' + x.message; } };
     rd.readAsText(f);
   });
 
   // ---------- controls ----------
   let playing = false, playT = 0;
   $('tnow').addEventListener('input', e => { playing = false; $('bPlay').textContent = 'Play'; setT(+e.target.value); });
+  $('tnow').addEventListener('change', saveURL);
   $('bPlay').onclick = () => {
     playing = !playing; $('bPlay').textContent = playing ? 'Pause' : 'Play';
     if (playing && uniforms.tNow.value >= D.meta.tEnd) setT(D.meta.tStart);
@@ -691,7 +810,7 @@ button:focus-visible,input:focus-visible,.item:focus-visible{outline:2px solid v
   let last = performance.now();
   function frame(now){
     const dt = Math.min(.1,(now-last)/1000); last = now;
-    if (playing){ const v = Math.min(D.meta.tEnd, uniforms.tNow.value + dt * Math.max(1,(D.meta.tEnd-D.meta.tStart)/12)); setT(v); if (v >= D.meta.tEnd){ playing=false; $('bPlay').textContent='Play'; } }
+    if (playing && D){ const v = Math.min(D.meta.tEnd, uniforms.tNow.value + dt * (D.meta.tEnd-D.meta.tStart)/12); setT(v); if (v >= D.meta.tEnd){ playing=false; $('bPlay').textContent='Play'; saveURL(); } }
     const eye = camera.position.clone().normalize();
     uniforms.cutN.value.copy(eye).addScaledVector(camera.up, .75).normalize();
     ring.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0), eye);
@@ -699,9 +818,11 @@ button:focus-visible,input:focus-visible,.item:focus-visible{outline:2px solid v
     requestAnimationFrame(frame);
   }
   theme(); size();
-  load(JSON.parse($('data-default').textContent));
-  pick('illiac');
+  const q = new URLSearchParams(location.search);
+  load(EMBEDDED.data(), EMBEDDED.id); // draw at once; the catalog may replace it a moment later
   requestAnimationFrame(frame);
+  openCatalog().then(() => openDataset(q.get('d') || catalog[0].id, { pick:q.get('pick'), t:q.get('t') }))
+    .catch(x => { $('err').hidden = false; $('err').textContent = 'Could not open that dataset: ' + x.message; });
 })();
 </script>
 
