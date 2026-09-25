@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 360" width="540pt" height="360pt" role="img"><style>@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;1,400&amp;display=swap');text{font-family:'EB Garamond', 'Iowan Old Style', Palatino, Georgia, serif}</style><defs><mask id="h" maskUnits="userSpaceOnUse" x="0" y="0" width="540" height="360"><rect width="540" height="360" fill="#fff"/><circle cx="270" cy="238" r="7.8" fill="#000"/></mask></defs><rect width="540" height="360" fill="#FAF7F0"/>
+<path d="M70 238L470 238" fill="none" stroke="#141414" stroke-width="0.25" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="470" y="232" text-anchor="end" fill="#141414" style="font-variant-caps:all-small-caps;letter-spacing:.12em;font-size:9.5px">the plane of the page</text>
+<path d="M270 238C203.04 171.04 178 88 270 88C362 88 336.96 171.04 270 238" fill="none" stroke="#141414" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" mask="url(#h)"/>
+<path d="M270 238C254 254 222 266 188 266L92 266" fill="none" stroke="#141414" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" mask="url(#h)"/>
+<path d="M270 238C286 254 318 266 352 266L448 266" fill="none" stroke="#141414" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" mask="url(#h)"/>
+<text x="86" y="269" text-anchor="end" fill="#141414" style="font-variant-caps:all-small-caps;letter-spacing:.12em;font-size:9.5px">infinity</text>
+<text x="454" y="269" text-anchor="start" fill="#141414" style="font-variant-caps:all-small-caps;letter-spacing:.12em;font-size:9.5px">infinity</text>
+<circle cx="270" cy="238" r="6.0" fill="none" stroke="#141414" stroke-width="0.6" stroke-dasharray="1.6 1.5"/>
+<text x="270" y="288" text-anchor="middle" fill="#141414" style="font-variant-caps:all-small-caps;letter-spacing:.12em;font-size:9.5px">singularity</text>
+<path d="M272.59 86.12L270 88L272.59 89.88" fill="none" stroke="#141414" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="270" y="79" text-anchor="middle" fill="#141414" style="font-style:italic;font-size:8.5px">the flow of time</text>
+</svg>
