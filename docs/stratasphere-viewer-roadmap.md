@@ -90,7 +90,7 @@ The format in `conventions.md` is still a draft. Settle it as v1, backward compa
 These are the parts of the original #11 spec still unbuilt. They land once the three datasets exist to test them on.
 
 - **Hatched inference shells.** When a stretch of time is reconstructed rather than recorded (declared in `meta.inferredSpans`), its shells are drawn with the 45° hatch, grey, never as record.
-- **The reader's worldline in vermilion.** The viewer chooses a place (by typing a city, or by the browser's location with permission). A vermilion line runs from that point on the present shell back into the dataset to the nearest node, so the reader can see where they stand in relation to the lineage. This is the only use of vermilion other than the picked lineage.
+- **The reader's worldline in vermilion.** The reader chooses a place (by typing a city, or by the browser's location with permission). A vermilion line runs from that point on the present shell back into the dataset to the nearest node, so the reader can see where they stand in relation to the lineage. This is the only use of vermilion other than the picked lineage.
 - **Export.** A PNG of the current view at print resolution, and a short turntable clip for talks.
 - **Accessibility and performance.** The list stays a full text equivalent of the figure, with keyboard navigation for scrubbing and picking. The target is 2,000 nodes at 60 fps on a mid-range laptop, which means a spatial index for picking and instanced points.
 
@@ -120,8 +120,8 @@ M0 format + catalog ─┬─ M1 printing ─┐
 
 M1–M3 can overlap once M0 is in. Each is shipped as its own pull request with its dataset, its `SOURCE.md` and the viewer changes it needs.
 
-## Decisions for you
+## Decisions (settled 25 Sept 2026)
 
-1. **Where the datasets are published.** Recommended: change `pages.yml` to copy `data/` into the site, so there is one copy of each dataset and every future prototype can read them. The alternative is duplicating each JSON into the viewer folder.
-2. **The reader's worldline (M4).** Should it attach to a place the reader chooses, or to the reader's own entry in a dataset (e.g. "my town's first press")? The first works for every dataset; the second is more personal but dataset-specific.
-3. **SARS-CoV-2 framing.** The data will say *first detected in*, never *originated in*, and will avoid naming variants after places, following WHO practice. Confirm that's the tone you want for a public page.
+1. **Datasets are published from `data/`.** `pages.yml` copies `data/` into the site, so there is one copy of each dataset and any prototype can read it.
+2. **The reader chooses where their vermilion line attaches.** It attaches to a place the reader picks (a typed city, or the browser's location with permission), so it works with every dataset.
+3. **SARS-CoV-2 says "first detected in", never "originated in",** and variants are not named after places.
