@@ -25,7 +25,7 @@ This repo holds the buildable parts: prototypes, datasets, specs and the public 
 | 8 | [IAS machine family](data/ias-machine-lineage/): 23 machines, 1946–1960, placed and dated with sources | First version |
 | 11 | [Stratasphere viewer](prototypes/stratasphere-viewer/): any dated, geolocated lineage as nested shells | First version |
 
-The full ranked list is in [`docs/roadmap.md`](docs/roadmap.md).
+The full ranked list is in [`docs/roadmap.md`](docs/roadmap.md). The current priority is taking the Stratasphere viewer to MVP: see [`docs/stratasphere-viewer-roadmap.md`](docs/stratasphere-viewer-roadmap.md).
 
 ## Publishing
 
