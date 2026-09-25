@@ -52,6 +52,8 @@ h1{font-weight:500;font-size:clamp(34px,5vw,48px);line-height:1.05;margin:0;lett
 .key span{display:inline-flex;align-items:center;gap:8px}
 .key i{display:inline-block;width:26px;height:0;border-top:1.6px solid var(--ink)}
 .key i.inf{border-top:1.2px dashed var(--grey)}
+.key [hidden]{display:none}
+.key i.ring{width:9px;height:9px;border:1.6px solid var(--ink);border-radius:50%;border-top-width:1.6px}
 .key i.red{border-top:2.2px solid var(--accent)}
 .key i.land{border-top:1px solid var(--land)}
 .hint{font-size:14px;color:var(--grey);margin:0}
@@ -117,9 +119,10 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
       <p class="claim">The inner shells are not smaller. They are farther.</p>
       <div class="key" aria-hidden="true">
         <span><i></i><span id="keyRec">record</span></span>
-        <span><i class="inf"></i>inference, not record</span>
+        <span><i class="inf"></i><span id="keyInf">inference, not record</span></span>
+        <span id="keyDet" hidden><i class="ring"></i>first detected here, not where it began</span>
         <span><i class="red"></i>the lineage you picked</span>
-        <span><i class="land"></i>the Earth, one shell per year</span>
+        <span><i class="land"></i>the Earth, redrawn through time</span>
       </div>
       <p class="hint">Drag to turn, scroll or pinch to zoom. Move the time slider: each year becomes the outer shell in turn, and earlier years sink inward. Click a name to see where it came from and what came from it.</p>
     </div>
@@ -542,7 +545,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
     cInk:{value:new THREE.Color()}, cGrey:{value:new THREE.Color()}, cAcc:{value:new THREE.Color()}, cLand:{value:new THREE.Color()},
     cutOn:{value:0}, cutN:{value:new THREE.Vector3(0,0,1)}, cutD:{value:.1}, psize:{value:4}
   };
-  // cls: 0 land · 1 record · 2 selected · 3 inference
+  // cls: 0 land · 1 record · 2 selected · 3 inference, or a line that ended · 4 first detected here (ring) · 5 detected, selected
   const vs = `
     attribute vec3 dir; attribute float gen; attribute float cls;
     uniform float tNow, tStart, grad, R, psize; varying float vCls; varying vec3 vPos; varying float vHide; varying float vF;
@@ -553,7 +556,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
       float r = R * (1.0 - f) * 0.94 + R * 0.06;
       vec3 p = normalize(dir) * r; vPos = p; vCls = cls; vF = f;
       vec4 mv = modelViewMatrix * vec4(p, 1.0); gl_Position = projectionMatrix * mv;
-      gl_PointSize = psize * (cls > 1.5 && cls < 2.5 ? 1.35 : 1.0) * (0.45 + 0.55*(1.0-f)) * (3.4 / -mv.z);
+      gl_PointSize = psize * ((cls > 1.5 && cls < 2.5) || cls > 4.5 ? 1.35 : 1.0) * (cls > 3.5 ? 1.25 : 1.0) * (0.45 + 0.55*(1.0-f)) * (3.4 / -mv.z);
     }`;
   const fs = pt => `
     uniform vec3 cInk, cGrey, cAcc, cLand; uniform float cutOn, cutD; uniform vec3 cutN;
@@ -563,6 +566,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
       if (cutOn > 0.5 && dot(vPos, cutN) > cutD) discard;
       ${pt ? 'vec2 q = gl_PointCoord - 0.5; if (dot(q,q) > 0.25) discard;' : ''}
       if (vCls < 0.5) { gl_FragColor = vec4(cLand, 0.55 * (0.25 + 0.75*(1.0-vF))); return; }
+      ${pt ? 'if (vCls > 3.5) { vec2 r = gl_PointCoord - 0.5; if (dot(r,r) < 0.085) discard; gl_FragColor = vec4(vCls > 4.5 ? cAcc : cInk, 1.0); return; }' : ''}
       if (vCls < 1.5) { gl_FragColor = vec4(cInk, 0.9); return; }
       if (vCls < 2.5) { gl_FragColor = vec4(cAcc, 1.0); return; }
       gl_FragColor = vec4(cGrey, 0.8);
@@ -634,9 +638,11 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
     const clsOf = (inf, on) => on ? 2 : inf ? 3 : 1;
     for (const nd of D.nodes){
       const d = nodeDir[nd.id], on = S && S.has(nd.id), c = clsOf(isInf(nd), on), e = Math.min(tE, nd.tEnd ?? tE);
+      const ended = nd.tEnd != null && nd.tEnd < tE, cw = ended && !on ? 3 : c; // a line that ended is drawn grey
       // the worldline: from when it began out to when it ended, or to the present
-      const n = 12; for (let k=0;k<n;k++){ const t0 = nd.t + (e-nd.t)*k/n, t1 = nd.t + (e-nd.t)*(k+1)/n; L.push(...d,t0,c,...d,t1,c); }
-      P.push(...d, nd.t, c);
+      const n = 12; for (let k=0;k<n;k++){ const t0 = nd.t + (e-nd.t)*k/n, t1 = nd.t + (e-nd.t)*(k+1)/n; L.push(...d,t0,cw,...d,t1,cw); }
+      if (ended) P.push(...d, e, cw); // a plain terminus
+      P.push(...d, nd.t, nd.provenance === 'detected' && !isInf(nd) ? (on ? 5 : 4) : c);
     }
     for (const lk of D.links){
       const a = byId[lk.from], b = byId[lk.to]; if (!a || !b) continue;
@@ -752,6 +758,8 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
     setT(t0);
     const lk = Object.values(D.meta.linkKinds || {});
     $('keyRec').textContent = lk.length === 1 ? 'record: ' + lk[0] : 'record';
+    $('keyInf').textContent = D.nodes.some(n => n.tEnd != null && n.tEnd < D.meta.tEnd) ? 'inference, or a line that has ended' : 'inference, not record';
+    $('keyDet').hidden = !D.nodes.some(n => n.provenance === 'detected');
     frame0();
     buildLand(); buildLabels(); list();
     const first = [want.pick, D.meta.defaultPick].find(x => x != null && byId[x]);

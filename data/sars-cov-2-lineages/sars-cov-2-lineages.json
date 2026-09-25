@@ -1,0 +1,905 @@
+{
+ "format": 1,
+ "meta": {
+  "title": "SARS-CoV-2 lineages, 2019–2026",
+  "unit": "month",
+  "tStart": "2019-12",
+  "tEnd": "2026-09",
+  "description": "Every Nextstrain clade of SARS-CoV-2, from the first sequences in Wuhan to the lineages of 2026, each placed where its Pango designation says it was first detected and linked to the clade it descends from.",
+  "sources": [
+   "Nextstrain, ncov defaults (clade_emergence_dates, clade_hierarchy, clade_display_names), commit 36481bc, MIT licence",
+   "Pango lineage designations, lineage_notes.txt and alias_key.json, commit 40adc91, CC BY 4.0",
+   "WHO, tracking SARS-CoV-2 variants: reclassification of Alpha, Beta, Gamma (9 March 2022) and Delta (7 June 2022) as previously circulating",
+   "E. B. Hodcroft et al., 'Spread of a SARS-CoV-2 variant through Europe in the summer of 2020', Nature 595 (2021), for 20E in Spain"
+  ],
+  "caveats": "Places are where a lineage was first detected or described, never where it arose. They come from the Pango designation note; a country is drawn at its geographic centre. Where the note names only a region, or nothing, the place is marked inference and drawn at the region's centre or at the parent's place. Dates are the month of the first sequence in Nextstrain's curation. A line ends where WHO reclassified the variant as previously circulating; that is not extinction. Recombinants are joined to both parent clades.",
+  "defaultPick": "24A",
+  "linkKinds": {
+   "descent": "descends from it",
+   "merge": "one parent of a recombinant"
+  },
+  "licence": "CC BY 4.0 (compilation), from MIT and CC BY 4.0 sources"
+ },
+ "nodes": [
+  {
+   "id": "19A",
+   "label": "B",
+   "place": "Wuhan, China",
+   "lat": 30.593,
+   "lng": 114.305,
+   "t": "2019-12",
+   "provenance": "detected",
+   "note": "Nextstrain clade 19A, Pango B. First sequence 2019-12 (Nextstrain). Pango note: “One of the two original haplotypes of the pandemic(and first to be discovered)”"
+  },
+  {
+   "id": "19B",
+   "label": "A",
+   "place": "Wuhan, China",
+   "lat": 30.593,
+   "lng": 114.305,
+   "t": "2019-12",
+   "provenance": "detected",
+   "note": "Nextstrain clade 19B, Pango A. First sequence 2019-12 (Nextstrain). Pango note: “One of the two original haplotypes of the pandemic (A and B). Many sequences originating from China and many global exports; including to South East Asia Japan South Korea Australia the USA and Europe represented in this lineage”"
+  },
+  {
+   "id": "20A",
+   "label": "B.1",
+   "place": "Northern Italy",
+   "lat": 45.6,
+   "lng": 9.8,
+   "t": "2020-01",
+   "provenance": "detected",
+   "note": "Nextstrain clade 20A, Pango B.1. First sequence 2020-01 (Nextstrain). Pango note: “A large European lineage the origin of which roughly corresponds to the Northern Italian outbreak early in 2020.”"
+  },
+  {
+   "id": "20B",
+   "label": "B.1.1",
+   "place": "Europe (the record names only the region)",
+   "lat": 50.0,
+   "lng": 10.0,
+   "t": "2020-02",
+   "provenance": "inferred",
+   "note": "Nextstrain clade 20B, Pango B.1.1. First sequence 2020-02 (Nextstrain). Pango note: “European lineage with 3 clear SNPs `28881GA`,`28882GA`,`28883GC`”"
+  },
+  {
+   "id": "20C",
+   "label": "20C",
+   "place": "not recorded; drawn at the place of its parent, B.1",
+   "lat": 45.6,
+   "lng": 9.8,
+   "t": "2020-02",
+   "provenance": "inferred",
+   "note": "Nextstrain clade 20C. First sequence 2020-02 (Nextstrain)."
+  },
+  {
+   "id": "20D",
+   "label": "C.1",
+   "place": "South Africa",
+   "lat": -29.0,
+   "lng": 25.1,
+   "t": "2020-03",
+   "provenance": "detected",
+   "note": "Nextstrain clade 20D, Pango C.1. First sequence 2020-03 (Nextstrain). Pango note: “Alias of B.1.1.1.1, South Africa, from #2”"
+  },
+  {
+   "id": "20E",
+   "label": "B.1.177",
+   "place": "Spain",
+   "lat": 40.2,
+   "lng": -3.6,
+   "t": "2020-05",
+   "provenance": "detected",
+   "note": "Nextstrain clade 20E, Pango B.1.177. First sequence 2020-05 (Nextstrain). Pango note: “Major mostly European lineage, result of opening borders summer 2020”"
+  },
+  {
+   "id": "20F",
+   "label": "D.2",
+   "place": "Australia",
+   "lat": -25.3,
+   "lng": 133.8,
+   "t": "2020-05",
+   "provenance": "detected",
+   "note": "Nextstrain clade 20F, Pango D.2. First sequence 2020-05 (Nextstrain). Pango note: “Alias of B.1.1.25.2, Australia”"
+  },
+  {
+   "id": "20G",
+   "label": "B.1.2",
+   "place": "United States",
+   "lat": 39.8,
+   "lng": -98.6,
+   "t": "2020-06",
+   "provenance": "detected",
+   "note": "Nextstrain clade 20G, Pango B.1.2. First sequence 2020-06 (Nextstrain). Pango note: “USA”"
+  },
+  {
+   "id": "20H",
+   "label": "Beta",
+   "place": "South Africa",
+   "lat": -29.0,
+   "lng": 25.1,
+   "t": "2020-08",
+   "provenance": "detected",
+   "note": "Nextstrain clade 20H, Pango B.1.351. First sequence 2020-08 (Nextstrain). Pango note: “Lineage of concern detected in South Africa” WHO reclassified it as previously circulating in 2022-03.",
+   "tEnd": "2022-03"
+  },
+  {
+   "id": "20I",
+   "label": "Alpha",
+   "place": "United Kingdom",
+   "lat": 54.0,
+   "lng": -2.5,
+   "t": "2020-09",
+   "provenance": "detected",
+   "note": "Nextstrain clade 20I, Pango B.1.1.7. First sequence 2020-09 (Nextstrain). Pango note: “UK lineage of concern, associated with the N501Y mutation. More information can be found at cov-lineages.org/global_report.html” WHO reclassified it as previously circulating in 2022-03.",
+   "tEnd": "2022-03"
+  },
+  {
+   "id": "20J",
+   "label": "Gamma",
+   "place": "Brazil",
+   "lat": -10.8,
+   "lng": -52.9,
+   "t": "2020-10",
+   "provenance": "detected",
+   "note": "Nextstrain clade 20J, Pango P.1. First sequence 2020-10 (Nextstrain). Pango note: “Alias of B.1.1.28.1, Brazilian lineage with a number of spike mutations with likely functional significance E484K, K417T, and N501Y. Described in https://virological.org/t/genomic-characterisation-of-an-emergent-sars-cov-2-lineage-in-manaus-preliminary-findings/586, from #77” WHO reclassified it as previously circulating in 2022-03.",
+   "tEnd": "2022-03"
+  },
+  {
+   "id": "21A",
+   "label": "Delta",
+   "place": "India",
+   "lat": 22.4,
+   "lng": 79.0,
+   "t": "2020-10",
+   "provenance": "detected",
+   "note": "Nextstrain clade 21A, Pango B.1.617.2. First sequence 2020-10 (Nextstrain). Pango note: “Predominantly India lineage with several spike mutations, from #49” WHO reclassified it as previously circulating in 2022-06.",
+   "tEnd": "2022-06"
+  },
+  {
+   "id": "21B",
+   "label": "Kappa",
+   "place": "India",
+   "lat": 22.4,
+   "lng": 79.0,
+   "t": "2020-10",
+   "provenance": "detected",
+   "note": "Nextstrain clade 21B, Pango B.1.617.1. First sequence 2020-10 (Nextstrain). Pango note: “Predominantly India lineage with 484Q, from #49”"
+  },
+  {
+   "id": "21C",
+   "label": "Epsilon",
+   "place": "California, United States",
+   "lat": 37.2,
+   "lng": -119.5,
+   "t": "2020-08",
+   "provenance": "detected",
+   "note": "Nextstrain clade 21C, Pango B.1.427. First sequence 2020-08 (Nextstrain). Pango note: “USA lineage (CA)”"
+  },
+  {
+   "id": "21D",
+   "label": "Eta",
+   "place": "not recorded; drawn at the place of its parent, B.1",
+   "lat": 45.6,
+   "lng": 9.8,
+   "t": "2020-11",
+   "provenance": "inferred",
+   "note": "Nextstrain clade 21D, Pango B.1.525. First sequence 2020-11 (Nextstrain). Pango note: “International lineage with E484K, del69-70 among other defining mutations, from #4”"
+  },
+  {
+   "id": "21E",
+   "label": "Theta",
+   "place": "Philippines",
+   "lat": 12.9,
+   "lng": 121.8,
+   "t": "2021-01",
+   "provenance": "detected",
+   "note": "Nextstrain clade 21E, Pango P.3. First sequence 2021-01 (Nextstrain). Pango note: “Alias of B.1.1.28.3, Lineage predominantly in the Philippines with spike mutations E484K, N501Y, P681H, 141-143del. Described in Tablizo et al 2021: https://www.medrxiv.org/content/10.1101/2021.03.03.21252812v2, from #27”"
+  },
+  {
+   "id": "21F",
+   "label": "Iota",
+   "place": "New York, United States",
+   "lat": 40.71,
+   "lng": -74.01,
+   "t": "2020-11",
+   "provenance": "detected",
+   "note": "Nextstrain clade 21F, Pango B.1.526. First sequence 2020-11 (Nextstrain). Pango note: “A lineage predominantly circulating in New York but with a few exports to other countries. Characterised by spike mutations T95I and D253G, plus others. The most frequent spike mutation pattern is L5F T95I D253G E484K D614G A701V, with a smaller fraction having S477N instead of E484K. Spike mutation E484K is present in about half of this lineage (as of 2021-02-10) - Very possible not all new additions carry T95I and D253G (someone should check this, e.g. for USA/NY-Wadsworth-21008455-01/2021 and Aruba/AW-RIVM-11403/2021), from #6”"
+  },
+  {
+   "id": "21G",
+   "label": "Lambda",
+   "place": "Peru",
+   "lat": -9.2,
+   "lng": -75.0,
+   "t": "2021-01",
+   "provenance": "detected",
+   "note": "Nextstrain clade 21G, Pango C.37. First sequence 2021-01 (Nextstrain). Pango note: “Alias of B.1.1.1.37, lineage in Peru, Chile, USA and Germany, from #52”"
+  },
+  {
+   "id": "21H",
+   "label": "Mu",
+   "place": "Colombia",
+   "lat": 3.9,
+   "lng": -73.1,
+   "t": "2021-01",
+   "provenance": "detected",
+   "note": "Nextstrain clade 21H, Pango B.1.621. First sequence 2021-01 (Nextstrain). Pango note: “Lineage predominantly in Colombia with several spike mutations, from #57”"
+  },
+  {
+   "id": "21I",
+   "label": "Delta (21I)",
+   "place": "not recorded; drawn at the place of its parent, Delta",
+   "lat": 22.4,
+   "lng": 79.0,
+   "t": "2020-10",
+   "provenance": "inferred",
+   "note": "Nextstrain clade 21I, WHO Delta. First sequence 2020-10 (Nextstrain). WHO reclassified it as previously circulating in 2022-06.",
+   "tEnd": "2022-06"
+  },
+  {
+   "id": "21J",
+   "label": "Delta (21J)",
+   "place": "not recorded; drawn at the place of its parent, Delta",
+   "lat": 22.4,
+   "lng": 79.0,
+   "t": "2020-10",
+   "provenance": "inferred",
+   "note": "Nextstrain clade 21J, WHO Delta. First sequence 2020-10 (Nextstrain). WHO reclassified it as previously circulating in 2022-06.",
+   "tEnd": "2022-06"
+  },
+  {
+   "id": "21M",
+   "label": "Omicron",
+   "place": "South Africa",
+   "lat": -29.0,
+   "lng": 25.1,
+   "t": "2021-09",
+   "provenance": "detected",
+   "note": "Nextstrain clade 21M, Pango B.1.1.529. First sequence 2021-09 (Nextstrain). Pango note: “South Africa and Botswana lineage, from #343”"
+  },
+  {
+   "id": "21K",
+   "label": "BA.1",
+   "place": "not recorded; drawn at the place of its parent, Omicron",
+   "lat": -29.0,
+   "lng": 25.1,
+   "t": "2021-09",
+   "provenance": "inferred",
+   "note": "Nextstrain clade 21K, Pango BA.1. First sequence 2021-09 (Nextstrain). Pango note: “Alias of B.1.1.529.1, from #361”"
+  },
+  {
+   "id": "21L",
+   "label": "BA.2",
+   "place": "not recorded; drawn at the place of its parent, Omicron",
+   "lat": -29.0,
+   "lng": 25.1,
+   "t": "2021-09",
+   "provenance": "inferred",
+   "note": "Nextstrain clade 21L, Pango BA.2. First sequence 2021-09 (Nextstrain). Pango note: “Alias of B.1.1.529.2, from #361”"
+  },
+  {
+   "id": "22A",
+   "label": "BA.4",
+   "place": "not recorded; drawn at the place of its parent, BA.2",
+   "lat": -29.0,
+   "lng": 25.1,
+   "t": "2021-12",
+   "provenance": "inferred",
+   "note": "Nextstrain clade 22A, Pango BA.4. First sequence 2021-12 (Nextstrain). Pango note: “Alias of B.1.1.529.4, from #517”"
+  },
+  {
+   "id": "22B",
+   "label": "BA.5",
+   "place": "not recorded; drawn at the place of its parent, BA.2",
+   "lat": -29.0,
+   "lng": 25.1,
+   "t": "2021-12",
+   "provenance": "inferred",
+   "note": "Nextstrain clade 22B, Pango BA.5. First sequence 2021-12 (Nextstrain). Pango note: “Alias of B.1.1.529.5, from #517”"
+  },
+  {
+   "id": "22C",
+   "label": "BA.2.12.1",
+   "place": "United States",
+   "lat": 39.8,
+   "lng": -98.6,
+   "t": "2021-12",
+   "provenance": "detected",
+   "note": "Nextstrain clade 22C, Pango BA.2.12.1. First sequence 2021-12 (Nextstrain). Pango note: “Alias of B.1.1.529.2.12.1, USA and Canada lineage, from #499”"
+  },
+  {
+   "id": "22D",
+   "label": "BA.2.75",
+   "place": "India",
+   "lat": 22.4,
+   "lng": 79.0,
+   "t": "2022-04",
+   "provenance": "detected",
+   "note": "Nextstrain clade 22D, Pango BA.2.75. First sequence 2022-04 (Nextstrain). Pango note: “Alias of B.1.1.529.2.75, mainly found in India, from #773”"
+  },
+  {
+   "id": "22E",
+   "label": "BQ.1",
+   "place": "Nigeria",
+   "lat": 9.1,
+   "lng": 8.7,
+   "t": "2022-07",
+   "provenance": "detected",
+   "note": "Nextstrain clade 22E, Pango BQ.1. First sequence 2022-07 (Nextstrain). Pango note: “Alias of B.1.1.529.5.3.1.1.1.1.1, Nigeria lineage, from #993”"
+  },
+  {
+   "id": "22F",
+   "label": "XBB",
+   "place": "United States",
+   "lat": 39.8,
+   "lng": -98.6,
+   "t": "2022-07",
+   "provenance": "detected",
+   "note": "Nextstrain clade 22F, Pango XBB. First sequence 2022-07 (Nextstrain). Pango note: “Recombinant lineage of BJ.1 and BM.1.1.1 with breakpoint in S1, found in USA and Singapore, from #1058”"
+  },
+  {
+   "id": "23A",
+   "label": "XBB.1.5",
+   "place": "United States",
+   "lat": 39.8,
+   "lng": -98.6,
+   "t": "2022-10",
+   "provenance": "detected",
+   "note": "Nextstrain clade 23A, Pango XBB.1.5. First sequence 2022-10 (Nextstrain). Pango note: “USA, S:F486P”"
+  },
+  {
+   "id": "23B",
+   "label": "XBB.1.16",
+   "place": "India",
+   "lat": 22.4,
+   "lng": 79.0,
+   "t": "2022-11",
+   "provenance": "detected",
+   "note": "Nextstrain clade 23B, Pango XBB.1.16. First sequence 2022-11 (Nextstrain). Pango note: “Defined by S:E180V, S:478R, found in India, USA, Singapore, and Europe, from #1723”"
+  },
+  {
+   "id": "23C",
+   "label": "CH.1.1",
+   "place": "not recorded; drawn at the place of its parent, BA.2.75",
+   "lat": 22.4,
+   "lng": 79.0,
+   "t": "2022-06",
+   "provenance": "inferred",
+   "note": "Nextstrain clade 23C, Pango CH.1.1. First sequence 2022-06 (Nextstrain). Pango note: “Alias of B.1.1.529.2.75.3.4.1.1.1.1, defined by S:L452R, from #1113”"
+  },
+  {
+   "id": "23D",
+   "label": "XBB.1.9",
+   "place": "not recorded; drawn at the place of its parent, XBB",
+   "lat": 39.8,
+   "lng": -98.6,
+   "t": "2022-08",
+   "provenance": "inferred",
+   "note": "Nextstrain clade 23D, Pango XBB.1.9. First sequence 2022-08 (Nextstrain). Pango note: “ORF1a:G1819S, ORF1a:T4175I, on ORF9b:I5T branch”"
+  },
+  {
+   "id": "23E",
+   "label": "XBB.2.3",
+   "place": "India",
+   "lat": 22.4,
+   "lng": 79.0,
+   "t": "2022-10",
+   "provenance": "detected",
+   "note": "Nextstrain clade 23E, Pango XBB.2.3. First sequence 2022-10 (Nextstrain). Pango note: “Defined by S:P521S and S:S486P, India/Indonesia/Singapore/USA, from #1603 and #1535”"
+  },
+  {
+   "id": "23F",
+   "label": "EG.5.1",
+   "place": "not recorded; drawn at the place of its parent, XBB.1.9",
+   "lat": 39.8,
+   "lng": -98.6,
+   "t": "2023-01",
+   "provenance": "inferred",
+   "note": "Nextstrain clade 23F, Pango EG.5.1. First sequence 2023-01 (Nextstrain). Pango note: “Alias of XBB.1.9.2.5.1, S:Q52H”"
+  },
+  {
+   "id": "23G",
+   "label": "XBB.1.5.70",
+   "place": "Brazil",
+   "lat": -10.8,
+   "lng": -52.9,
+   "t": "2023-01",
+   "provenance": "detected",
+   "note": "Nextstrain clade 23G, Pango XBB.1.5.70. First sequence 2023-01 (Nextstrain). Pango note: “S:L455F (G22927T), S:F456L (T22928C), ORF1a:A4068S, Brazil, from #1982”"
+  },
+  {
+   "id": "23H",
+   "label": "HK.3",
+   "place": "China",
+   "lat": 35.9,
+   "lng": 104.2,
+   "t": "2023-03",
+   "provenance": "detected",
+   "note": "Nextstrain clade 23H, Pango HK.3. First sequence 2023-03 (Nextstrain). Pango note: “Alias of XBB.1.9.2.5.1.1.3, S:L455F (G22927T), China, from sars-cov-2-variants/lineage-proposals#414”"
+  },
+  {
+   "id": "23I",
+   "label": "BA.2.86",
+   "place": "not recorded; drawn at the place of its parent, BA.2",
+   "lat": -29.0,
+   "lng": 25.1,
+   "t": "2023-04",
+   "provenance": "inferred",
+   "note": "Nextstrain clade 23I, Pango BA.2.86. First sequence 2023-04 (Nextstrain). Pango note: “Alias of B.1.1.529.2.86, from #2183”"
+  },
+  {
+   "id": "24A",
+   "label": "JN.1",
+   "place": "Europe (the record names only the region)",
+   "lat": 50.0,
+   "lng": 10.0,
+   "t": "2023-07",
+   "provenance": "inferred",
+   "note": "Nextstrain clade 24A, Pango JN.1. First sequence 2023-07 (Nextstrain). Pango note: “Alias of B.1.1.529.2.86.1.1, S:L455S, ORF1a:R3821K, ORF7b:F19L, Europe”"
+  },
+  {
+   "id": "24B",
+   "label": "JN.1.11.1",
+   "place": "India",
+   "lat": 22.4,
+   "lng": 79.0,
+   "t": "2023-11",
+   "provenance": "detected",
+   "note": "Nextstrain clade 24B, Pango JN.1.11.1. First sequence 2023-11 (Nextstrain). Pango note: “Alias of B.1.1.529.2.86.1.1.11.1, S:F456L (T22928C), after ORF1a:T2283I, India, from sars-cov-2-variants/lineage-proposals#1253”"
+  },
+  {
+   "id": "24C",
+   "label": "KP.3",
+   "place": "not recorded; drawn at the place of its parent, JN.1.11.1",
+   "lat": 22.4,
+   "lng": 79.0,
+   "t": "2023-12",
+   "provenance": "inferred",
+   "note": "Nextstrain clade 24C, Pango KP.3. First sequence 2023-12 (Nextstrain). Pango note: “Alias of B.1.1.529.2.86.1.1.11.1.3, S:Q493E, from sars-cov-2-variants/lineage-proposals#1410”"
+  },
+  {
+   "id": "24D",
+   "label": "XDV.1",
+   "place": "Hong Kong",
+   "lat": 22.32,
+   "lng": 114.17,
+   "t": "2024-01",
+   "provenance": "detected",
+   "note": "Nextstrain clade 24D, Pango XDV.1. First sequence 2024-01 (Nextstrain). Pango note: “S:F456L (T22930A), on C11572T branch, Hong Kong”"
+  },
+  {
+   "id": "24E",
+   "label": "KP.3.1.1",
+   "place": "not recorded; drawn at the place of its parent, KP.3",
+   "lat": 22.4,
+   "lng": 79.0,
+   "t": "2023-12",
+   "provenance": "inferred",
+   "note": "Nextstrain clade 24E, Pango KP.3.1.1. First sequence 2023-12 (Nextstrain). Pango note: “Alias of B.1.1.529.2.86.1.1.11.1.3.1.1, ORF1a:S4286C, C12616T, S:S31del, Spain, from sars-cov-2-variants/lineage-proposals#1563”"
+  },
+  {
+   "id": "24F",
+   "label": "XEC",
+   "place": "Germany",
+   "lat": 51.2,
+   "lng": 10.4,
+   "t": "2024-05",
+   "provenance": "detected",
+   "note": "Nextstrain clade 24F, Pango XEC. First sequence 2024-05 (Nextstrain). Pango note: “Recombinant lineage of KS.1.1 (JN.1.13.1.1.1) and KP.3.3 (breakpoint 21738-22599), most with ORF1a:A599T, Europe (Germany), from #2717”"
+  },
+  {
+   "id": "24G",
+   "label": "KP.2.3",
+   "place": "not recorded; drawn at the place of its parent, JN.1.11.1",
+   "lat": 22.4,
+   "lng": 79.0,
+   "t": "2024-01",
+   "provenance": "inferred",
+   "note": "Nextstrain clade 24G, Pango KP.2.3. First sequence 2024-01 (Nextstrain). Pango note: “Alias of B.1.1.529.2.86.1.1.11.1.2.3, S:H146Q, ORF3a:K67N, S:31del, from sars-cov-2-variants/lineage-proposals#1459”"
+  },
+  {
+   "id": "24H",
+   "label": "LF.7",
+   "place": "Senegal",
+   "lat": 14.5,
+   "lng": -14.5,
+   "t": "2024-05",
+   "provenance": "detected",
+   "note": "Nextstrain clade 24H, Pango LF.7. First sequence 2024-05 (Nextstrain). Pango note: “Alias of B.1.1.529.2.86.1.1.16.1.7, S:T22N, S:S31P, S:K182R, S:R190S, S:K444R, ORF9b:I5T, Senegal, from #2733”"
+  },
+  {
+   "id": "24I",
+   "label": "MV.1",
+   "place": "India",
+   "lat": 22.4,
+   "lng": 79.0,
+   "t": "2024-05",
+   "provenance": "detected",
+   "note": "Nextstrain clade 24I, Pango MV.1. First sequence 2024-05 (Nextstrain). Pango note: “Alias of B.1.1.529.2.86.1.1.49.1.1.1.1.1, S:K478T, India”"
+  },
+  {
+   "id": "25A",
+   "label": "LP.8.1",
+   "place": "not recorded; drawn at the place of its parent, JN.1.11.1",
+   "lat": 22.4,
+   "lng": 79.0,
+   "t": "2024-07",
+   "provenance": "inferred",
+   "note": "Nextstrain clade 25A, Pango LP.8.1. First sequence 2024-07 (Nextstrain). Pango note: “Alias of B.1.1.529.2.86.1.1.11.1.1.1.3.8.1, S:R190S, from sars-cov-2-variants/lineage-proposals#2199”"
+  },
+  {
+   "id": "25B",
+   "label": "NB.1.8.1",
+   "place": "not recorded; drawn at the place of its parent, XDV.1",
+   "lat": 22.32,
+   "lng": 114.17,
+   "t": "2025-01",
+   "provenance": "inferred",
+   "note": "Nextstrain clade 25B, Pango NB.1.8.1. First sequence 2025-01 (Nextstrain). Pango note: “Alias of XDV.1.5.1.1.8.1, S:A435S, from sars-cov-2-variants/lineage-proposals#2431”"
+  },
+  {
+   "id": "25C",
+   "label": "XFG",
+   "place": "not recorded; drawn at the place of its parent, LF.7",
+   "lat": 14.5,
+   "lng": -14.5,
+   "t": "2025-01",
+   "provenance": "inferred",
+   "note": "Nextstrain clade 25C, Pango XFG. First sequence 2025-01 (Nextstrain). Pango note: “Recombinant lineage of LF.7, LP.8.1.2, LF.7 (breakpoints: 22894-22895, 23040-24818), from sars-cov-2-variants/lineage-proposals#2449”"
+  },
+  {
+   "id": "25D",
+   "label": "MC.10.2.1",
+   "place": "Australia",
+   "lat": -25.3,
+   "lng": 133.8,
+   "t": "2024-08",
+   "provenance": "detected",
+   "note": "Nextstrain clade 25D, Pango MC.10.2.1. First sequence 2024-08 (Nextstrain). Pango note: “Alias of B.1.1.529.2.86.1.1.11.1.3.1.1.10.2.1, S:K679R, ORf7a:A105S, Australia/New Zealand, from #2862”"
+  },
+  {
+   "id": "25E",
+   "label": "PY.1",
+   "place": "India",
+   "lat": 22.4,
+   "lng": 79.0,
+   "t": "2024-12",
+   "provenance": "detected",
+   "note": "Nextstrain clade 25E, Pango PY.1. First sequence 2024-12 (Nextstrain). Pango note: “Alias of B.1.1.529.2.86.1.1.16.1.7.9.1.1, A10978T, C19029T, T27484C, India”"
+  },
+  {
+   "id": "25F",
+   "label": "NW.1.2",
+   "place": "not recorded; drawn at the place of its parent, LP.8.1",
+   "lat": 22.4,
+   "lng": 79.0,
+   "t": "2025-01",
+   "provenance": "inferred",
+   "note": "Nextstrain clade 25F, Pango NW.1.2. First sequence 2025-01 (Nextstrain). Pango note: “Alias of B.1.1.529.2.86.1.1.11.1.1.1.3.8.1.2.1.2, S:T22N, ORF1b:P2256S, from sars-cov-2-variants/lineage-proposals#2563”"
+  },
+  {
+   "id": "25G",
+   "label": "XFC",
+   "place": "not recorded; drawn at the place of its parent, LP.8.1",
+   "lat": 22.4,
+   "lng": 79.0,
+   "t": "2025-11",
+   "provenance": "inferred",
+   "note": "Nextstrain clade 25G, Pango XFC. First sequence 2025-11 (Nextstrain). Pango note: “Recombinant lineage of LP.8.1.1, LF.7, LP.8.1.1 (breakpoints: 8818-12891,22120-22892), from sars-cov-2-variants/lineage-proposals#2323”"
+  },
+  {
+   "id": "25H",
+   "label": "XFJ",
+   "place": "not recorded; drawn at the place of its parent, JN.1",
+   "lat": 50.0,
+   "lng": 10.0,
+   "t": "2025-12",
+   "provenance": "inferred",
+   "note": "Nextstrain clade 25H, Pango XFJ. First sequence 2025-12 (Nextstrain). Pango note: “Recombinant lineage of LS.2.1.1, LF.7.2, LS.2.1.1, LF.7.2 (breakpoints: 8818-12892, 22792-22893, 27414-28297), from #2928”"
+  },
+  {
+   "id": "25I",
+   "label": "BA.3.2",
+   "place": "South Africa",
+   "lat": -29.0,
+   "lng": 25.1,
+   "t": "2024-06",
+   "provenance": "detected",
+   "note": "Nextstrain clade 25I, Pango BA.3.2. First sequence 2024-06 (Nextstrain). Pango note: “Alias of B.1.1.529.3.2, saltation with ~40 spike AA substitutions, South Africa, from #2909”"
+  },
+  {
+   "id": "26A",
+   "label": "XFG.1.1",
+   "place": "not recorded; drawn at the place of its parent, XFG",
+   "lat": 14.5,
+   "lng": -14.5,
+   "t": "2025-12",
+   "provenance": "inferred",
+   "note": "Nextstrain clade 26A, Pango XFG.1.1. First sequence 2025-12 (Nextstrain). Pango note: “S:W452R (rev), ORF7a:V8A (rev), M:V104L, from sars-cov-2-variants/lineage-proposals#2796”"
+  },
+  {
+   "id": "26B",
+   "label": "XFG.3.4.1",
+   "place": "not recorded; drawn at the place of its parent, XFG",
+   "lat": 14.5,
+   "lng": -14.5,
+   "t": "2025-10",
+   "provenance": "inferred",
+   "note": "Nextstrain clade 26B, Pango XFG.3.4.1. First sequence 2025-10 (Nextstrain). Pango note: “S:S680P, on T15762C branch, from sars-cov-2-variants/lineage-proposals#2602”"
+  }
+ ],
+ "links": [
+  {
+   "from": "19A",
+   "to": "19B"
+  },
+  {
+   "from": "19A",
+   "to": "20A"
+  },
+  {
+   "from": "20A",
+   "to": "20B"
+  },
+  {
+   "from": "20A",
+   "to": "20C"
+  },
+  {
+   "from": "20B",
+   "to": "20D"
+  },
+  {
+   "from": "20A",
+   "to": "20E"
+  },
+  {
+   "from": "20B",
+   "to": "20F"
+  },
+  {
+   "from": "20C",
+   "to": "20G"
+  },
+  {
+   "from": "20C",
+   "to": "20H"
+  },
+  {
+   "from": "20B",
+   "to": "20I"
+  },
+  {
+   "from": "20B",
+   "to": "20J"
+  },
+  {
+   "from": "20A",
+   "to": "21A"
+  },
+  {
+   "from": "20A",
+   "to": "21B"
+  },
+  {
+   "from": "20C",
+   "to": "21C"
+  },
+  {
+   "from": "20A",
+   "to": "21D"
+  },
+  {
+   "from": "20B",
+   "to": "21E"
+  },
+  {
+   "from": "20C",
+   "to": "21F"
+  },
+  {
+   "from": "20D",
+   "to": "21G"
+  },
+  {
+   "from": "20A",
+   "to": "21H"
+  },
+  {
+   "from": "21A",
+   "to": "21I"
+  },
+  {
+   "from": "21A",
+   "to": "21J"
+  },
+  {
+   "from": "20B",
+   "to": "21M"
+  },
+  {
+   "from": "21M",
+   "to": "21K"
+  },
+  {
+   "from": "21M",
+   "to": "21L"
+  },
+  {
+   "from": "21L",
+   "to": "22A"
+  },
+  {
+   "from": "21L",
+   "to": "22B"
+  },
+  {
+   "from": "21L",
+   "to": "22C"
+  },
+  {
+   "from": "21L",
+   "to": "22D"
+  },
+  {
+   "from": "22B",
+   "to": "22E"
+  },
+  {
+   "from": "21L",
+   "to": "22F",
+   "kind": "merge"
+  },
+  {
+   "from": "22D",
+   "to": "22F",
+   "kind": "merge"
+  },
+  {
+   "from": "22F",
+   "to": "23A"
+  },
+  {
+   "from": "22F",
+   "to": "23B"
+  },
+  {
+   "from": "22D",
+   "to": "23C"
+  },
+  {
+   "from": "22F",
+   "to": "23D"
+  },
+  {
+   "from": "22F",
+   "to": "23E"
+  },
+  {
+   "from": "23D",
+   "to": "23F"
+  },
+  {
+   "from": "23A",
+   "to": "23G"
+  },
+  {
+   "from": "23F",
+   "to": "23H"
+  },
+  {
+   "from": "21L",
+   "to": "23I"
+  },
+  {
+   "from": "23I",
+   "to": "24A"
+  },
+  {
+   "from": "24A",
+   "to": "24B"
+  },
+  {
+   "from": "24B",
+   "to": "24C"
+  },
+  {
+   "from": "23D",
+   "to": "24D",
+   "kind": "merge"
+  },
+  {
+   "from": "24A",
+   "to": "24D",
+   "kind": "merge"
+  },
+  {
+   "from": "24C",
+   "to": "24E"
+  },
+  {
+   "from": "24A",
+   "to": "24F",
+   "kind": "merge"
+  },
+  {
+   "from": "24C",
+   "to": "24F",
+   "kind": "merge"
+  },
+  {
+   "from": "24B",
+   "to": "24G"
+  },
+  {
+   "from": "24A",
+   "to": "24H"
+  },
+  {
+   "from": "24A",
+   "to": "24I"
+  },
+  {
+   "from": "24B",
+   "to": "25A"
+  },
+  {
+   "from": "24D",
+   "to": "25B"
+  },
+  {
+   "from": "24H",
+   "to": "25C",
+   "kind": "merge"
+  },
+  {
+   "from": "25A",
+   "to": "25C",
+   "kind": "merge"
+  },
+  {
+   "from": "24E",
+   "to": "25D"
+  },
+  {
+   "from": "24H",
+   "to": "25E"
+  },
+  {
+   "from": "25A",
+   "to": "25F"
+  },
+  {
+   "from": "25A",
+   "to": "25G",
+   "kind": "merge"
+  },
+  {
+   "from": "24H",
+   "to": "25G",
+   "kind": "merge"
+  },
+  {
+   "from": "24A",
+   "to": "25H",
+   "kind": "merge"
+  },
+  {
+   "from": "24H",
+   "to": "25H",
+   "kind": "merge"
+  },
+  {
+   "from": "21M",
+   "to": "25I"
+  },
+  {
+   "from": "25C",
+   "to": "26A"
+  },
+  {
+   "from": "25C",
+   "to": "26B"
+  }
+ ]
+}

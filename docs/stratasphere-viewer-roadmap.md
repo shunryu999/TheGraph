@@ -63,7 +63,10 @@ The format in `conventions.md` is still a draft. Settle it as v1, backward compa
 
 *Done when:* all ~60 towns are reachable by clicking or the list at the default zoom. Tracing Mainz shows its whole descent. Every node has a source.
 
-### M2 · SARS-CoV-2 variants, Dec 2019–2024 (M)
+### M2 · SARS-CoV-2 variants, Dec 2019–2024 (M) — done 25 Sept 2026
+
+*Status:* built as SARS-CoV-2 lineages, 2019–2026: all 60 Nextstrain clades (35 places recorded, 25 inferred), 65 links including 12 recombinant merges, and endings for Alpha, Beta, Gamma and Delta at their WHO reclassification. `build.py` rebuilds it from Nextstrain and Pango at pinned commits.
+
 
 **Data.** `data/sars-cov-2-lineages/`. The major Pango lineages and WHO variants, with parent links from the Pango designation tree. Each is placed where and when it was first detected, and gets an end date where it was displaced (for example Alpha and Delta).
 - *Sources:* Pango lineage designations and Nextstrain's public trees (CC-BY; attribution in `SOURCE.md`).

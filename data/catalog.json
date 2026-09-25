@@ -16,6 +16,14 @@
    "span": "1454–1500",
    "blurb": "The first press in 57 towns, from Mainz to Lisbon, Stockholm and Cetinje, each linked to where its printer came from.",
    "why": "Printing is the IAS family five hundred years earlier: a method that spread by people carrying it from shop to shop. In fifty years it went from one town on the Rhine to presses from Lisbon to Stockholm and Buda, and it is the medium every later cultural lineage in the Graph, Paradise Lost among them, travelled through. The towns and dates are well recorded. Who trained whom is recorded for only some of them, so most links are drawn grey until they are checked."
+  },
+  {
+   "id": "sars-cov-2",
+   "path": "sars-cov-2-lineages/sars-cov-2-lineages.json",
+   "title": "SARS-CoV-2 lineages, 2019–2026",
+   "span": "Dec 2019–Sep 2026",
+   "blurb": "Every Nextstrain clade of the virus, placed where it was first detected and linked to the clade it came from, from Wuhan to the lineages of 2026.",
+   "why": "A real phylogeny made in the present, by a virus everyone lived through, and recorded month by month as it happened. It shows the Graph's rules under pressure: a place is where a lineage was first detected, never where it began; lines end where a variant stopped being tracked; and recombinants have two parents. Scrub from 2020 to 2022 to watch Alpha, Beta, Gamma and Delta rise and end, and Omicron take over."
   }
  ]
 }
