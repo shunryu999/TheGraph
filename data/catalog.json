@@ -24,6 +24,14 @@
    "span": "Dec 2019–Sep 2026",
    "blurb": "Every Nextstrain clade of the virus, placed where it was first detected and linked to the clade it came from, from Wuhan to the lineages of 2026.",
    "why": "A real phylogeny made in the present, by a virus everyone lived through, and recorded month by month as it happened. It shows the Graph's rules under pressure: a place is where a lineage was first detected, never where it began; lines end where a variant stopped being tracked; and recombinants have two parents. Scrub from 2020 to 2022 to watch Alpha, Beta, Gamma and Delta rise and end, and Omicron take over."
+  },
+  {
+   "id": "unix",
+   "path": "unix-family/unix-family.json",
+   "title": "The Unix family, 1970–2026",
+   "span": "1970–2026",
+   "blurb": "Twenty-seven systems from Bell Labs Unix to macOS, Android and the BSDs, linked by code, by influence, and by merges of several lines.",
+   "why": "Software shows heredity more plainly than anything else: code is copied, forked and merged, and the record of who took what from whom is unusually complete. It also shows what a family tree hides. Linux took no code from Unix, only its design, so the link is drawn faint and can be left out of a trace; macOS has two parents, NeXTSTEP and BSD; and System V Release 4 has four. Pick macOS, then turn off Follow influence links, to see which ancestry is code and which is ideas."
   }
  ]
 }

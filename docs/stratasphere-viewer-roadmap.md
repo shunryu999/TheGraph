@@ -79,7 +79,10 @@ The format in `conventions.md` is still a draft. Settle it as v1, backward compa
 
 *Done when:* scrubbing 2020→2024 shows Alpha, Beta, Gamma and Delta appear and end and Omicron take over. No node claims an origin the data does not support.
 
-### M3 · The Unix family, 1969–today (S–M)
+### M3 · The Unix family, 1969–today (S–M) — done 25 Sept 2026
+
+*Status:* 27 systems and 35 links (code, influence, merge), with the Research-to-FreeBSD backbone from the Unix History Repository and per-node sources for the rest. A pass against Lévénez's chart, blocked from the build environment, would add HP-UX, IRIX, Ultrix and the Linux distributions.
+
 
 **Data.** `data/unix-family/`. Bell Labs Unix, the BSDs, System V, Minix, Linux, NeXTSTEP, macOS/iOS, Android, Solaris, the illumos line and others, each placed at the institution or company that made it.
 - **Link kinds:** `code` (source descent), `influence` (design without code, e.g. Minix → Linux) and `merge` (e.g. NeXTSTEP + BSD → Darwin).
