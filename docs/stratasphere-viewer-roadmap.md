@@ -94,7 +94,14 @@ The format in `conventions.md` is still a draft. Settle it as v1, backward compa
 
 *Done when:* macOS traces to both parents, Linux shows its influence from Minix without a code line, and the key matches what is drawn.
 
-### M4 · The instrument's own conventions (M)
+### M4 · The instrument's own conventions (M) — done 27 Sept 2026
+
+*Status:* all four parts are built.
+- **Hatching:** printing's undated years, 1454–1460, are hatched. The other three datasets have no reconstructed stretch.
+- **The reader's line:** the reader can place it by city, by coordinates or by browser location.
+- **Export:** PNG export (3000 px wide, with names and a caption) and one-turn clip export work in Chromium. They have not been tried in Safari, which the "done when" line asks for.
+- **Performance:** label placement uses a screen grid, and a 2,000-node dataset profiles at under 3% of frame time in label work. The 60 fps target could not be measured here: the build environment renders with a software GPU, where the stress set runs at 11 fps and IAS at 27.
+
 
 These are the parts of the original #11 spec still unbuilt. They land once the three datasets exist to test them on.
 

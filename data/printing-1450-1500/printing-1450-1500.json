@@ -12,7 +12,13 @@
    "Encyclopaedia Britannica (1911), 'Incunabula'",
    "Dates and printers cross-checked by web search on 25 Sept 2026; see SOURCE.md"
   ],
-  "caveats": "Each town is dated by its first dated or securely datable print, so a press may have begun a year earlier. Links in grey are inference: where a printer trained or came from is recorded for only some towns, and the rest are joined to the nearest earlier press on a plausible route until the record is checked. Places are the town, not the shop. The whole set is awaiting a line-by-line check against the ISTC.",
+  "caveats": "Each town is dated by its first dated or securely datable print, so a press may have begun a year earlier. Links in grey are inference: where a printer trained or came from is recorded for only some towns, and the rest are joined to the nearest earlier press on a plausible route until the record is checked. Places are the town, not the shop. The whole set is awaiting a line-by-line check against the ISTC. The years 1454–1460 are hatched: Gutenberg's 42-line Bible, Pfister's 36-line Bible and Mentelin's first Bible are undated, so dates in that stretch rest on bibliographical reconstruction.",
+  "inferredSpans": [
+   [
+    1454,
+    1460
+   ]
+  ],
   "defaultPick": "westminster",
   "linkKinds": {
    "training": "the printer learned the craft there",

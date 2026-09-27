@@ -54,6 +54,8 @@ h1{font-weight:500;font-size:clamp(34px,5vw,48px);line-height:1.05;margin:0;lett
 .key i{display:inline-block;width:26px;height:0;border-top:1.6px solid var(--ink)}
 .key i.inf{border-top:1.2px dashed var(--grey)}
 .key [hidden]{display:none}
+.key i.hatch{height:10px;border-top:0;background:repeating-linear-gradient(135deg,var(--grey) 0 1px,transparent 1px 5px)}
+.key i.you{width:9px;height:9px;border:1.6px solid var(--accent);border-radius:50%}
 .key i.infl{border-top:1px solid var(--ink);opacity:.35}
 .key i.ring{width:9px;height:9px;border:1.6px solid var(--ink);border-radius:50%;border-top-width:1.6px}
 .key i.red{border-top:2.2px solid var(--accent)}
@@ -95,6 +97,11 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
 .file{font-size:14px;color:var(--ink-2)}
 .file input{font:inherit;font-size:13px;max-width:100%}
 .err{color:var(--accent);font-size:14px;margin:0}
+.row2{display:flex;flex-wrap:wrap;gap:8px}
+.txt{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);border:1px solid var(--rule);border-radius:2px;padding:5px 8px;width:100%}
+.txt:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.keys{font-size:13px;color:var(--grey);margin:6px 0 0}
+.keys kbd{font-family:var(--mono);font-size:12px;border:1px solid var(--rule);border-radius:2px;padding:0 4px;color:var(--ink-2)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .notes{margin-top:34px;border-top:1px solid var(--rule);padding-top:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px}
 .notes h2{font-size:15px;font-weight:500;font-variant:small-caps;letter-spacing:.12em;color:var(--grey);margin:0 0 6px}
@@ -125,9 +132,12 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
         <span id="keyInfl" hidden><i class="infl"></i><span id="keyInflT">influence</span></span>
         <span><i class="inf"></i><span id="keyInf">inference, not record</span></span>
         <span id="keyDet" hidden><i class="ring"></i>first detected here, not where it began</span>
+        <span id="keyHatch" hidden><i class="hatch"></i>reconstructed, not recorded</span>
         <span><i class="red"></i>the lineage you picked</span>
+        <span id="keyYou" hidden><i class="you"></i>you, and your line to the nearest</span>
         <span><i class="land"></i>the Earth, redrawn through time</span>
       </div>
+      <p class="keys" aria-label="Keyboard"><kbd>←</kbd> <kbd>→</kbd> step through time (<kbd>Shift</kbd> for ten), <kbd>Home</kbd> <kbd>End</kbd> first and present, <kbd>Space</kbd> play, <kbd>Esc</kbd> clear, <kbd>↑</kbd> <kbd>↓</kbd> move through the list.</p>
       <p class="hint">Drag to turn, scroll or pinch to zoom. Move the time slider: each year becomes the outer shell in turn, and earlier years sink inward. Click a name to see where it came from and what came from it.</p>
     </div>
 
@@ -139,7 +149,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
         <p class="blurb" id="dsBlurb"></p>
       </fieldset>
 
-      <div class="card" id="card"></div>
+      <div class="card" id="card" aria-live="polite"></div>
 
       <fieldset>
         <legend>View</legend>
@@ -149,6 +159,21 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
         <label class="check" for="spin"><input id="spin" type="checkbox" checked> Turn slowly</label>
         <label class="check" for="labs"><input id="labs" type="checkbox" checked> Show names</label>
         <label class="check" for="infl" id="inflRow" hidden><input id="infl" type="checkbox" checked> Follow influence links when tracing</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Your place</legend>
+        <label for="place">A city, or a latitude and longitude
+          <input id="place" class="txt" list="places" placeholder="Kyoto, or 35.0, 135.8" autocomplete="off"></label>
+        <datalist id="places"></datalist>
+        <div class="row2"><button type="button" id="bPlace">Place me</button><button type="button" id="bGeo">Use my location</button><button type="button" id="bUnplace" hidden>Remove</button></div>
+        <p class="blurb" id="placeOut">A vermilion line runs from your place on the present shell to the nearest node. Your place stays in this page; it is not saved or sent anywhere.</p>
+      </fieldset>
+
+      <fieldset>
+        <legend>Export</legend>
+        <div class="row2"><button type="button" id="bPng">Save image</button><button type="button" id="bClip">Record a turn</button></div>
+        <p class="blurb" id="expOut">The image is a print-resolution PNG with the names. The clip is one slow turn, about eight seconds.</p>
       </fieldset>
 
       <fieldset>
@@ -582,7 +607,42 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
   const ring = new THREE.Line(new THREE.BufferGeometry().setFromPoints(Array.from({length:129},(_,i)=>{const a=i/128*Math.PI*2;return new THREE.Vector3(Math.cos(a)*R*1.012,0,Math.sin(a)*R*1.012);})), new THREE.LineBasicMaterial({transparent:true, opacity:.6}));
   scene.add(ring);
 
+  // ---------- hatched inference: a band between the shells that bound a reconstructed stretch of time ----------
+  const hatchMat = () => new THREE.ShaderMaterial({
+    uniforms:{ r0:{value:.5}, r1:{value:1}, cGrey:uniforms.cGrey, dpr:{value:1} }, transparent:true, depthWrite:false, depthTest:false,
+    vertexShader:`uniform float r1; varying vec3 vP; void main(){ vP = position * r1; gl_Position = projectionMatrix * modelViewMatrix * vec4(vP,1.0); }`,
+    fragmentShader:`uniform float r0, dpr; uniform vec3 cGrey; varying vec3 vP;
+      void main(){
+        vec3 ax = normalize(cameraPosition); float d = length(vP - dot(vP, ax) * ax);
+        if (d < r0) discard;                                                     // inside the inner shell's outline
+        if (mod(gl_FragCoord.x - gl_FragCoord.y, 7.0 * dpr) > 1.1 * dpr) discard; // 45° hatch, open
+        gl_FragColor = vec4(cGrey, 0.55);
+      }` });
+  const circle = () => new THREE.Line(new THREE.BufferGeometry().setFromPoints(Array.from({length:129},(_,i)=>{const a=i/128*Math.PI*2;return new THREE.Vector3(Math.cos(a),0,Math.sin(a));})), new THREE.LineBasicMaterial({transparent:true, opacity:.55}));
+  let hatches = []; // { span:[t0,t1], mesh, rIn, rOut }
+  function buildHatches(){
+    for (const h of hatches){ scene.remove(h.mesh, h.rIn, h.rOut); h.mesh.geometry.dispose(); }
+    hatches = (D.meta.inferredSpans || []).map(span => {
+      const mesh = new THREE.Mesh(new THREE.SphereGeometry(1, 72, 36), hatchMat()); mesh.renderOrder = 0; mesh.frustumCulled = false;
+      const rIn = circle(), rOut = circle(); scene.add(mesh, rIn, rOut); return { span, mesh, rIn, rOut };
+    });
+    themeHatches();
+  }
+  function themeHatches(){ for (const h of hatches) for (const c of [h.rIn, h.rOut]) c.material.color.set(css('--grey')); }
+  function placeHatches(eye){
+    const tn = uniforms.tNow.value;
+    for (const h of hatches){
+      const [a, b] = h.span, on = tn >= a;
+      h.mesh.visible = h.rIn.visible = h.rOut.visible = on; if (!on) continue;
+      const r0 = radiusAt(Math.min(b, tn)), r1 = radiusAt(a); // later time is the larger shell
+      const inner = Math.min(r0, r1), outer = Math.max(r0, r1);
+      h.mesh.material.uniforms.r0.value = inner; h.mesh.material.uniforms.r1.value = outer; h.mesh.material.uniforms.dpr.value = renderer.getPixelRatio();
+      for (const [c, r] of [[h.rIn, inner], [h.rOut, outer]]){ c.scale.setScalar(r); c.position.set(0,0,0); c.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0), eye); }
+    }
+  }
+
   const ll = (lat,lng) => { const a = lat*Math.PI/180, b = lng*Math.PI/180; return [Math.cos(a)*Math.cos(b), Math.sin(a), -Math.cos(a)*Math.sin(b)]; };
+  const gc = (a, b) => Math.acos(Math.max(-1, Math.min(1, a[0]*b[0]+a[1]*b[1]+a[2]*b[2]))); // angle between unit vectors
   function slerp(a,b,t){ const d = Math.max(-1,Math.min(1,a[0]*b[0]+a[1]*b[1]+a[2]*b[2])), w = Math.acos(d);
     if (w < 1e-4) return a.slice(); const s = Math.sin(w), k1 = Math.sin((1-t)*w)/s, k2 = Math.sin(t*w)/s; return [a[0]*k1+b[0]*k2, a[1]*k1+b[1]*k2, a[2]*k1+b[2]*k2]; }
 
@@ -627,7 +687,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
   }
   function buildLand(){
     if (landObj){ scene.remove(landObj); landObj.geometry.dispose(); }
-    const v = [], span = D.meta.tEnd - D.meta.tStart, n = Math.max(1, Math.min(16, Math.round(span / stepOf(span))));
+    const v = [], span = D.meta.tEnd - D.meta.tStart, n = Math.max(1, Math.min(10, Math.round(span / stepOf(span)))); // ten redrawn Earths read as well as sixteen, at 40% less drawing
     for (let k = 0; k <= n; k++){ const y = D.meta.tStart + span*k/n; for (const r of LAND) for (let i=0;i+3<r.length;i+=2){ const a = ll(r[i+1],r[i]), b = ll(r[i+3],r[i+2]); v.push(...a,y,0,...b,y,0); } }
     landObj = new THREE.LineSegments(geo(v), matL); landObj.frustumCulled = false; scene.add(landObj);
   }
@@ -647,14 +707,14 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
       const d = nodeDir[nd.id], on = S && S.has(nd.id), c = clsOf(isInf(nd), on), e = Math.min(tE, nd.tEnd ?? tE);
       const ended = nd.tEnd != null && nd.tEnd < tE, cw = ended && !on ? 3 : c; // a line that ended is drawn grey
       // the worldline: from when it began out to when it ended, or to the present
-      const n = 12; for (let k=0;k<n;k++){ const t0 = nd.t + (e-nd.t)*k/n, t1 = nd.t + (e-nd.t)*(k+1)/n; L.push(...d,t0,cw,...d,t1,cw); }
+      const n = 4; for (let k=0;k<n;k++){ const t0 = nd.t + (e-nd.t)*k/n, t1 = nd.t + (e-nd.t)*(k+1)/n; L.push(...d,t0,cw,...d,t1,cw); }
       if (ended) P.push(...d, e, cw); // a plain terminus
       P.push(...d, nd.t, nd.provenance === 'detected' && !isInf(nd) ? (on ? 5 : 4) : c);
     }
     for (const lk of D.links){
       const a = byId[lk.from], b = byId[lk.to]; if (!a || !b) continue;
       const infl = lk.kind === 'influence', on = S && S.has(a.id) && S.has(b.id) && (!infl || followInfl), c = on ? 2 : infl ? 6 : clsOf(lk.inferred || isInf(b), false);
-      const da = nodeDir[a.id], db = nodeDir[b.id], ta = Math.min(a.t, b.t), tb = b.t, n = 32;
+      const da = nodeDir[a.id], db = nodeDir[b.id], ta = Math.min(a.t, b.t), tb = b.t, n = Math.max(4, Math.min(32, Math.ceil(gc(da, db) * 24))); // segments by arc length
       for (let k=0;k<n;k++){ const u0=k/n, u1=(k+1)/n; L.push(...slerp(da,db,u0), ta+(tb-ta)*u0, c, ...slerp(da,db,u1), ta+(tb-ta)*u1, c); }
     }
     const lo = new THREE.LineSegments(geo(L), matL), po = new THREE.Points(geo(P), matP);
@@ -670,15 +730,17 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
   const radiusAt = t => { const tn = uniforms.tNow.value, ts = uniforms.tStart.value, g = uniforms.grad.value;
     const age = Math.min(1, Math.max(0, (tn - t)/Math.max(tn - ts, 1e-6))); const f = g < .01 ? age : (1-Math.exp(-g*age))/(1-Math.exp(-g)); return R*(1-f)*.94 + R*.06; };
   const v3 = new THREE.Vector3();
+  const eyeDir = new THREE.Vector3();
   function placeLabels(){
     const r = renderer.domElement.getBoundingClientRect(), show = $('labs').checked, cand = [];
+    eyeDir.copy(camera.position).normalize();
     for (const { nd, el } of labs){
       const d = nodeDir[nd.id], vis = nd.t <= uniforms.tNow.value + 1e-3;
       // the name sits where the thing began, on its own shell
       const rr = radiusAt(Math.min(nd.t, uniforms.tNow.value));
       v3.set(d[0]*rr, d[1]*rr, d[2]*rr);
       const cut = uniforms.cutOn.value > .5 && v3.dot(uniforms.cutN.value) > uniforms.cutD.value;
-      const facing = v3.clone().normalize().dot(camera.position.clone().normalize()) > -0.15;
+      const facing = (v3.x*eyeDir.x + v3.y*eyeDir.y + v3.z*eyeDir.z) / (v3.length() || 1) > -0.15;
       const onSel = sel === nd.id || hoverId === nd.id;
       if (!show && !onSel || !vis || cut || !facing){ el.style.display = 'none'; continue; }
       v3.project(camera);
@@ -688,14 +750,126 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
     }
     // names that would overlap an earlier one are dropped: the picked lineage wins, then the hubs that led on to most, then the oldest
     cand.sort((a,b) => a.pri - b.pri || b.deg - a.deg || a.t - b.t);
-    const boxes = [];
+    // placed names are kept in a grid of screen cells, so each test looks only at its neighbours
+    const G = 64, grid = new Map(), cells = b => { const out = []; for (let gx = Math.floor(b[0]/G); gx <= Math.floor(b[2]/G); gx++) for (let gy = Math.floor(b[1]/G); gy <= Math.floor(b[3]/G); gy++) out.push(gx + ',' + gy); return out; };
     for (const c of cand){
       const w = c.el._w || (c.el.style.display = '', c.el._w = c.el.offsetWidth || 60), h = 16;
-      const b = [c.x + 4, c.y - h/2 - 1, c.x + w + 12, c.y + h/2 + 1];
-      if (c.pri > 0 && boxes.some(o => b[0] < o[2] && b[2] > o[0] && b[1] < o[3] && b[3] > o[1])){ c.el.style.display = 'none'; continue; }
-      boxes.push(b); c.el.style.display = ''; c.el.style.left = c.x + 'px'; c.el.style.top = c.y + 'px';
+      const b = [c.x + 4, c.y - h/2 - 1, c.x + w + 12, c.y + h/2 + 1], ks = cells(b);
+      if (c.pri > 0 && ks.some(k => (grid.get(k) || []).some(o => b[0] < o[2] && b[2] > o[0] && b[1] < o[3] && b[3] > o[1]))){ if (c.el.style.display !== 'none') c.el.style.display = 'none'; continue; }
+      for (const k of ks){ const a = grid.get(k); a ? a.push(b) : grid.set(k, [b]); }
+      c.el.style.display = ''; c.el.style.left = c.x + 'px'; c.el.style.top = c.y + 'px';
     }
   }
+
+  // ---------- the reader: a place chosen by the reader, and a vermilion line to the nearest node ----------
+  let reader = null, readerObj = null, cities = null;
+  function placeReader(){
+    if (readerObj){ scene.remove(...readerObj); for (const o of readerObj) o.geometry.dispose(); readerObj = null; }
+    $('keyYou').hidden = !reader; $('bUnplace').hidden = !reader;
+    if (!reader || !D) return;
+    const me = ll(reader.lat, reader.lng), tn = uniforms.tNow.value;
+    let best = null, bd = 9;
+    for (const nd of D.nodes){ if (nd.t > tn + 1e-9) continue; const g = gc(me, nodeDir[nd.id]); if (g < bd){ bd = g; best = nd; } }
+    if (!best){ $('placeOut').textContent = `${reader.label}: nothing in this lineage has begun yet at ${fmtT(tn)}.`; return; }
+    const L = [], P = [], d = nodeDir[best.id], n = 48;
+    for (let k=0;k<n;k++){ const u0 = k/n, u1 = (k+1)/n; L.push(...slerp(me,d,u0), tn+(best.t-tn)*u0, 2, ...slerp(me,d,u1), tn+(best.t-tn)*u1, 2); }
+    P.push(...me, tn, 5);
+    const lo = new THREE.LineSegments(geo(L), matL), po = new THREE.Points(geo(P), matP);
+    lo.frustumCulled = po.frustumCulled = false; lo.renderOrder = 3; po.renderOrder = 4; scene.add(lo, po); readerObj = [lo, po];
+    const km = Math.round(bd * 6371);
+    $('placeOut').textContent = `${reader.label}. The nearest node is ${best.label} (${best.place || ''}${best.place ? ', ' : ''}${km.toLocaleString()} km away), which began in ${fmtT(best.t)}.`;
+  }
+  async function loadCities(){
+    if (cities) return cities;
+    for (const b of [base, '../data/', '../../data/'].filter(Boolean)){
+      try { const c = await fetchJSON(b + 'places/cities.json'); cities = c.cities; break; } catch(e){}
+    }
+    if (cities){ const dl = $('places'); dl.innerHTML = ''; for (const [nm, cc] of cities){ const o = document.createElement('option'); o.value = nm + ', ' + cc; dl.appendChild(o); } }
+    return cities || [];
+  }
+  async function setPlaceFromText(){
+    const v = $('place').value.trim(); if (!v) return;
+    const m = /^(-?\d+(?:\.\d+)?)\s*[, ]\s*(-?\d+(?:\.\d+)?)$/.exec(v);
+    if (m && Math.abs(+m[1]) <= 90 && Math.abs(+m[2]) <= 180){ reader = { lat:+m[1], lng:+m[2], label:`${(+m[1]).toFixed(2)}, ${(+m[2]).toFixed(2)}` }; placeReader(); return; }
+    const list = await loadCities(), [nm, cc] = v.split(',').map(x => x.trim().toLowerCase());
+    const hit = list.find(c => c[0].toLowerCase() === nm && (!cc || c[1].toLowerCase() === cc)) || list.find(c => c[0].toLowerCase().startsWith(nm));
+    if (!hit){ $('placeOut').textContent = `No city of 250,000 people or more is called “${v}”. Try a larger place nearby, or type a latitude and longitude.`; return; }
+    reader = { lat:hit[2], lng:hit[3], label:`${hit[0]}, ${hit[1]}` }; placeReader();
+  }
+  $('place').addEventListener('focus', loadCities, { once:true });
+  $('place').addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preventDefault(); setPlaceFromText(); } });
+  $('bPlace').onclick = setPlaceFromText;
+  $('bUnplace').onclick = () => { reader = null; $('place').value = ''; placeReader(); $('placeOut').textContent = 'Your place was removed.'; };
+  $('bGeo').onclick = () => {
+    if (!navigator.geolocation){ $('placeOut').textContent = 'This browser cannot share its location. Type a city instead.'; return; }
+    $('placeOut').textContent = 'Asking the browser for your location…';
+    navigator.geolocation.getCurrentPosition(p => { reader = { lat:p.coords.latitude, lng:p.coords.longitude, label:'Your location' }; placeReader(); },
+      () => { $('placeOut').textContent = 'The location was not shared. Type a city instead.'; }, { maximumAge:6e5, timeout:15000 });
+  };
+
+  // ---------- export: a print-resolution image, and a clip of one slow turn ----------
+  function composite(ctx, scale){ // the 3D view, the names as drawn, and a caption line
+    const W = ctx.canvas.width, H = ctx.canvas.height, cap = Math.round(34 * scale);
+    ctx.fillStyle = css('--ground'); ctx.fillRect(0, 0, W, H);
+    ctx.drawImage(renderer.domElement, 0, 0, W, H - cap);
+    const vr = view.getBoundingClientRect(), k = W / vr.width, fam = getComputedStyle(document.body).fontFamily;
+    ctx.textBaseline = 'middle';
+    for (const { el } of labs){
+      if (el.style.display === 'none') continue;
+      const x = parseFloat(el.style.left), y = parseFloat(el.style.top); if (isNaN(x)) continue;
+      const cs = getComputedStyle(el); ctx.font = `${cs.fontStyle} ${13 * k}px ${fam}`;
+      ctx.lineWidth = 3 * k; ctx.strokeStyle = css('--ground'); ctx.strokeText(el.textContent, (x + 8) * k, y * k);
+      ctx.fillStyle = cs.color; ctx.fillText(el.textContent, (x + 8) * k, y * k);
+    }
+    ctx.fillStyle = css('--grey'); ctx.font = `${13 * scale}px ${fam}`;
+    ctx.fillText(`${D.meta.title} · present ${fmtT(uniforms.tNow.value)}${sel ? ' · ' + byId[sel].label : ''} · The Graph, stratasphere viewer`, 14 * scale, H - cap / 2);
+  }
+  const fileStem = () => ['stratasphere', dsId || 'file', rawT(uniforms.tNow.value), sel || ''].filter(Boolean).join('-').replace(/[^\w.-]+/g, '_');
+  function download(blob, name){ const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000); }
+  $('bPng').onclick = () => {
+    const vr = view.getBoundingClientRect(), old = renderer.getPixelRatio(), pr = Math.min(4, 3000 / vr.width);
+    const ps = uniforms.psize.value; uniforms.psize.value = ps * pr / old; // points are sized in device pixels
+    renderer.setPixelRatio(pr); renderer.setSize(vr.width, vr.height, false); placeHatches(camera.position.clone().normalize()); renderer.render(scene, camera);
+    const c = document.createElement('canvas'), cap = Math.round(34 * pr); c.width = renderer.domElement.width; c.height = renderer.domElement.height + cap;
+    composite(c.getContext('2d'), pr);
+    renderer.setPixelRatio(old); renderer.setSize(vr.width, vr.height, false); uniforms.psize.value = ps;
+    c.toBlob(b => { if (!b){ $('expOut').textContent = 'The image could not be made in this browser.'; return; } download(b, fileStem() + '.png'); $('expOut').textContent = `Saved ${c.width} × ${c.height} pixels.`; }, 'image/png');
+  };
+  let recording = false, clipCtx = null, rec = null, turn0 = null;
+  function turnStep(now){ // one full turn about the vertical through the orbit's centre
+    if (!turn0) turn0 = { t:now, off:camera.position.clone().sub(controls.target) };
+    const a = Math.min(1, (now - turn0.t) / 8000) * Math.PI * 2, o = turn0.off.clone().applyAxisAngle(new THREE.Vector3(0,1,0), a);
+    camera.position.copy(controls.target).add(o);
+    if (now - turn0.t >= 8000 && rec && rec.state === 'recording') rec.stop();
+  }
+  $('bClip').onclick = () => {
+    if (recording) return;
+    const types = ['video/mp4;codecs=avc1', 'video/webm;codecs=vp9', 'video/webm', 'video/mp4'], type = window.MediaRecorder && types.find(t => MediaRecorder.isTypeSupported(t));
+    if (!type){ $('expOut').textContent = 'This browser cannot record video. Save an image instead.'; return; }
+    const vr = view.getBoundingClientRect(), c = document.createElement('canvas'), cap = 34;
+    c.width = Math.round(vr.width * renderer.getPixelRatio()) & ~1; c.height = (Math.round(vr.height * renderer.getPixelRatio()) + cap) & ~1;
+    clipCtx = c.getContext('2d'); const chunks = [], spinWas = controls.autoRotate; controls.autoRotate = false;
+    rec = new MediaRecorder(c.captureStream(30), { mimeType:type, videoBitsPerSecond:6e6 });
+    rec.ondataavailable = e => e.data.size && chunks.push(e.data);
+    rec.onstop = () => { recording = false; turn0 = null; controls.autoRotate = spinWas; $('bClip').disabled = false;
+      download(new Blob(chunks, { type }), fileStem() + (type.includes('mp4') ? '.mp4' : '.webm')); $('expOut').textContent = 'Saved one turn.'; };
+    recording = true; $('bClip').disabled = true; $('expOut').textContent = 'Recording one turn…'; rec.start();
+  };
+
+  // ---------- keyboard ----------
+  document.addEventListener('keydown', e => {
+    const tag = (e.target.tagName || '').toLowerCase();
+    if (e.target.classList && e.target.classList.contains('item') && (e.key === 'ArrowDown' || e.key === 'ArrowUp')){
+      const sib = e.key === 'ArrowDown' ? e.target.nextElementSibling : e.target.previousElementSibling; if (sib){ e.preventDefault(); sib.focus(); } return;
+    }
+    if (['input','select','textarea','button'].includes(tag) || e.metaKey || e.ctrlKey || e.altKey || !D) return;
+    const span = D.meta.tEnd - D.meta.tStart, st = stepOf(span) * (e.shiftKey ? 10 : 1), clamp = v => Math.max(D.meta.tStart, Math.min(D.meta.tEnd, v));
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft'){ e.preventDefault(); playing = false; $('bPlay').textContent = 'Play'; setT(clamp(uniforms.tNow.value + (e.key === 'ArrowRight' ? st : -st))); saveURL(); }
+    else if (e.key === 'Home' || e.key === 'End'){ e.preventDefault(); setT(e.key === 'Home' ? D.meta.tStart : D.meta.tEnd); saveURL(); }
+    else if (e.key === ' '){ e.preventDefault(); $('bPlay').click(); }
+    else if (e.key === 'Escape'){ pick(null); }
+    else if (e.key === 'ArrowDown'){ const f = $('list').querySelector('.item'); if (f){ e.preventDefault(); f.focus(); } }
+  });
 
   // ---------- panel ----------
   let lineageSet = null;
@@ -751,6 +925,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
       data.meta.tEnd = data.meta.tEnd != null ? toNum(data.meta.tEnd) : Math.max(...ts);
     } catch(x){ unit = prev; throw x; }
     data.meta.title = data.meta.title || 'Untitled lineage';
+    data.meta.inferredSpans = (data.meta.inferredSpans || []).map(s => [toNum(s[0]), toNum(s[1])].sort((a,b) => a-b));
     dsId = id;
     D = data; byId = {}; parents = {}; children = {}; nodeDir = {};
     for (const n of D.nodes){ byId[n.id] = n; nodeDir[n.id] = ll(n.lat, n.lng); }
@@ -773,7 +948,9 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
     $('inflRow').hidden = !hasInfl;
     $('keyInf').textContent = D.nodes.some(n => n.tEnd != null && n.tEnd < D.meta.tEnd) ? 'inference, or a line that has ended' : 'inference, not record';
     $('keyDet').hidden = !D.nodes.some(n => n.provenance === 'detected');
+    $('keyHatch').hidden = !D.meta.inferredSpans.length;
     frame0();
+    buildHatches(); reader && placeReader();
     buildLand(); buildLabels(); list();
     const first = [want.pick, D.meta.defaultPick].find(x => x != null && byId[x]);
     pick(first ?? null);
@@ -792,7 +969,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
     camera.position.copy(regional ? controls.target.clone().add(v.normalize().multiplyScalar(1.7 + spread)) : v); controls.update();
     $('spin').checked = !reduce && !regional; controls.autoRotate = $('spin').checked;
   }
-  function setT(v){ uniforms.tNow.value = v; $('oT').textContent = fmtT(v); $('yearTag').textContent = 'present · ' + fmtT(v); $('tnow').value = v; if (byId) syncList(); }
+  function setT(v){ const moved = uniforms.tNow.value !== v; uniforms.tNow.value = v; if (moved && reader && byId) placeReader(); $('oT').textContent = fmtT(v); $('yearTag').textContent = 'present · ' + fmtT(v); $('tnow').value = v; if (byId) syncList(); }
 
   // ---------- permalinks: ?d=<dataset>&pick=<id>&t=<date> ----------
   function saveURL(){
@@ -848,7 +1025,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
 
   // ---------- theme, size, loop ----------
   const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
-  function theme(){ renderer.setClearColor(new THREE.Color(css('--ground')),1); uniforms.cInk.value.set(css('--ink')); uniforms.cGrey.value.set(css('--grey')); uniforms.cAcc.value.set(css('--accent')); uniforms.cLand.value.set(css('--land')); ring.material.color.set(css('--accent')); }
+  function theme(){ if (typeof themeHatches === 'function') themeHatches(); renderer.setClearColor(new THREE.Color(css('--ground')),1); uniforms.cInk.value.set(css('--ink')); uniforms.cGrey.value.set(css('--grey')); uniforms.cAcc.value.set(css('--accent')); uniforms.cLand.value.set(css('--land')); ring.material.color.set(css('--accent')); }
   function size(){ const r = view.getBoundingClientRect(); renderer.setSize(r.width, r.height, false); camera.aspect = r.width/r.height; camera.updateProjectionMatrix(); uniforms.psize.value = Math.max(3, r.width/180); }
   new ResizeObserver(size).observe(view);
   new MutationObserver(theme).observe(document.documentElement, { attributes:true, attributeFilter:['data-theme'] });
@@ -860,7 +1037,9 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
     const eye = camera.position.clone().normalize();
     uniforms.cutN.value.copy(eye).addScaledVector(camera.up, .75).normalize();
     ring.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0), eye);
-    controls.update(); renderer.render(scene, camera); placeLabels();
+    if (recording) turnStep(now);
+    controls.update(); placeHatches(eye); renderer.render(scene, camera); placeLabels();
+    if (recording) composite(clipCtx, 1);
     requestAnimationFrame(frame);
   }
   theme(); size();
