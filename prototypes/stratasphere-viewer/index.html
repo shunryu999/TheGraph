@@ -29,6 +29,7 @@
   --accent:#E0634C;
 }
 *{box-sizing:border-box}
+[hidden]{display:none !important}
 body{background:var(--ground);color:var(--ink);font-family:var(--serif);font-size:17px;line-height:1.5;margin:0}
 .wrap{max-width:1220px;margin:0 auto;padding-inline:20px;padding-block:28px 48px}
 header{display:grid;gap:6px;margin-bottom:20px;max-width:800px}
@@ -53,6 +54,7 @@ h1{font-weight:500;font-size:clamp(34px,5vw,48px);line-height:1.05;margin:0;lett
 .key i{display:inline-block;width:26px;height:0;border-top:1.6px solid var(--ink)}
 .key i.inf{border-top:1.2px dashed var(--grey)}
 .key [hidden]{display:none}
+.key i.infl{border-top:1px solid var(--ink);opacity:.35}
 .key i.ring{width:9px;height:9px;border:1.6px solid var(--ink);border-radius:50%;border-top-width:1.6px}
 .key i.red{border-top:2.2px solid var(--accent)}
 .key i.land{border-top:1px solid var(--land)}
@@ -69,6 +71,7 @@ aside{display:grid;gap:18px}
 .card .from{font-size:15px}
 .card .from b.p{font-weight:500;color:var(--ink)}
 .card .from i{color:var(--grey)}
+.card .from .ln{color:var(--grey)}
 fieldset{border:0;border-top:1px solid var(--rule);margin:0;padding:12px 0 0;display:grid;gap:10px;min-width:0}
 legend{font-variant:small-caps;letter-spacing:.14em;color:var(--grey);font-size:14px;padding:0 8px 0 0}
 label{display:grid;gap:4px;font-size:15px;color:var(--ink-2)}
@@ -119,6 +122,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
       <p class="claim">The inner shells are not smaller. They are farther.</p>
       <div class="key" aria-hidden="true">
         <span><i></i><span id="keyRec">record</span></span>
+        <span id="keyInfl" hidden><i class="infl"></i><span id="keyInflT">influence</span></span>
         <span><i class="inf"></i><span id="keyInf">inference, not record</span></span>
         <span id="keyDet" hidden><i class="ring"></i>first detected here, not where it began</span>
         <span><i class="red"></i>the lineage you picked</span>
@@ -144,6 +148,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
         <label class="check" for="cut"><input id="cut" type="checkbox"> Cut away the near side</label>
         <label class="check" for="spin"><input id="spin" type="checkbox" checked> Turn slowly</label>
         <label class="check" for="labs"><input id="labs" type="checkbox" checked> Show names</label>
+        <label class="check" for="infl" id="inflRow" hidden><input id="infl" type="checkbox" checked> Follow influence links when tracing</label>
       </fieldset>
 
       <fieldset>
@@ -545,7 +550,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
     cInk:{value:new THREE.Color()}, cGrey:{value:new THREE.Color()}, cAcc:{value:new THREE.Color()}, cLand:{value:new THREE.Color()},
     cutOn:{value:0}, cutN:{value:new THREE.Vector3(0,0,1)}, cutD:{value:.1}, psize:{value:4}
   };
-  // cls: 0 land · 1 record · 2 selected · 3 inference, or a line that ended · 4 first detected here (ring) · 5 detected, selected
+  // cls: 0 land · 1 record · 2 selected · 3 inference, or a line that ended · 4 first detected here (ring) · 5 detected, selected · 6 influence without code
   const vs = `
     attribute vec3 dir; attribute float gen; attribute float cls;
     uniform float tNow, tStart, grad, R, psize; varying float vCls; varying vec3 vPos; varying float vHide; varying float vF;
@@ -569,6 +574,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
       ${pt ? 'if (vCls > 3.5) { vec2 r = gl_PointCoord - 0.5; if (dot(r,r) < 0.085) discard; gl_FragColor = vec4(vCls > 4.5 ? cAcc : cInk, 1.0); return; }' : ''}
       if (vCls < 1.5) { gl_FragColor = vec4(cInk, 0.9); return; }
       if (vCls < 2.5) { gl_FragColor = vec4(cAcc, 1.0); return; }
+      if (vCls > 5.5) { gl_FragColor = vec4(cInk, 0.28); return; }
       gl_FragColor = vec4(cGrey, 0.8);
     }`;
   const matL = new THREE.ShaderMaterial({ uniforms, vertexShader:vs, fragmentShader:fs(false), transparent:true, depthWrite:false });
@@ -580,7 +586,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
   function slerp(a,b,t){ const d = Math.max(-1,Math.min(1,a[0]*b[0]+a[1]*b[1]+a[2]*b[2])), w = Math.acos(d);
     if (w < 1e-4) return a.slice(); const s = Math.sin(w), k1 = Math.sin((1-t)*w)/s, k2 = Math.sin(t*w)/s; return [a[0]*k1+b[0]*k2, a[1]*k1+b[1]*k2, a[2]*k1+b[2]*k2]; }
 
-  let D, byId, parents, children, nodeDir, sel = null, objs = [], landObj = null, dsId = null;
+  let kindOf = {}, D, byId, parents, children, nodeDir, sel = null, objs = [], landObj = null, dsId = null;
 
   // ---------- time: every unit becomes a decimal year (years BP become negative) ----------
   const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -625,10 +631,11 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
     for (let k = 0; k <= n; k++){ const y = D.meta.tStart + span*k/n; for (const r of LAND) for (let i=0;i+3<r.length;i+=2){ const a = ll(r[i+1],r[i]), b = ll(r[i+3],r[i+2]); v.push(...a,y,0,...b,y,0); } }
     landObj = new THREE.LineSegments(geo(v), matL); landObj.frustumCulled = false; scene.add(landObj);
   }
+  let followInfl = true; // trace through influence links too, or only through what was passed on
   function lineageOf(id){ // ancestors and descendants of the picked node
-    const set = new Set([id]); const up = [id], down = [id];
-    while (up.length){ const x = up.pop(); for (const p of parents[x]||[]) if (!set.has(p)){ set.add(p); up.push(p); } }
-    while (down.length){ const x = down.pop(); for (const c of children[x]||[]) if (!set.has(c)){ set.add(c); down.push(c); } }
+    const set = new Set([id]); const up = [id], down = [id], ok = (a, b) => followInfl || kindOf[a + '>' + b] !== 'influence';
+    while (up.length){ const x = up.pop(); for (const p of parents[x]||[]) if (!set.has(p) && ok(p, x)){ set.add(p); up.push(p); } }
+    while (down.length){ const x = down.pop(); for (const c of children[x]||[]) if (!set.has(c) && ok(x, c)){ set.add(c); down.push(c); } }
     return set;
   }
   function buildGraph(){
@@ -646,7 +653,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
     }
     for (const lk of D.links){
       const a = byId[lk.from], b = byId[lk.to]; if (!a || !b) continue;
-      const on = S && S.has(a.id) && S.has(b.id), c = clsOf(lk.inferred || isInf(b), on);
+      const infl = lk.kind === 'influence', on = S && S.has(a.id) && S.has(b.id) && (!infl || followInfl), c = on ? 2 : infl ? 6 : clsOf(lk.inferred || isInf(b), false);
       const da = nodeDir[a.id], db = nodeDir[b.id], ta = Math.min(a.t, b.t), tb = b.t, n = 32;
       for (let k=0;k<n;k++){ const u0=k/n, u1=(k+1)/n; L.push(...slerp(da,db,u0), ta+(tb-ta)*u0, c, ...slerp(da,db,u1), ta+(tb-ta)*u1, c); }
     }
@@ -703,12 +710,14 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
     while ((parents[x]||[]).length && !seen.has(x)){ seen.add(x); x = parents[x][0]; up.unshift(byId[x].label); }
     const kids = (children[sel]||[]).map(k => byId[k].label), kinds = D.meta.linkKinds || {};
     const from = D.links.filter(l => l.to === sel && byId[l.from]).map(l => '<b class="p">' + esc(byId[l.from].label) + '</b>' +
-      (kinds[l.kind] ? ': ' + esc(kinds[l.kind]) : '') + (l.inferred ? ' <i>(inference)</i>' : ''));
+      (kinds[l.kind] ? ': ' + esc(kinds[l.kind]) : '') + (l.inferred ? ' <i>(inference)</i>' : '') + (l.note ? '. <span class="ln">' + esc(l.note) + '</span>' : ''));
     c.innerHTML = `<h2>${esc(nd.label)}</h2><div class="meta">${nd.provenance === 'detected' ? 'first detected ' : ''}${fmtT(nd.t)}${nd.tEnd != null ? '–' + fmtT(nd.tEnd) : ''} · ${esc(nd.place||'')}${isInf(nd) ? ' · inference' : ''}</div>` +
       (nd.note ? `<p>${esc(nd.note)}</p>` : '') +
-      (from.length ? `<p class="from">From ${from.join('; ')}.</p>` : '') +
+      (from.length ? `<p class="from">${from.map(f => 'From ' + f + (/[.!?]<\/span>$|[.!?]$/.test(f) ? '' : '.')).join('<br>')}</p>` : '') +
       `<p class="lineage">${up.length ? 'Traced back: ' + up.map(esc).join(' → ') + ' → <b>' + esc(nd.label) + '</b>.' : '<b>' + esc(nd.label) + '</b> is a root of this lineage.'}` +
-      (kids.length ? ` Led on to ${kids.map(esc).join(', ')}.` : '') + `</p><div><button type="button" id="bClear">Clear selection</button></div>`;
+      (kids.length ? ` Led on to ${kids.map(esc).join(', ')}.` : '') + `</p>` +
+      (Array.isArray(nd.sources) && nd.sources.length ? `<p class="meta">Sources: ${nd.sources.map(esc).join('; ')}</p>` : '') +
+      `<div><button type="button" id="bClear">Clear selection</button></div>`;
     $('bClear').onclick = () => pick(null);
   }
   const esc = s => String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
@@ -745,7 +754,8 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
     dsId = id;
     D = data; byId = {}; parents = {}; children = {}; nodeDir = {};
     for (const n of D.nodes){ byId[n.id] = n; nodeDir[n.id] = ll(n.lat, n.lng); }
-    for (const l of D.links){ (parents[l.to] = parents[l.to]||[]).push(l.from); (children[l.from] = children[l.from]||[]).push(l.to); }
+    kindOf = {};
+    for (const l of D.links){ (parents[l.to] = parents[l.to]||[]).push(l.from); (children[l.from] = children[l.from]||[]).push(l.to); kindOf[l.from + '>' + l.to] = l.kind || 'descent'; }
     sel = null; lineageSet = null;
     $('title').textContent = D.meta.title; $('desc').textContent = D.meta.description || '';
     const span = D.meta.tEnd - D.meta.tStart, t = $('tnow');
@@ -756,8 +766,11 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
     let t0 = D.meta.tEnd;
     if (want.t != null){ try { const w = toNum(unit === 'year' || unit === 'yearBP' ? +want.t : want.t); if (w >= D.meta.tStart && w <= D.meta.tEnd) t0 = w; } catch(e){} }
     setT(t0);
-    const lk = Object.values(D.meta.linkKinds || {});
-    $('keyRec').textContent = lk.length === 1 ? 'record: ' + lk[0] : 'record';
+    const LK = D.meta.linkKinds || {}, used = new Set(D.links.map(l => l.kind || 'descent')), hasInfl = used.has('influence');
+    const solid = [...used].filter(k => k !== 'influence' && LK[k]).map(k => LK[k]);
+    $('keyRec').textContent = solid.length ? 'record: ' + solid.join(' · ') : 'record';
+    $('keyInfl').hidden = !hasInfl; $('keyInflT').textContent = LK.influence || 'influence, with nothing passed on';
+    $('inflRow').hidden = !hasInfl;
     $('keyInf').textContent = D.nodes.some(n => n.tEnd != null && n.tEnd < D.meta.tEnd) ? 'inference, or a line that has ended' : 'inference, not record';
     $('keyDet').hidden = !D.nodes.some(n => n.provenance === 'detected');
     frame0();
@@ -830,6 +843,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
   const bind = (id,o,f,fn) => { const el=$(id); const u=()=>{ $(o).textContent=f(+el.value); fn(+el.value); }; el.addEventListener('input',u); u(); };
   bind('grad','oGrad',v=>(v/10).toFixed(1),v=>uniforms.grad.value=v/10);
   $('cut').onchange = e => uniforms.cutOn.value = e.target.checked ? 1 : 0;
+  $('infl').onchange = e => { followInfl = e.target.checked; pick(sel); };
   $('spin').onchange = e => controls.autoRotate = e.target.checked; $('spin').checked = !reduce;
 
   // ---------- theme, size, loop ----------

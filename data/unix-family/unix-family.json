@@ -1,0 +1,556 @@
+{
+ "format": 1,
+ "meta": {
+  "title": "The Unix family, 1970–2026",
+  "unit": "year",
+  "tStart": 1970,
+  "tEnd": 2026,
+  "description": "Twenty-seven systems descended from, or shaped by, the Unix of Bell Labs, each placed where it was made and dated from its first release. Links say what passed: code, influence without code, or a merge of several lines.",
+  "sources": [
+   "D. Spinellis, Unix History Repository (github.com/dspinellis/unix-history-make, releases.md, commit 464f1df)",
+   "Individual releases and dates cross-checked by web search on 25 Sept 2026; see SOURCE.md"
+  ],
+  "caveats": "Nodes are systems, not single releases: each is dated from its first release and ends where its own line of development stopped. Places are where a system was made; for distributed projects (FreeBSD, NetBSD, illumos) and where only the company is known (System III, System V, SVR4, AIX), the place is marked inference. Grey lines are inference or lines that have ended.",
+  "defaultPick": "macos",
+  "linkKinds": {
+   "code": "source code carried over",
+   "influence": "shaped by it, with no code shared",
+   "merge": "one of several lines combined"
+  },
+  "licence": "CC BY 4.0 (compilation)"
+ },
+ "nodes": [
+  {
+   "id": "research",
+   "label": "Research Unix",
+   "place": "Bell Labs, Murray Hill, New Jersey",
+   "lat": 40.684,
+   "lng": -74.401,
+   "t": 1970,
+   "tEnd": 1990,
+   "note": "Ken Thompson and Dennis Ritchie's system at Bell Labs, from the PDP-7 version of mid-1970 through the Tenth Edition, whose manual (1990) is the last of the line.",
+   "sources": [
+    "D. Spinellis, Unix History Repository (github.com/dspinellis/unix-history-make, releases.md, commit 464f1df), Research-PDP7 to Research-V7",
+    "Research Unix Tenth Edition manual (1990)"
+   ]
+  },
+  {
+   "id": "v32",
+   "label": "UNIX/32V",
+   "place": "Bell Labs, Holmdel, New Jersey",
+   "lat": 40.366,
+   "lng": -74.175,
+   "t": 1978,
+   "note": "The port of the Seventh Edition to the DEC VAX, made at Bell Labs in Holmdel in 1978 and sent to Berkeley that autumn.",
+   "sources": [
+    "D. Spinellis, Unix History Repository (github.com/dspinellis/unix-history-make, releases.md, commit 464f1df), Bell-32V"
+   ]
+  },
+  {
+   "id": "bsd",
+   "label": "BSD",
+   "place": "University of California, Berkeley",
+   "lat": 37.872,
+   "lng": -122.259,
+   "t": 1978,
+   "tEnd": 1995,
+   "note": "The Berkeley Software Distribution, from 1BSD (early 1978, additions to the Sixth Edition) to 4.4BSD-Lite Release 2 (June 1995), the last release before the Computer Systems Research Group was disbanded.",
+   "sources": [
+    "D. Spinellis, Unix History Repository (github.com/dspinellis/unix-history-make, releases.md, commit 464f1df), BSD-1 to BSD-4_4_Lite2"
+   ]
+  },
+  {
+   "id": "xenix",
+   "label": "Xenix",
+   "place": "Microsoft, Bellevue, Washington",
+   "lat": 47.61,
+   "lng": -122.201,
+   "t": 1980,
+   "note": "Microsoft's licensed version of the Seventh Edition for microcomputers, announced in 1980.",
+   "sources": [
+    "Microsoft Xenix announcement, August 1980"
+   ]
+  },
+  {
+   "id": "system3",
+   "label": "System III",
+   "place": "Bell Labs, Murray Hill, New Jersey",
+   "lat": 40.684,
+   "lng": -74.401,
+   "t": 1982,
+   "provenance": "inferred",
+   "note": "AT&T's first commercial Unix, built on the Seventh Edition and PWB/UNIX, released outside Bell Labs in 1982. The place is AT&T Bell Laboratories in New Jersey; the exact site is not recorded here.",
+   "sources": [
+    "AT&T UNIX System III (1982)"
+   ]
+  },
+  {
+   "id": "sunos",
+   "label": "SunOS",
+   "place": "Sun Microsystems, Santa Clara, California",
+   "lat": 37.354,
+   "lng": -121.955,
+   "t": 1982,
+   "tEnd": 1994,
+   "note": "Sun's BSD-based Unix, from Sun UNIX 0.7 (1982), the year Sun was founded in Santa Clara, to SunOS 4.1.4 (November 1994), the last release under the name.",
+   "sources": [
+    "Sun Microsystems founded 24 February 1982, Santa Clara",
+    "SunOS 4.1.4, November 1994"
+   ]
+  },
+  {
+   "id": "systemv",
+   "label": "System V",
+   "place": "Bell Labs, Murray Hill, New Jersey",
+   "lat": 40.684,
+   "lng": -74.401,
+   "t": 1983,
+   "provenance": "inferred",
+   "note": "AT&T UNIX System V, January 1983. The place is AT&T Bell Laboratories in New Jersey; the exact site is not recorded here.",
+   "sources": [
+    "AT&T UNIX System V (1983)"
+   ]
+  },
+  {
+   "id": "gnu",
+   "label": "GNU",
+   "place": "MIT, Cambridge, Massachusetts",
+   "lat": 42.36,
+   "lng": -71.094,
+   "t": 1983,
+   "note": "Richard Stallman announced the GNU Project, a free Unix-compatible system written from scratch, from the MIT AI Lab in September 1983.",
+   "sources": [
+    "GNU announcement, 27 September 1983"
+   ]
+  },
+  {
+   "id": "mach",
+   "label": "Mach",
+   "place": "Carnegie Mellon University, Pittsburgh",
+   "lat": 40.443,
+   "lng": -79.944,
+   "t": 1985,
+   "note": "The Mach microkernel project at Carnegie Mellon, begun in 1985 on a 4.2BSD base.",
+   "sources": [
+    "Mach project, Carnegie Mellon University, 1985"
+   ]
+  },
+  {
+   "id": "aix",
+   "label": "AIX",
+   "place": "IBM, Austin, Texas",
+   "lat": 30.267,
+   "lng": -97.743,
+   "t": 1986,
+   "provenance": "inferred",
+   "note": "IBM's System V-based Unix, first released for the IBM RT PC in 1986. That it was developed at IBM Austin is not confirmed by the sources checked, so the place is marked inference.",
+   "sources": [
+    "IBM AIX 1.0 for the RT PC, 1986"
+   ]
+  },
+  {
+   "id": "minix",
+   "label": "MINIX",
+   "place": "Vrije Universiteit, Amsterdam",
+   "lat": 52.334,
+   "lng": 4.865,
+   "t": 1987,
+   "note": "Andrew Tanenbaum's teaching system, compatible with the Seventh Edition but written without its code, published with his textbook in 1987.",
+   "sources": [
+    "A. S. Tanenbaum, Operating Systems: Design and Implementation (1987)"
+   ]
+  },
+  {
+   "id": "nextstep",
+   "label": "NeXTSTEP",
+   "place": "NeXT, Redwood City, California",
+   "lat": 37.485,
+   "lng": -122.236,
+   "t": 1989,
+   "tEnd": 1997,
+   "note": "NeXT's system on the Mach kernel with BSD, introduced in 1989, later OPENSTEP. Its line ends when Apple bought NeXT in 1997 and carried it into Rhapsody.",
+   "sources": [
+    "NeXTSTEP 1.0, 1989",
+    "Apple acquisition of NeXT, 1997"
+   ]
+  },
+  {
+   "id": "svr4",
+   "label": "System V Release 4",
+   "place": "Bell Labs, Murray Hill, New Jersey",
+   "lat": 40.684,
+   "lng": -74.401,
+   "t": 1989,
+   "provenance": "inferred",
+   "note": "The joint AT&T and Sun system unifying System V, BSD, SunOS and Xenix, shown at Unix Expo in New York in November 1989. The place is AT&T in New Jersey; the exact site is not recorded here.",
+   "sources": [
+    "UNIX System V Release 4 source release, Unix Expo, November 1989"
+   ]
+  },
+  {
+   "id": "linux",
+   "label": "Linux",
+   "place": "University of Helsinki",
+   "lat": 60.172,
+   "lng": 24.941,
+   "t": 1991,
+   "note": "Linus Torvalds's kernel, begun as a student at the University of Helsinki and announced in August 1991. It used no Unix or MINIX code, but was written under MINIX and with the GNU tools.",
+   "sources": [
+    "Linus Torvalds, announcement on comp.os.minix, 25 August 1991"
+   ]
+  },
+  {
+   "id": "b386",
+   "label": "386BSD",
+   "place": "San Francisco Bay Area",
+   "lat": 37.8,
+   "lng": -122.27,
+   "t": 1992,
+   "tEnd": 1994,
+   "provenance": "inferred",
+   "note": "Lynne and William Jolitz's port of the BSD Networking Release 2 to the Intel 386 (March 1992), described in Dr. Dobb's Journal; its last release, 1.0, came on CD-ROM in late 1994. The place is the Bay Area, not recorded more precisely here.",
+   "sources": [
+    "D. Spinellis, Unix History Repository (github.com/dspinellis/unix-history-make, releases.md, commit 464f1df), 386BSD-0.0 to 386BSD-0.1-patchkit",
+    "386BSD 1.0, Dr. Dobb's Journal CD-ROM, 1994"
+   ]
+  },
+  {
+   "id": "solaris",
+   "label": "Solaris",
+   "place": "Sun Microsystems, Mountain View, California",
+   "lat": 37.386,
+   "lng": -122.084,
+   "t": 1992,
+   "note": "SunOS 5, built on System V Release 4, released as Solaris 2.0 in June 1992.",
+   "sources": [
+    "Solaris 2.0, June 1992"
+   ]
+  },
+  {
+   "id": "plan9",
+   "label": "Plan 9",
+   "place": "Bell Labs, Murray Hill, New Jersey",
+   "lat": 40.684,
+   "lng": -74.401,
+   "t": 1992,
+   "note": "The successor system from the same Bell Labs group, first released to universities in 1992; new code, not a descendant of Unix's.",
+   "sources": [
+    "Plan 9 from Bell Labs, first edition, 1992"
+   ]
+  },
+  {
+   "id": "freebsd",
+   "label": "FreeBSD",
+   "place": "San Francisco Bay Area",
+   "lat": 37.8,
+   "lng": -122.27,
+   "t": 1993,
+   "provenance": "inferred",
+   "note": "The FreeBSD Project, begun in early 1993 to maintain 386BSD. Versions up to 1.1.5.1 derive from the Networking Release 2; later ones from 4.4BSD-Lite Release 2. A distributed project; drawn at 386BSD's place.",
+   "sources": [
+    "D. Spinellis, Unix History Repository (github.com/dspinellis/unix-history-make, releases.md, commit 464f1df), FreeBSD-release/"
+   ]
+  },
+  {
+   "id": "netbsd",
+   "label": "NetBSD",
+   "place": "San Francisco Bay Area",
+   "lat": 37.8,
+   "lng": -122.27,
+   "t": 1993,
+   "provenance": "inferred",
+   "note": "A second project to carry 386BSD and the Networking Release 2 forward, first released in April 1993. A distributed project; drawn at 386BSD's place.",
+   "sources": [
+    "NetBSD 0.8, April 1993"
+   ]
+  },
+  {
+   "id": "openbsd",
+   "label": "OpenBSD",
+   "place": "Calgary, Alberta",
+   "lat": 51.045,
+   "lng": -114.072,
+   "t": 1995,
+   "note": "Theo de Raadt's fork of NetBSD, begun in Calgary in October 1995.",
+   "sources": [
+    "OpenBSD project, October 1995"
+   ]
+  },
+  {
+   "id": "darwin",
+   "label": "Darwin",
+   "place": "Apple, Cupertino, California",
+   "lat": 37.332,
+   "lng": -122.031,
+   "t": 2000,
+   "note": "Apple's open-source core of Mac OS X, released as Darwin 1.0 on 5 April 2000: the Mach-based kernel from NeXTSTEP with BSD code largely from FreeBSD.",
+   "sources": [
+    "Apple, 'Apple Releases Darwin 1.0 Open Source', 5 April 2000"
+   ]
+  },
+  {
+   "id": "macos",
+   "label": "Mac OS X",
+   "place": "Apple, Cupertino, California",
+   "lat": 37.332,
+   "lng": -122.031,
+   "t": 2001,
+   "note": "Mac OS X 10.0, March 2001, on Darwin; today macOS.",
+   "sources": [
+    "Mac OS X 10.0, 24 March 2001"
+   ]
+  },
+  {
+   "id": "dragonfly",
+   "label": "DragonFly BSD",
+   "place": "University of California, Berkeley",
+   "lat": 37.872,
+   "lng": -122.259,
+   "t": 2003,
+   "note": "Matthew Dillon's fork of FreeBSD 4, announced from Berkeley in June 2003.",
+   "sources": [
+    "DragonFly BSD announcement, June 2003"
+   ]
+  },
+  {
+   "id": "opensolaris",
+   "label": "OpenSolaris",
+   "place": "Sun Microsystems, Santa Clara, California",
+   "lat": 37.354,
+   "lng": -121.955,
+   "t": 2005,
+   "tEnd": 2010,
+   "note": "Sun's release of Solaris source code as open source, from June 2005; discontinued by Oracle in August 2010.",
+   "sources": [
+    "OpenSolaris source release, June 2005",
+    "Oracle discontinues OpenSolaris, August 2010"
+   ]
+  },
+  {
+   "id": "ios",
+   "label": "iPhone OS",
+   "place": "Apple, Cupertino, California",
+   "lat": 37.332,
+   "lng": -122.031,
+   "t": 2007,
+   "note": "The iPhone's system (iOS from 2010), on Darwin, June 2007.",
+   "sources": [
+    "iPhone launch, 29 June 2007"
+   ]
+  },
+  {
+   "id": "android",
+   "label": "Android",
+   "place": "Google, Mountain View, California",
+   "lat": 37.422,
+   "lng": -122.084,
+   "t": 2008,
+   "note": "Google's mobile system on the Linux kernel; the first phone shipped in September 2008.",
+   "sources": [
+    "HTC Dream / T-Mobile G1, September 2008"
+   ]
+  },
+  {
+   "id": "illumos",
+   "label": "illumos",
+   "place": "Sun Microsystems, Santa Clara, California",
+   "lat": 37.354,
+   "lng": -121.955,
+   "t": 2010,
+   "provenance": "inferred",
+   "note": "The community fork that carried OpenSolaris on after Oracle closed it, announced in August 2010. A distributed project; drawn at OpenSolaris's place.",
+   "sources": [
+    "illumos announcement, 3 August 2010"
+   ]
+  }
+ ],
+ "links": [
+  {
+   "from": "research",
+   "to": "v32",
+   "kind": "code"
+  },
+  {
+   "from": "research",
+   "to": "bsd",
+   "kind": "code",
+   "note": "1BSD was a set of additions to the Sixth Edition."
+  },
+  {
+   "from": "v32",
+   "to": "bsd",
+   "kind": "code",
+   "note": "3BSD extended 32V with virtual memory."
+  },
+  {
+   "from": "research",
+   "to": "xenix",
+   "kind": "code",
+   "note": "Licensed from the Seventh Edition."
+  },
+  {
+   "from": "research",
+   "to": "system3",
+   "kind": "code"
+  },
+  {
+   "from": "system3",
+   "to": "systemv",
+   "kind": "code"
+  },
+  {
+   "from": "bsd",
+   "to": "sunos",
+   "kind": "code"
+  },
+  {
+   "from": "systemv",
+   "to": "svr4",
+   "kind": "merge"
+  },
+  {
+   "from": "bsd",
+   "to": "svr4",
+   "kind": "merge"
+  },
+  {
+   "from": "sunos",
+   "to": "svr4",
+   "kind": "merge"
+  },
+  {
+   "from": "xenix",
+   "to": "svr4",
+   "kind": "merge"
+  },
+  {
+   "from": "svr4",
+   "to": "solaris",
+   "kind": "code"
+  },
+  {
+   "from": "solaris",
+   "to": "opensolaris",
+   "kind": "code"
+  },
+  {
+   "from": "opensolaris",
+   "to": "illumos",
+   "kind": "code"
+  },
+  {
+   "from": "systemv",
+   "to": "aix",
+   "kind": "code"
+  },
+  {
+   "from": "bsd",
+   "to": "mach",
+   "kind": "code",
+   "note": "Mach began on a 4.2BSD base."
+  },
+  {
+   "from": "mach",
+   "to": "nextstep",
+   "kind": "merge"
+  },
+  {
+   "from": "bsd",
+   "to": "nextstep",
+   "kind": "merge"
+  },
+  {
+   "from": "nextstep",
+   "to": "darwin",
+   "kind": "merge",
+   "note": "Through Rhapsody and Mac OS X Server 1.0."
+  },
+  {
+   "from": "freebsd",
+   "to": "darwin",
+   "kind": "merge"
+  },
+  {
+   "from": "darwin",
+   "to": "macos",
+   "kind": "code"
+  },
+  {
+   "from": "darwin",
+   "to": "ios",
+   "kind": "code"
+  },
+  {
+   "from": "bsd",
+   "to": "b386",
+   "kind": "code",
+   "note": "From the Networking Release 2."
+  },
+  {
+   "from": "b386",
+   "to": "freebsd",
+   "kind": "code"
+  },
+  {
+   "from": "bsd",
+   "to": "freebsd",
+   "kind": "code",
+   "note": "Rebased on 4.4BSD-Lite Release 2 after the USL settlement."
+  },
+  {
+   "from": "b386",
+   "to": "netbsd",
+   "kind": "code"
+  },
+  {
+   "from": "bsd",
+   "to": "netbsd",
+   "kind": "code"
+  },
+  {
+   "from": "netbsd",
+   "to": "openbsd",
+   "kind": "code"
+  },
+  {
+   "from": "freebsd",
+   "to": "dragonfly",
+   "kind": "code"
+  },
+  {
+   "from": "research",
+   "to": "minix",
+   "kind": "influence",
+   "note": "Compatible with the Seventh Edition, but written without its code."
+  },
+  {
+   "from": "research",
+   "to": "gnu",
+   "kind": "influence",
+   "note": "A free rewrite of Unix, sharing none of its code."
+  },
+  {
+   "from": "minix",
+   "to": "linux",
+   "kind": "influence",
+   "note": "Written under MINIX, which shaped its first design; no MINIX code."
+  },
+  {
+   "from": "gnu",
+   "to": "linux",
+   "kind": "influence",
+   "note": "Built with, and first run with, the GNU tools."
+  },
+  {
+   "from": "linux",
+   "to": "android",
+   "kind": "code"
+  },
+  {
+   "from": "research",
+   "to": "plan9",
+   "kind": "influence",
+   "note": "The same Bell Labs group's successor system, new code."
+  }
+ ]
+}
