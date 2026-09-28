@@ -592,17 +592,18 @@ button:disabled{opacity:.45;cursor:default}
 
   const R = 1, LAND = JSON.parse($('data-land').textContent);
   const uniforms = {
-    tNow:{value:0}, tStart:{value:0}, grad:{value:1}, R:{value:R},
+    tNow:{value:0}, tStart:{value:0}, tEnd:{value:1}, grad:{value:1}, R:{value:R},
     cInk:{value:new THREE.Color()}, cGrey:{value:new THREE.Color()}, cAcc:{value:new THREE.Color()}, cLand:{value:new THREE.Color()},
     cutOn:{value:0}, cutN:{value:new THREE.Vector3(0,0,1)}, cutD:{value:.1}, psize:{value:4}
   };
   // cls: 0 land · 1 record · 2 selected · 3 inference, or a line that ended · 4 first detected here (ring) · 5 detected, selected · 6 influence without code
   const vs = `
     attribute vec3 dir; attribute float gen; attribute float cls;
-    uniform float tNow, tStart, grad, R, psize; varying float vCls; varying vec3 vPos; varying float vHide; varying float vF;
+    uniform float tNow, tStart, tEnd, grad, R, psize; varying float vCls; varying vec3 vPos; varying float vHide; varying float vF;
     void main(){
       vHide = gen > tNow + 0.001 ? 1.0 : 0.0;
-      float age = clamp((tNow - gen) / max(tNow - tStart, 1e-6), 0.0, 1.0);
+      // Keep the time scale fixed while the present advances, one increment at a time.
+      float age = clamp((tNow - gen) / max(tEnd - tStart, 1e-6), 0.0, 1.0);
       float f = grad < 0.01 ? age : (1.0 - exp(-grad*age)) / (1.0 - exp(-grad));
       float r = R * (1.0 - f) * 0.94 + R * 0.06;
       vec3 p = normalize(dir) * r; vPos = p; vCls = cls; vF = f;
@@ -748,8 +749,9 @@ button:disabled{opacity:.45;cursor:default}
   function buildLabels(){
     labelsEl.innerHTML = ''; labs = D.nodes.map(nd => { const el = document.createElement('div'); el.className = 'lab' + (isInf(nd) ? ' inf' : ''); el.textContent = nd.label; el.onclick = () => pick(nd.id); labelsEl.appendChild(el); return { nd, el }; });
   }
-  const radiusAt = t => { const tn = uniforms.tNow.value, ts = uniforms.tStart.value, g = uniforms.grad.value;
-    const age = Math.min(1, Math.max(0, (tn - t)/Math.max(tn - ts, 1e-6))); const f = g < .01 ? age : (1-Math.exp(-g*age))/(1-Math.exp(-g)); return R*(1-f)*.94 + R*.06; };
+  // Match the shader's full-dataset scale for labels and inferred-shell boundaries.
+  const radiusAt = t => { const tn = uniforms.tNow.value, ts = uniforms.tStart.value, te = uniforms.tEnd.value, g = uniforms.grad.value;
+    const age = Math.min(1, Math.max(0, (tn - t)/Math.max(te - ts, 1e-6))); const f = g < .01 ? age : (1-Math.exp(-g*age))/(1-Math.exp(-g)); return R*(1-f)*.94 + R*.06; };
   const v3 = new THREE.Vector3();
   const eyeDir = new THREE.Vector3();
   function placeLabels(){
@@ -958,6 +960,7 @@ button:disabled{opacity:.45;cursor:default}
     t.min = D.meta.tStart; t.max = D.meta.tEnd; t.step = stepOf(span); t.value = D.meta.tEnd;
     document.documentElement.style.setProperty('--ycol', ({year:'4.5ch', month:'8ch', day:'11ch', yearBP:'7ch'})[unit]);
     uniforms.tStart.value = D.meta.tStart;
+    uniforms.tEnd.value = D.meta.tEnd;
     $('list').innerHTML = ''; labs = []; labelsEl.innerHTML = '';
     let t0 = D.meta.tEnd;
     if (want.t != null){ try { const w = toNum(unit === 'year' || unit === 'yearBP' ? +want.t : want.t); if (w >= D.meta.tStart && w <= D.meta.tEnd) t0 = w; } catch(e){} }

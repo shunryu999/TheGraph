@@ -6,7 +6,7 @@ The catalog contains the IAS machine family, the spread of printing, Unix and SA
 
 ## What it does
 
-- **Shells.** The same vertex-shader approach as Life on the Stratasphere (#7). Radius is computed on the GPU from `tNow`, `tStart` and the density gradient `f = (1 − e^(−k·age)) / (1 − e^(−k))`. Moving the time slider or the gradient recomputes nothing on the CPU.
+- **Shells.** Radius is computed on the GPU from `tNow`, the fixed dataset span `tEnd − tStart`, and the density gradient `f = (1 − e^(−k·age)) / (1 − e^(−k))`, where `age = (tNow − nodeTime) / (tEnd − tStart)`, clamped to 0–1. Advancing one time step moves existing shells inward by one increment of that fixed scale; the first shell reaches the inner limit only at the end of the full span. The current shell stays outermost. Moving the time slider or gradient does not rebuild the graph geometry; labels and hatch boundaries use the same scale on the CPU.
 - **Land.** The Natural Earth 110 m coastlines, simplified to 84 rings and redrawn at ten intervals between the start and the present, so geography is legible at every depth.
 - **Picking.** Click a name or a list entry to trace its ancestors and descendants in vermilion. The card gives the chain of descent and the machines that copied it.
 - **Inference.** Nodes and links marked `"inferred": true` are drawn in grey italic. Record and inference stay visibly apart.
