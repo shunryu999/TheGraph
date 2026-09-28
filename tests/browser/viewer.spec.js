@@ -65,6 +65,78 @@ for (const entry of catalog) {
     await expect(page.locator('#card h2')).toHaveText(picked.label);
     await expect(page).toHaveURL(new RegExp(`pick=${picked.id}(?:&|$)`));
   });
+
+  test(`first time step moves one shell increment in ${entry.id}`, async ({ page }) => {
+    // Inspect the real CPU scale and exercise the real vertex shader without a
+    // production test API. This probe exists only in the response used by this test.
+    await page.route(`**${viewer}?d=${entry.id}`, async route => {
+      const response = await route.fetch();
+      const html = (await response.text()).replace(
+        '  theme(); size();',
+        '  window.radialProbe = { radiusAt, uniforms, matP, renderer };\n  theme(); size();');
+      await route.fulfill({ response, body: html });
+    });
+    await page.goto(`${viewer}?d=${entry.id}`);
+    await expect(page.locator('#ds')).toHaveValue(entry.id);
+    await expect(page.locator('#title')).toHaveText(dataset(entry).meta.title);
+    const samples = await page.evaluate(() => {
+      const { radiusAt, uniforms, matP, renderer } = window.radialProbe;
+      const slider = document.getElementById('tnow'), gradient = document.getElementById('grad');
+      const start = +slider.min, end = +slider.max, step = +slider.step;
+      // Read the radius computed by the actual production vertex shader back from
+      // the GPU. A separate fragment shader encodes that radius as a red value.
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.Float32BufferAttribute([1, 0, 0], 3));
+      geometry.setAttribute('dir', new THREE.Float32BufferAttribute([1, 0, 0], 3));
+      geometry.setAttribute('gen', new THREE.Float32BufferAttribute([start], 1));
+      geometry.setAttribute('cls', new THREE.Float32BufferAttribute([1], 1));
+      const material = new THREE.ShaderMaterial({
+        uniforms, vertexShader: matP.vertexShader,
+        fragmentShader: 'varying vec3 vPos; void main(){ gl_FragColor = vec4(length(vPos), 0.0, 0.0, 1.0); }',
+      });
+      const scene = new THREE.Scene();
+      const point = new THREE.Points(geometry, material); point.frustumCulled = false; scene.add(point);
+      const camera = new THREE.OrthographicCamera(-2, 2, 2, -2, 0.1, 10);
+      camera.position.z = 4;
+      const target = new THREE.WebGLRenderTarget(64, 64);
+      const oldTarget = renderer.getRenderTarget(), oldColor = renderer.getClearColor(new THREE.Color()), oldAlpha = renderer.getClearAlpha();
+      function at(time) {
+        slider.value = time; slider.dispatchEvent(new Event('input', { bubbles: true }));
+        renderer.setRenderTarget(target); renderer.setClearColor(0x000000, 0); renderer.render(scene, camera);
+        const pixels = new Uint8Array(64 * 64 * 4); renderer.readRenderTargetPixels(target, 0, 0, 64, 64, pixels);
+        let red = -1;
+        for (let i = 0; i < pixels.length; i += 4) if (pixels[i + 3]) red = Math.max(red, pixels[i]);
+        return { cpu: radiusAt(start), gpu: red / 255, present: radiusAt(uniforms.tNow.value) };
+      }
+      try {
+        const scales = [0, 10, 50].map(value => {
+          gradient.value = value; gradient.dispatchEvent(new Event('input', { bubbles: true }));
+          return { gradient: value / 10, initial: at(start), first: at(start + step), second: at(start + 2 * step), final: at(end), reverse: at(start) };
+        });
+        return { steps: (end - start) / step, scales };
+      } finally {
+        renderer.setRenderTarget(oldTarget); renderer.setClearColor(oldColor, oldAlpha);
+        geometry.dispose(); material.dispose(); target.dispose();
+      }
+    });
+    for (const scale of samples.scales) {
+      expect(scale.initial.cpu).toBeCloseTo(1, 6);
+      expect(scale.first.cpu, `first step at gradient ${scale.gradient}`).toBeGreaterThan(0.5);
+      expect(scale.first.cpu).toBeLessThan(1);
+      expect(scale.second.cpu).toBeLessThan(scale.first.cpu);
+      expect(scale.second.cpu).toBeGreaterThan(scale.final.cpu);
+      expect(scale.final.cpu).toBeCloseTo(0.06, 6);
+      expect(scale.reverse.cpu).toBeCloseTo(1, 6);
+      for (const sample of [scale.initial, scale.first, scale.second, scale.final, scale.reverse]) {
+        expect(sample.gpu, 'GPU geometry agrees with labels and hatch boundaries').toBeCloseTo(sample.cpu, 2);
+        expect(sample.present).toBeCloseTo(1, 6);
+      }
+    }
+    // With uniform spacing, the first step consumes exactly one of the dataset's
+    // radial increments; the second consumes two, regardless of date units.
+    expect(samples.scales[0].first.cpu).toBeCloseTo(1 - 0.94 / samples.steps, 6);
+    expect(samples.scales[0].second.cpu).toBeCloseTo(1 - 2 * 0.94 / samples.steps, 6);
+  });
 }
 
 test('restores a shared lineage and month', async ({ page }) => {
