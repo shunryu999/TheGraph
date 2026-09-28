@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="The Stratasphere Viewer: any dated, geolocated lineage drawn as nested shells, the present outermost. First dataset: the IAS machine family, 1946–1960.">
+<meta name="description" content="Explore computing, printing, Unix and SARS-CoV-2 lineages as nested shells of time, with record and inference distinguished.">
 <title>Stratasphere Viewer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -106,7 +106,13 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
 .notes{margin-top:34px;border-top:1px solid var(--rule);padding-top:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px}
 .notes h2{font-size:15px;font-weight:500;font-variant:small-caps;letter-spacing:.12em;color:var(--grey);margin:0 0 6px}
 .notes p{margin:0;font-size:16px;color:var(--ink-2);max-width:62ch}
-.notes code{font-family:var(--mono);font-size:13px}
+.notes code{font-family:var(--mono);font-size:13px;overflow-wrap:anywhere}
+.tour{border-block:1px solid var(--rule);padding:16px 0;margin-bottom:24px;display:grid;gap:10px}
+.tour h2{font-size:23px;font-weight:500;margin:0}
+.tour p{margin:0;max-width:76ch}
+.tour .progress{font-family:var(--mono);font-size:12px;color:var(--ink-2)}
+.tour h2:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
+button:disabled{opacity:.45;cursor:default}
 </style>
 
 </head>
@@ -116,7 +122,22 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
     <div class="eyebrow">Phylograph · Roadmap project 11 · the stratasphere viewer</div>
     <h1 id="title">Stratasphere Viewer</h1>
     <p class="lede" id="desc"></p>
+    <div><button id="bTour" type="button" hidden>Take the four-dataset tour</button></div>
   </header>
+
+  <section class="tour" id="tour" aria-labelledby="tourTitle" hidden>
+    <div aria-live="polite" aria-atomic="true">
+      <p class="progress" id="tourProgress"></p>
+      <h2 id="tourTitle" tabindex="-1"></h2>
+      <p id="tourText"></p>
+    </div>
+    <p id="tourError" role="status" hidden></p>
+    <div class="row2">
+      <button type="button" id="tourBack">Previous stop</button>
+      <button type="button" id="tourNext" class="primary">Next stop</button>
+      <button type="button" id="tourSkip">Skip tour</button>
+    </div>
+  </section>
 
   <div class="main">
     <div class="stage">
@@ -982,7 +1003,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
 
   // ---------- the catalog ----------
   const EMBEDDED = { id:'ias', title:'The IAS machine family, 1946–1960', why:"The storyboard named it in 2007–08: “Computer graphing of computer spread is ideal. Each computer was local to a position in spacetime and the design (genotype) spread through clear lines of transmission.” The IAS design is a clean case. Its reports were circulated deliberately, and its copies are dated, placed and documented. BESM appears on some lists of IAS-family machines but was an independent Soviet design, so it is shown and flagged rather than left out.", data:() => JSON.parse($('data-default').textContent) };
-  let catalog = [EMBEDDED], base = null;
+  let catalog = [EMBEDDED], base = null, loadRequest = 0;
   async function fetchJSON(url){ const r = await fetch(url, { cache:'no-cache' }); if (!r.ok) throw new Error(r.status + ' ' + url); return r.json(); }
   async function openCatalog(){
     for (const b of ['../data/', '../../data/']){ // published site, then a checkout of the repo
@@ -993,19 +1014,76 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
     const f = document.createElement('option'); f.value = ''; f.textContent = 'A file you load'; f.disabled = true; f.id = 'dsFile'; s.appendChild(f);
   }
   async function openDataset(id, want = {}){
+    const request = ++loadRequest;
     const e = catalog.find(x => x.id === id) || catalog[0];
     let data;
     try { data = e.data ? e.data() : await fetchJSON(base + e.path); }
-    catch(x){ if (e.id === EMBEDDED.id){ data = EMBEDDED.data(); } else throw x; }
+    catch(x){ if (request !== loadRequest) return false; if (e.id === EMBEDDED.id){ data = EMBEDDED.data(); } else throw x; }
+    if (request !== loadRequest) return false; // a later choice owns the view
+    playing = false; $('bPlay').textContent = 'Play';
     load(data, e.id, e.id === id ? want : {});
     $('ds').value = e.id; $('dsBlurb').textContent = e.blurb || '';
     $('why').textContent = e.why || ''; $('whyBox').hidden = !e.why;
+    $('err').hidden = true;
+    return true;
   }
-  $('ds').addEventListener('change', e => openDataset(e.target.value).catch(x => { $('err').hidden = false; $('err').textContent = 'Could not open that dataset: ' + x.message; }));
+  $('ds').addEventListener('change', e => {
+    closeTour(false);
+    openDataset(e.target.value).catch(x => { $('ds').value = dsId || ''; $('err').hidden = false; $('err').textContent = 'Could not open that dataset: ' + x.message; });
+  });
+
+  // ---------- a short, optional first-visit tour; shared views always take precedence ----------
+  const TOUR = [
+    { id:'ias', pick:'illiac', title:'A design travels', text:'Follow ILLIAC’s vermilion lineage to see how a computer design travelled between places while its earlier moments sit farther inward.' },
+    { id:'printing', pick:'mainz', title:'A route can be inferred', text:'Clear the selection to compare recorded routes with grey inferred links, and look for the hatched 1454–1460 interval in this provisional printing dataset.' },
+    { id:'unix', pick:'macos', title:'More than one parent', text:'Inspect Mac OS X’s parents, then turn off “Follow influence links when tracing” to distinguish inherited code from ideas that travelled without code.' },
+    { id:'sars-cov-2', pick:'20I', title:'Detection is not origin', text:'Inspect Alpha’s first-detection record and scrub through 2020–2022 to see when lineages appear and their recorded tracking intervals end.' },
+  ];
+  const tourKey = 'phylograph-tour-v1';
+  let tourIndex = -1, tourRun = 0, tourRetry = null;
+  function tourSeen(){ try { return localStorage.getItem(tourKey) === 'done'; } catch(e){ return false; } }
+  function closeTour(focus = true){
+    if ($('tour').hidden) return;
+    ++tourRun; ++loadRequest; // discard an in-flight stop without replacing the current view
+    $('tour').hidden = true; $('bTour').hidden = false;
+    try { localStorage.setItem(tourKey, 'done'); } catch(e){} // only this preference is stored
+    if (focus) $('bTour').focus();
+  }
+  async function tourStop(index, focus = true){
+    const run = ++tourRun, stop = TOUR[index];
+    tourRetry = null;
+    $('tour').hidden = false; $('bTour').hidden = true;
+    $('tour').setAttribute('aria-busy', 'true');
+    $('tourBack').disabled = $('tourNext').disabled = true;
+    $('tourError').hidden = true;
+    if (tourIndex < 0){ $('tourTitle').textContent = 'Four ways to read a lineage'; $('tourText').textContent = 'Opening the first stop…'; $('tourProgress').textContent = 'Guided tour'; }
+    try {
+      if (!await openDataset(stop.id, { pick:stop.pick }) || run !== tourRun) return;
+      tourIndex = index;
+      $('tourProgress').textContent = `Guided tour · ${index + 1} of ${TOUR.length}`;
+      $('tourTitle').textContent = stop.title; $('tourText').textContent = stop.text;
+      if (focus) $('tourTitle').focus();
+    } catch(e){
+      if (run !== tourRun) return;
+      tourRetry = index;
+      $('tourError').hidden = false; $('tourError').textContent = 'That stop could not be opened. Try again, or skip the tour to explore the current view.';
+    } finally {
+      if (run === tourRun){
+        $('tour').setAttribute('aria-busy', 'false');
+        $('tourBack').disabled = tourIndex <= 0; $('tourNext').disabled = false;
+        $('tourNext').textContent = tourRetry !== null ? 'Retry stop' : tourIndex === TOUR.length - 1 ? 'Finish tour' : 'Next stop';
+      }
+    }
+  }
+  $('bTour').onclick = () => { tourIndex = -1; tourStop(0); };
+  $('tourBack').onclick = () => tourStop(tourIndex - 1);
+  $('tourNext').onclick = () => tourRetry !== null ? tourStop(tourRetry) : tourIndex === TOUR.length - 1 ? closeTour() : tourStop(tourIndex + 1);
+  $('tourSkip').onclick = () => closeTour();
 
   $('file').addEventListener('change', e => {
     const f = e.target.files[0]; if (!f) return; const rd = new FileReader();
-    rd.onload = () => { try { load(JSON.parse(rd.result)); $('ds').value = ''; $('dsBlurb').textContent = f.name; $('whyBox').hidden = true; $('err').hidden = true; } catch(x){ $('err').hidden = false; $('err').textContent = 'Could not load that file: ' + x.message; } };
+    closeTour(false); const request = ++loadRequest;
+    rd.onload = () => { if (request !== loadRequest) return; try { playing = false; $('bPlay').textContent = 'Play'; load(JSON.parse(rd.result)); $('ds').value = ''; $('dsBlurb').textContent = f.name; $('whyBox').hidden = true; $('err').hidden = true; } catch(x){ $('err').hidden = false; $('err').textContent = 'Could not load that file: ' + x.message; } };
     rd.readAsText(f);
   });
 
@@ -1046,7 +1124,12 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
   const q = new URLSearchParams(location.search);
   load(EMBEDDED.data(), EMBEDDED.id); // draw at once; the catalog may replace it a moment later
   requestAnimationFrame(frame);
-  openCatalog().then(() => openDataset(q.get('d') || catalog[0].id, { pick:q.get('pick'), t:q.get('t') }))
+  openCatalog().then(async () => {
+    if (!await openDataset(q.get('d') || catalog[0].id, { pick:q.get('pick'), t:q.get('t') })) return;
+    const hasTour = TOUR.every(stop => catalog.some(entry => entry.id === stop.id));
+    $('bTour').hidden = !hasTour;
+    if (hasTour && !['d','pick','t'].some(key => q.has(key)) && !tourSeen()) await tourStop(0, false);
+  })
     .catch(x => { $('err').hidden = false; $('err').textContent = 'Could not open that dataset: ' + x.message; });
 })();
 </script>

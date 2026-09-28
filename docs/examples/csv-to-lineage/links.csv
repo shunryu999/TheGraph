@@ -1,0 +1,3 @@
+from,to,kind,inferred,note
+harbor,hill,copy,false,A design was copied in this fictional example.
+hill,river,copy,true,A possible route within the fictional example.

@@ -124,3 +124,30 @@ The viewer keeps its state in the address bar: `?d=<dataset>&pick=<node id>&t=<d
 ## Each dataset folder
 
 `data/<name>/` holds `<name>.json` and a `SOURCE.md` giving the sources with retrieval dates, the licence, and the choices a reader should know about: what was left out, what is inference, how places and dates were settled.
+
+## Worked example: two spreadsheets to one lineage
+
+The [CSV example](examples/csv-to-lineage/) contains three **fictional** workshops. It teaches the format without making a historical claim. It is deliberately outside the public dataset catalog.
+
+1. Open [`nodes.csv`](examples/csv-to-lineage/nodes.csv) in a spreadsheet. Keep one row per thing, and a stable, unique `id` per row. `lat`, `lng` and `t` are numbers; an empty `tEnd` means the worldline continues to the dataset's present shell. The `source` column holds one citation for this small example.
+2. Open [`links.csv`](examples/csv-to-lineage/links.csv). Each row joins a parent `from` id to a child `to` id. Write `true` or `false` in `inferred`; a string containing “false” must not accidentally become a true Boolean. Several rows may have the same `to` id when a thing has several parents.
+3. Export both sheets as UTF-8 CSV, retaining their header names and filenames. Keep them beside [`convert.py`](examples/csv-to-lineage/convert.py).
+4. From the repository root, run:
+
+```sh
+python3 docs/examples/csv-to-lineage/convert.py > /tmp/workshop-lineage.json
+python3 tools/validate.py /tmp/workshop-lineage.json
+python3 -m http.server 8000
+```
+
+Open `http://localhost:8000/prototypes/stratasphere-viewer/` and choose the generated file under **Load another dataset**. The card initially selects Hill workshop, whose worldline ends in 1930. Clear the selection to see the inferred River workshop and its incoming link in grey.
+
+The converter writes `format`, `meta`, `nodes` and `links`, turns coordinates and years into JSON numbers, omits blank ending dates, and wraps each source as a citation list. For example, the second link becomes:
+
+```json
+{"from":"hill","to":"river","kind":"copy","inferred":true,"note":"A possible route within the fictional example."}
+```
+
+This converter is intentionally for `year` data. For months or days, preserve the ISO strings and change `meta.unit`; for years before present, use numeric ages with the older bound in `tStart`. Update the metadata, span, default pick and captions for your actual dataset. Run the validator after every conversion. Validation checks structure and consistency; a person still needs to verify the evidence, provenance and licence.
+
+To propose a real catalog entry, place the reviewed JSON and a `SOURCE.md` in `data/<name>/`, then add its relative path and descriptive text to `data/catalog.json`. Validate the whole catalog and run the browser checks before opening a pull request. A file loaded locally stays in the browser; it is not uploaded or added to the catalog.

@@ -23,13 +23,52 @@ This repo holds the buildable parts: prototypes, datasets, specs and the public 
 | 5 | [Ontograph plates](prototypes/ontograph-plates/): eight plates for the Ontograph in the Illustration Brief style, with prompts | First version |
 | 7 | [Life on the Stratasphere](prototypes/life-sphere/): Conway's Life on a sphere, its history nested as shells | First version |
 | 8 | [IAS machine family](data/ias-machine-lineage/): 23 machines, 1946–1960, placed and dated with sources | First version |
-| 11 | [Stratasphere viewer](prototypes/stratasphere-viewer/): any dated, geolocated lineage as nested shells | First version |
+| 11 | [Stratasphere viewer](prototypes/stratasphere-viewer/): IAS computers, printing, Unix and SARS-CoV-2 as nested shells | M5: guided tour and browser checks |
 
-The full ranked list is in [`docs/roadmap.md`](docs/roadmap.md). The current priority is taking the Stratasphere viewer to MVP: see [`docs/stratasphere-viewer-roadmap.md`](docs/stratasphere-viewer-roadmap.md).
+The full ranked list is in [`docs/roadmap.md`](docs/roadmap.md). The viewer's milestones and outstanding source/platform checks are in [`docs/stratasphere-viewer-roadmap.md`](docs/stratasphere-viewer-roadmap.md).
+
+## Run locally
+
+The site has no build step. Use Python 3 to serve the repository over HTTP so the viewer can fetch all four datasets:
+
+```sh
+git clone https://github.com/shunryu999/TheGraph.git
+cd TheGraph
+python3 -m http.server 8000
+```
+
+Open `http://localhost:8000/prototypes/stratasphere-viewer/`. On a first visit, a four-stop tour introduces IAS → printing → Unix → SARS-CoV-2. Skip it to explore freely, or reopen it from the header. A shared `?d=…&pick=…&t=…` view takes precedence over the tour.
+
+The renderer loads pinned libraries from CDNs. An embedded IAS dataset is available if catalog access fails, but a fresh offline browser still needs those libraries; this is not yet a complete offline bundle.
+
+## Check a change
+
+Data checks need only Python 3:
+
+```sh
+python3 -m unittest discover -s tools -v
+python3 tools/validate.py --catalog data/catalog.json
+```
+
+Browser checks additionally need Node.js 22 or later. These development dependencies do not add a build step or runtime dependency to the site:
+
+```sh
+npm ci
+npx playwright install chromium
+npm run test:browser
+```
+
+On Linux, use `npx playwright install --with-deps chromium` to install browser system libraries as well. The test runner starts and stops its own local server on port 8765. Tests load every catalog entry, check errors, rendered pixels, labels, selections and shared links, and exercise the tour and local CSV example. The test browser receives the production three.js r128 scripts from the pinned npm package, so CDN outages do not make CI fail. External fonts are omitted in tests. Failure screenshots and traces are saved under `test-results/` and uploaded by GitHub Actions.
+
+## Add a dataset
+
+Start with the [v1 format and worked spreadsheet example](docs/data-format.md#worked-example-two-spreadsheets-to-one-lineage). Read the [data design specification](docs/stratasphere-data-design.md) for the representation's scope and limitations. A proposed dataset needs sources, a licence, explicit inference and a bounded claim, as well as valid JSON. Add it to `data/catalog.json`, run both sets of checks, and open a pull request for review.
+
+The printing source verification, Unix source expansion, Safari export and real-GPU performance checks remain open. Structural validation and browser checks do not certify the underlying evidence.
 
 ## Publishing
 
-Nothing is public until Pages is switched on (Settings → Pages → Source: *GitHub Actions*) and the repo or site is made public. Drafts are reviewed before anything goes live.
+The public site is [twigzistence.shunryugarvey.com](https://twigzistence.shunryugarvey.com). GitHub Pages publishes `site/`, every prototype and `data/` on pushes to `main`. Propose changes in a pull request with passing checks; the owner reviews and merges. A merge to `main` publishes the change.
 
 ## Conventions
 
