@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Explore computing, printing, Unix and SARS-CoV-2 lineages as nested shells of time, with record and inference distinguished.">
+<meta name="description" content="Explore computing, printing, Unix, SARS-CoV-2 and hominin fossil comparisons as nested shells of time, with record and inference distinguished.">
 <title>Stratasphere Viewer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -66,7 +66,7 @@ h1{font-weight:500;font-size:clamp(34px,5vw,48px);line-height:1.05;margin:0;lett
 aside{display:grid;gap:18px}
 .card{background:var(--panel);border:1px solid var(--rule);padding:14px 16px;display:grid;gap:8px}
 .card h2{font-size:21px;font-weight:500;margin:0;line-height:1.2}
-.card .meta{font-family:var(--mono);font-size:13px;color:var(--grey)}
+.card .meta{font-family:var(--mono);font-size:13px;color:var(--grey);overflow-wrap:anywhere}
 .card p{margin:0;font-size:16px;color:var(--ink-2)}
 .card .lineage{font-size:15px;color:var(--ink)}
 .card .lineage b{font-weight:500;color:var(--accent)}
@@ -154,12 +154,12 @@ button:disabled{opacity:.45;cursor:default}
         <span><i class="inf"></i><span id="keyInf">inference, not record</span></span>
         <span id="keyDet" hidden><i class="ring"></i>first detected here, not where it began</span>
         <span id="keyHatch" hidden><i class="hatch"></i>reconstructed, not recorded</span>
-        <span><i class="red"></i>the lineage you picked</span>
+        <span><i class="red"></i><span id="keySel">the lineage you picked</span></span>
         <span id="keyYou" hidden><i class="you"></i>you, and your line to the nearest</span>
         <span><i class="land"></i>the Earth, redrawn through time</span>
       </div>
       <p class="keys" aria-label="Keyboard"><kbd>←</kbd> <kbd>→</kbd> step through time (<kbd>Shift</kbd> for ten), <kbd>Home</kbd> <kbd>End</kbd> first and present, <kbd>Space</kbd> play, <kbd>Esc</kbd> clear, <kbd>↑</kbd> <kbd>↓</kbd> move through the list.</p>
-      <p class="hint">Drag to turn, scroll or pinch to zoom. Move the time slider: each year becomes the outer shell in turn, and earlier years sink inward. Click a name to see where it came from and what came from it.</p>
+      <p class="hint">Drag to turn, scroll or pinch to zoom. Move the time slider: each moment becomes the outer shell in turn, and earlier moments sink inward. Click a name to read its sources and trace its connections.</p>
     </div>
 
     <aside>
@@ -214,7 +214,7 @@ button:disabled{opacity:.45;cursor:default}
   <section class="notes">
     <div>
       <h2>How to read it</h2>
-      <p>Each shell is the Earth at one moment. The present is the outer shell, and every earlier moment is nested inside it. Each thing appears on the shell of the moment it began, at the place it began, and a radial line carries it outward to the present, or stops where it ended. A link runs from where it came from, curving inward through time and across the globe.</p>
+      <p>Each shell is the Earth at one moment. The present is the outer shell, and earlier moments are nested inside it. A point places a record at its documented or estimated place and time. A radial line extends to the present or to a stated ending; an occurrence with no duration stays a point. Curved links connect records across space and time. The dataset's key explains whether a link means descent, copying, influence or comparison.</p>
     </div>
     <div id="whyBox">
       <h2>Why this dataset</h2>
@@ -729,8 +729,8 @@ button:disabled{opacity:.45;cursor:default}
       const d = nodeDir[nd.id], on = S && S.has(nd.id), c = clsOf(isInf(nd), on), e = Math.min(tE, nd.tEnd ?? tE);
       const ended = nd.tEnd != null && nd.tEnd < tE, cw = ended && !on ? 3 : c; // a line that ended is drawn grey
       // the worldline: from when it began out to when it ended, or to the present
-      const n = 4; for (let k=0;k<n;k++){ const t0 = nd.t + (e-nd.t)*k/n, t1 = nd.t + (e-nd.t)*(k+1)/n; L.push(...d,t0,cw,...d,t1,cw); }
-      if (ended) P.push(...d, e, cw); // a plain terminus
+      const n = 4; if (e > nd.t) for (let k=0;k<n;k++){ const t0 = nd.t + (e-nd.t)*k/n, t1 = nd.t + (e-nd.t)*(k+1)/n; L.push(...d,t0,cw,...d,t1,cw); }
+      if (ended && e > nd.t) P.push(...d, e, cw); // a plain terminus; occurrences have just one point
       P.push(...d, nd.t, nd.provenance === 'detected' && !isInf(nd) ? (on ? 5 : 4) : c);
     }
     for (const lk of D.links){
@@ -900,24 +900,28 @@ button:disabled{opacity:.45;cursor:default}
     const c = $('card');
     if (!sel){
       c.innerHTML = `<h2>${esc(D.meta.title)}</h2><div class="meta">${D.nodes.length} nodes · ${D.links.length} links · ${fmtT(D.meta.tStart)}–${fmtT(D.meta.tEnd)}</div>` +
-        (D.meta.caveats ? `<p>${esc(D.meta.caveats)}</p>` : '') + (D.meta.sources ? `<p class="meta">Sources: ${D.meta.sources.map(esc).join('; ')}</p>` : '');
+        (D.meta.caveats ? `<p>${esc(D.meta.caveats)}</p>` : '') + (D.meta.sources ? `<p class="meta">Sources: ${D.meta.sources.map(citation).join('; ')}</p>` : '');
       return;
     }
     const nd = byId[sel], up = []; let x = sel; const seen = new Set();
     while ((parents[x]||[]).length && !seen.has(x)){ seen.add(x); x = parents[x][0]; up.unshift(byId[x].label); }
     const kids = (children[sel]||[]).map(k => byId[k].label), kinds = D.meta.linkKinds || {};
+    const comparison = D.meta.relationshipMode === 'comparison';
+    const related = [...new Set([...(parents[sel] || []), ...(children[sel] || [])])].map(id => byId[id].label);
     const from = D.links.filter(l => l.to === sel && byId[l.from]).map(l => '<b class="p">' + esc(byId[l.from].label) + '</b>' +
       (kinds[l.kind] ? ': ' + esc(kinds[l.kind]) : '') + (l.inferred ? ' <i>(inference)</i>' : '') + (l.note ? '. <span class="ln">' + esc(l.note) + '</span>' : ''));
-    c.innerHTML = `<h2>${esc(nd.label)}</h2><div class="meta">${nd.provenance === 'detected' ? 'first detected ' : ''}${fmtT(nd.t)}${nd.tEnd != null ? '–' + fmtT(nd.tEnd) : ''} · ${esc(nd.place||'')}${isInf(nd) ? ' · inference' : ''}</div>` +
+    c.innerHTML = `<h2>${esc(nd.label)}</h2><div class="meta">${nd.provenance === 'detected' ? 'first detected ' : ''}${nd.dateLabel ? esc(nd.dateLabel) : fmtT(nd.t) + (nd.tEnd != null && nd.tEnd !== nd.t ? '–' + fmtT(nd.tEnd) : '')} · ${esc(nd.place||'')}${isInf(nd) ? ' · inference' : ''}</div>` +
       (nd.note ? `<p>${esc(nd.note)}</p>` : '') +
-      (from.length ? `<p class="from">${from.map(f => 'From ' + f + (/[.!?]<\/span>$|[.!?]$/.test(f) ? '' : '.')).join('<br>')}</p>` : '') +
-      `<p class="lineage">${up.length ? 'Traced back: ' + up.map(esc).join(' → ') + ' → <b>' + esc(nd.label) + '</b>.' : '<b>' + esc(nd.label) + '</b> is a root of this lineage.'}` +
-      (kids.length ? ` Led on to ${kids.map(esc).join(', ')}.` : '') + `</p>` +
-      (Array.isArray(nd.sources) && nd.sources.length ? `<p class="meta">Sources: ${nd.sources.map(esc).join('; ')}</p>` : '') +
+      (from.length ? `<p class="from">${from.map(f => (comparison ? 'Compared with ' : 'From ') + f + (/[.!?]<\/span>$|[.!?]$/.test(f) ? '' : '.')).join('<br>')}</p>` : '') +
+      (comparison ? `<p class="lineage">${related.length ? 'Linked comparisons: ' + related.map(esc).join('; ') + '.' : 'No comparison link in this sample.'} These links do not establish ancestry or migration.</p>` :
+        `<p class="lineage">${up.length ? 'Traced back: ' + up.map(esc).join(' → ') + ' → <b>' + esc(nd.label) + '</b>.' : '<b>' + esc(nd.label) + '</b> is a root of this lineage.'}` +
+        (kids.length ? ` Led on to ${kids.map(esc).join(', ')}.` : '') + `</p>`) +
+      (Array.isArray(nd.sources) && nd.sources.length ? `<p class="meta">Sources: ${nd.sources.map(citation).join('; ')}</p>` : '') +
       `<div><button type="button" id="bClear">Clear selection</button></div>`;
     $('bClear').onclick = () => pick(null);
   }
   const esc = s => String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
+  const citation = s => /^https?:\/\/\S+$/i.test(String(s)) ? `<a href="${esc(s)}" target="_blank" rel="noopener noreferrer">${esc(s)}</a>` : esc(s);
   function list(){
     const L = $('list'); L.innerHTML = '';
     [...D.nodes].sort((a,b)=>a.t-b.t || a.label.localeCompare(b.label)).forEach(nd => {
@@ -961,6 +965,9 @@ button:disabled{opacity:.45;cursor:default}
     document.documentElement.style.setProperty('--ycol', ({year:'4.5ch', month:'8ch', day:'11ch', yearBP:'7ch'})[unit]);
     uniforms.tStart.value = D.meta.tStart;
     uniforms.tEnd.value = D.meta.tEnd;
+    const gradient = Number.isFinite(D.meta.defaultGradient) ? Math.max(0, Math.min(5, D.meta.defaultGradient)) : 1;
+    $('grad').value = Math.round(gradient * 10); uniforms.grad.value = +$('grad').value / 10;
+    $('oGrad').textContent = uniforms.grad.value.toFixed(1);
     $('list').innerHTML = ''; labs = []; labelsEl.innerHTML = '';
     let t0 = D.meta.tEnd;
     if (want.t != null){ try { const w = toNum(unit === 'year' || unit === 'yearBP' ? +want.t : want.t); if (w >= D.meta.tStart && w <= D.meta.tEnd) t0 = w; } catch(e){} }
@@ -968,9 +975,11 @@ button:disabled{opacity:.45;cursor:default}
     const LK = D.meta.linkKinds || {}, used = new Set(D.links.map(l => l.kind || 'descent')), hasInfl = used.has('influence');
     const solid = [...used].filter(k => k !== 'influence' && LK[k]).map(k => LK[k]);
     $('keyRec').textContent = solid.length ? 'record: ' + solid.join(' · ') : 'record';
+    $('keyRec').parentElement.hidden = !D.nodes.some(n => !isInf(n)) && !D.links.some(l => !l.inferred);
+    $('keySel').textContent = D.meta.relationshipMode === 'comparison' ? 'the comparison trace you picked' : 'the lineage you picked';
     $('keyInfl').hidden = !hasInfl; $('keyInflT').textContent = LK.influence || 'influence, with nothing passed on';
     $('inflRow').hidden = !hasInfl;
-    $('keyInf').textContent = D.nodes.some(n => n.tEnd != null && n.tEnd < D.meta.tEnd) ? 'inference, or a line that has ended' : 'inference, not record';
+    $('keyInf').textContent = D.meta.relationshipMode === 'comparison' ? 'estimated placement; comparison links, not ancestry' : D.nodes.some(n => n.tEnd != null && n.tEnd < D.meta.tEnd) ? 'inference, or a line that has ended' : 'inference, not record';
     $('keyDet').hidden = !D.nodes.some(n => n.provenance === 'detected');
     $('keyHatch').hidden = !D.meta.inferredSpans.length;
     frame0();

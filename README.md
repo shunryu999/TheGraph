@@ -23,13 +23,13 @@ This repo holds the buildable parts: prototypes, datasets, specs and the public 
 | 5 | [Ontograph plates](prototypes/ontograph-plates/): eight plates for the Ontograph in the Illustration Brief style, with prompts | First version |
 | 7 | [Life on the Stratasphere](prototypes/life-sphere/): Conway's Life on a sphere, its history nested as shells | First version |
 | 8 | [IAS machine family](data/ias-machine-lineage/): 23 machines, 1946–1960, placed and dated with sources | First version |
-| 11 | [Stratasphere viewer](prototypes/stratasphere-viewer/): IAS computers, printing, Unix and SARS-CoV-2 as nested shells | M5: guided tour and browser checks |
+| 11 | [Stratasphere viewer](prototypes/stratasphere-viewer/): IAS computers, printing, Unix, SARS-CoV-2 and hominin fossil comparisons as nested shells | M5 released; deep-time case study prepared |
 
 The full ranked list is in [`docs/roadmap.md`](docs/roadmap.md). The viewer's milestones and outstanding source/platform checks are in [`docs/stratasphere-viewer-roadmap.md`](docs/stratasphere-viewer-roadmap.md).
 
 ## Run locally
 
-The site has no build step. Use Python 3 to serve the repository over HTTP so the viewer can fetch all four datasets:
+The site has no build step. Use Python 3 to serve the repository over HTTP so the viewer can fetch all five datasets:
 
 ```sh
 git clone https://github.com/shunryu999/TheGraph.git
@@ -38,6 +38,8 @@ python3 -m http.server 8000
 ```
 
 Open `http://localhost:8000/prototypes/stratasphere-viewer/`. On a first visit, a four-stop tour introduces IAS → printing → Unix → SARS-CoV-2. Skip it to explore freely, or reopen it from the header. A shared `?d=…&pick=…&t=…` view takes precedence over the tour.
+
+The **Hominin fossil finds** entry adds 32 sourced occurrences across 7 Ma–40 ka. Open `?d=hominins&pick=knm-wt-15000` or choose it in the dataset picker. Its links compare museum taxonomic groupings; they do not assert individual ancestry. Read its [sources and limits](data/hominin-fossils/SOURCE.md). The introductory tour retains its original four stops.
 
 The renderer loads pinned libraries from CDNs. An embedded IAS dataset is available if catalog access fails, but a fresh offline browser still needs those libraries; this is not yet a complete offline bundle.
 

@@ -2,7 +2,7 @@
 
 A general viewer for any lineage with places and dates. Each node sits on the globe where it happened, at the shell for its year: the present is the outer shell and the start of the dataset is the center. Each node's worldline runs outward to the present. Each link is an arc from parent to child that climbs through the shells as it crosses the globe.
 
-The catalog contains the IAS machine family, the spread of printing, Unix and SARS-CoV-2 lineages. A short first-visit tour introduces them in that order, with one sentence per stop. Skip, finish or change datasets to leave the tour; reopen it from the header. Only the completed/skipped preference is stored locally, and shared dataset links bypass the tour.
+The catalog contains the IAS machine family, the spread of printing, Unix and SARS-CoV-2 lineages, plus a hominin fossil comparison dataset. A short first-visit tour introduces the original four in that order, with one sentence per stop. Skip, finish or change datasets to leave the tour; reopen it from the header. Only the completed/skipped preference is stored locally, and shared dataset links bypass the tour.
 
 ## What it does
 
@@ -26,10 +26,12 @@ The catalog contains the IAS machine family, the spread of printing, Unix and SA
 - **Permalinks.** The address bar keeps `?d=<dataset>&pick=<node>&t=<date>`, so a link reopens the same lineage at the same moment.
 - **Your own data.** Load any JSON file in the v1 format: [`docs/data-format.md`](../../docs/data-format.md). Dates may be years, months, days or years before present, and a node with `tEnd` stops there.
 
+For fossil occurrences, `tEnd = t` produces a single point. Optional `dateLabel` text preserves an age range or minimum on the card. `meta.relationshipMode: "comparison"` uses comparison wording and `meta.defaultGradient` sets the initial density (3.0 for hominins; otherwise 1.0). The gradient resets on dataset load. URL-only citations become clickable links.
+
 ## Dependencies
 
 three.js r128 (cdnjs) and OrbitControls (jsDelivr). Land outlines are embedded in the page. There is no build step. The embedded IAS data alone does not make a fresh browser work offline: the external libraries must also be available. See the root [README](../../README.md#check-a-change) for the optional development dependencies used by the browser checks.
 
 ## Next
 
-M5 adds the tour, Chromium checks, a [worked CSV conversion](../../docs/data-format.md#worked-example-two-spreadsheets-to-one-lineage), and the [data design specification](../../docs/stratasphere-data-design.md). The [roadmap](../../docs/stratasphere-viewer-roadmap.md) retains the outstanding printing-source verification, Unix expansion, Safari export and real-GPU checks. Hominin fossils are the next planned dataset after the MVP review.
+M5 adds the tour, Chromium checks, a [worked CSV conversion](../../docs/data-format.md#worked-example-two-spreadsheets-to-one-lineage), and the [data design specification](../../docs/stratasphere-data-design.md). The [roadmap](../../docs/stratasphere-viewer-roadmap.md) retains the outstanding printing-source verification, Unix expansion, Safari export and real-GPU checks. The first hominin fossil comparison dataset is prepared for review. See its [sources and scientific limits](../../data/hominin-fossils/SOURCE.md); a reviewed ancestry-hypothesis model remains future work.

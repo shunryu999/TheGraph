@@ -7,6 +7,7 @@ Exits 1 if any file has errors. Warnings are printed but do not fail.
 No dependencies beyond Python 3.
 """
 import json
+import math
 import re
 import sys
 from datetime import date
@@ -73,6 +74,12 @@ def check(data, name="dataset"):
     if unit not in UNITS:
         r.err(f"meta.unit {unit!r} should be one of {', '.join(UNITS)}")
         unit = "year"
+    if meta.get("relationshipMode", "lineage") not in ("lineage", "comparison"):
+        r.err("meta.relationshipMode should be lineage or comparison")
+    if "defaultGradient" in meta:
+        g = meta["defaultGradient"]
+        if isinstance(g, bool) or not isinstance(g, (int, float)) or not math.isfinite(g) or not 0 <= g <= 5:
+            r.err("meta.defaultGradient should be a finite number from 0 to 5")
 
     def when(v, where):
         try:
@@ -108,6 +115,8 @@ def check(data, name="dataset"):
         ids.add(nid)
         if not n.get("label"):
             r.warn(f"{where}: no label; the id will be shown")
+        if "dateLabel" in n and (not isinstance(n["dateLabel"], str) or not n["dateLabel"].strip()):
+            r.err(f"{where}: dateLabel should be non-empty text")
         for k, lo, hi in (("lat", -90, 90), ("lng", -180, 180)):
             v = n.get(k)
             if isinstance(v, bool) or not isinstance(v, (int, float)):

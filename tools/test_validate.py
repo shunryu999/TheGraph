@@ -98,6 +98,15 @@ class TestCheck(unittest.TestCase):
         d["links"].append({"from": "c", "to": "a"})
         self.assertError(d, "cycle")
 
+    def test_comparison_display_metadata(self):
+        d = with_(meta__relationshipMode="comparison", meta__defaultGradient=3, nodes__0__dateLabel="c. 1900")
+        self.assertEqual(run(d).errors, [])
+        for g in (-1, 6, True, "3", float("nan"), float("inf")):
+            self.assertError(with_(meta__defaultGradient=g), "defaultGradient")
+        self.assertError(with_(meta__relationshipMode="unknown"), "relationshipMode")
+        for label in ("", 42, {}):
+            self.assertError(with_(nodes__0__dateLabel=label), "dateLabel")
+
     def test_self_link(self):
         d = copy.deepcopy(GOOD)
         d["links"].append({"from": "a", "to": "a"})

@@ -112,11 +112,11 @@ These are the parts of the original #11 spec still unbuilt. They land once the t
 
 *Done when:* all three case studies use hatching where it applies, the reader's line can be placed, and an export works in Chromium and Safari.
 
-### M5 · MVP release (S) — implementation prepared 28 Sept 2026
+### M5 · MVP release (S) — merged 28 Sept 2026
 
-The four-stop tour, runnable CSV example, collaborator documentation, data design section and automated Chromium checks are implemented for review. The tour is optional, remembers completion or skipping locally, and yields to shared links and manual dataset choices. Browser checks cover all catalog entries, nonblank rendering, names, selection, shared state, tour navigation and local file loading; they run in `Check` on pull requests.
+The four-stop tour, runnable CSV example, collaborator documentation, data design section and automated Chromium checks were merged in [PR #7](https://github.com/shunryu999/TheGraph/pull/7). The tour is optional, remembers completion or skipping locally, and yields to shared links and manual dataset choices. Browser checks cover all catalog entries, nonblank rendering, names, selection, shared state, tour navigation and local file loading; they run in `Check` on pull requests.
 
-See the [quick start and checks](../README.md), [spreadsheet recipe](data-format.md#worked-example-two-spreadsheets-to-one-lineage) and [data design section](stratasphere-data-design.md). Owner review and merge remain the release step. The earlier M1 ISTC/citation work and M4 Safari-export/real-GPU acceptance checks are still open; M5 does not close them.
+See the [quick start and checks](../README.md), [spreadsheet recipe](data-format.md#worked-example-two-spreadsheets-to-one-lineage) and [data design section](stratasphere-data-design.md). The earlier M1 ISTC/citation work and M4 Safari-export/real-GPU acceptance checks are still open; M5 does not close them.
 
 - The catalog opens on a short guided tour: IAS → printing → Unix → SARS-CoV-2, each with one sentence on what to look at.
 - `README.md` and `docs/data-format.md` are final enough to hand to a collaborator, with a worked example of converting a spreadsheet into the format.
@@ -125,7 +125,7 @@ See the [quick start and checks](../README.md), [spreadsheet recipe](data-format
 
 ### After the MVP
 
-- **Hominin fossils.** `yearBP` units with a strong default density gradient, labels like "1.8 Ma", and nearly all links marked `inferred`. It is the bridge to #17.
+- **Hominin fossils — first comparison dataset prepared 28 Sept 2026.** [32 fossil occurrences](../data/hominin-fossils/SOURCE.md), spanning 7 Ma–40 ka, use `yearBP`, a default density gradient of 3.0, qualified age labels and specimen citations. All 15 links are inferred editorial comparisons within museum taxonomic groups. Points are occurrences, not million-year lifespans; comparison cards avoid ancestry claims. This delivers the deep-time viewer case study and begins the bridge to #17. It does **not** complete the proposed inference-heavy phylogeny: specialist chronology/taxonomy review, sourced excavation coordinates and evidence-backed ancestry hypotheses remain open.
 - ***Paradise Lost* editions (#15).** This comes after #9 supplies the psycho → phono → pheno staging; `node.kind` already carries it.
 - **#12, the Ontograph navigator,** docks beside the viewer and uses the permalink state from M0.
 - **#13 and #17** plug in as further catalog entries.
