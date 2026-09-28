@@ -28,4 +28,4 @@ Sixty clades and sixty-five links: every clade in Nextstrain's SARS-CoV-2 hierar
 
 ## Licence
 
-The compilation is released under CC BY 4.0. It is derived from Nextstrain (MIT) and Pango (CC BY 4.0) data; attribute both when reusing it.
+The compilation (the place rule, labels, endings, recombinant links, notes and wording) is © Colin Shunryu Garvey, all rights reserved; see [`LICENSE`](../../LICENSE). The underlying data remain under their own terms: Nextstrain (MIT, Copyright (c) 2020 Nextstrain) and Pango (CC BY 4.0), whose designation notes are quoted verbatim and credited on each node.

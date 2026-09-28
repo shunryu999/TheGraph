@@ -183,7 +183,7 @@ def main():
             "caveats": "Places are where a lineage was first detected or described, never where it arose. They come from the Pango designation note; a country is drawn at its geographic centre. Where the note names only a region, or nothing, the place is marked inference and drawn at the region's centre or at the parent's place. Dates are the month of the first sequence in Nextstrain's curation. A line ends where WHO reclassified the variant as previously circulating; that is not extinction. Recombinants are joined to both parent clades.",
             "defaultPick": "24A",
             "linkKinds": {"descent": "descends from it", "merge": "one parent of a recombinant"},
-            "licence": "CC BY 4.0 (compilation), from MIT and CC BY 4.0 sources",
+            "licence": "All rights reserved (compilation); see LICENSE. Derived facts: Nextstrain (MIT), Pango (CC BY 4.0)",
         },
         "nodes": nodes, "links": links,
     }

@@ -1,0 +1,41 @@
+Copyright © 2003–2026 Colin Shunryu Garvey. All rights reserved.
+
+This repository and the site built from it (twigzistence.shunryugarvey.com)
+contain unpublished work: the Phylograph and the Ontograph, their written
+descriptions, terminology and notes, the plates and other images, the page
+designs, the prototypes and their source code, and the datasets as compiled
+here (the selection, arrangement, links, notes and wording).
+
+No licence is granted. You may view this work on GitHub and on the site. You
+may not copy, reproduce, adapt, distribute, publish, or use it to train
+machine-learning models, in whole or in part, without the prior written
+permission of the copyright holder. Forking on GitHub is permitted only as
+the GitHub Terms of Service require, and grants no other right.
+
+Earlier versions of some datasets in this repository's history stated a
+Creative Commons Attribution 4.0 licence. That statement applies only to
+copies made from those earlier versions; it does not apply to anything here
+from 28 September 2026 onward.
+
+Third-party material
+--------------------
+The following are not owned by the copyright holder, remain under their own
+terms, and are credited where they are used:
+
+- data/places/cities.json: place names and coordinates from GeoNames
+  (geonames.org), CC BY 4.0, obtained through the all-the-cities package
+  (MIT licence).
+- The coastlines embedded in prototypes/stratasphere-viewer/index.html:
+  Natural Earth (naturalearthdata.com), public domain.
+- data/sars-cov-2-lineages/: dates, clade relationships and quoted
+  designation notes from Nextstrain (nextstrain/ncov, MIT licence,
+  Copyright (c) 2020 Nextstrain) and Pango (cov-lineages/pango-designation,
+  CC BY 4.0). Pango's notes are quoted verbatim and credited per node.
+- data/unix-family/: release facts from the Unix History Repository by
+  D. Spinellis (dspinellis/unix-history-make, Apache License 2.0).
+- Facts drawn from the other sources listed in each dataset's SOURCE.md
+  (dates, places, names) are not claimed; the compilation of them is.
+- three.js and its OrbitControls (MIT licence) are loaded from public CDNs
+  and are not part of this repository.
+
+Permission requests: through the repository owner on GitHub (@shunryu999).

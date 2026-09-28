@@ -24,6 +24,6 @@ Fifty-seven towns and fifty-six links: the first press in each town, placed wher
 
 ## Licence
 
-The compilation (which towns, dates, places and links) is released under CC BY 4.0. The notes are original.
+The compilation (which towns, dates, places and links, and the notes) is © Colin Shunryu Garvey, all rights reserved; see [`LICENSE`](../../LICENSE).
 
 Corrections are welcome. Edit the JSON and run `python3 tools/validate.py --catalog data/catalog.json`.
