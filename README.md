@@ -23,13 +23,17 @@ This repo holds the buildable parts: prototypes, datasets, specs and the public 
 | 5 | [Ontograph plates](prototypes/ontograph-plates/): eight plates for the Ontograph in the Illustration Brief style, with prompts | First version |
 | 7 | [Life on the Stratasphere](prototypes/life-sphere/): Conway's Life on a sphere, its history nested as shells | First version |
 | 8 | [IAS machine family](data/ias-machine-lineage/): 23 machines, 1946–1960, placed and dated with sources | First version |
-| 11 | [Stratasphere viewer](prototypes/stratasphere-viewer/): any dated, geolocated lineage as nested shells | First version |
+| 11 | [Stratasphere viewer](prototypes/stratasphere-viewer/): any dated, geolocated lineage as nested shells, with four datasets (IAS machines, the spread of printing, SARS-CoV-2 lineages, the Unix family) | M0–M4 done; MVP (M5) next |
 
 The full ranked list is in [`docs/roadmap.md`](docs/roadmap.md). The current priority is taking the Stratasphere viewer to MVP: see [`docs/stratasphere-viewer-roadmap.md`](docs/stratasphere-viewer-roadmap.md).
 
 ## Publishing
 
-Nothing is public until Pages is switched on (Settings → Pages → Source: *GitHub Actions*) and the repo or site is made public. Drafts are reviewed before anything goes live.
+Every push to `main` is checked and published by GitHub Pages to twigzistence.shunryugarvey.com (`.github/workflows/pages.yml`). This repository is public, so drafts that are not ready to be public (essays awaiting approval, notebook material) live in the owner's Notion workspace or the private archive repo, not here.
+
+## Taking over
+
+Start with [`docs/HANDOFF.md`](docs/HANDOFF.md): where everything lives, how the viewer works, what each dataset still owes, and what to do next.
 
 ## Conventions
 
