@@ -38,7 +38,7 @@ python3 tools/validate.py --catalog data/catalog.json     # every dataset in the
 | `linkKinds` | no | A caption for each `kind` of link used, e.g. `{"copy": "a design copied"}`. The viewer builds its key from these, and the card shows each parent as "From *parent*: *caption*", so write captions that read well after that. |
 | `kinds` | no | A caption for each `kind` of node used, e.g. `{"translation": "a translation"}`. |
 | `inferredSpans` | no | Stretches of time that are reconstructed rather than recorded, as `[[t0, t1], …]`. The viewer hatches these shells (M4). |
-| `licence` | no | The licence the compilation is released under. |
+| `licence` | no | The terms the compilation is under. In this repository: `All rights reserved (compilation); see LICENSE`. |
 
 ## `nodes`
 

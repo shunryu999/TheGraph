@@ -1,0 +1,5 @@
+# Unpublished work, all rights reserved (see LICENSE in the repository).
+# Until launch, crawlers and AI-training bots are asked to stay away.
+# Remove this file when the site is launched.
+User-agent: *
+Disallow: /

@@ -21,4 +21,4 @@ Twenty-seven systems and thirty-five links: the operating systems descended from
 
 ## Licence
 
-The compilation is released under CC BY 4.0. The notes are original; `releases.md` in the Unix History Repository is Apache 2.0.
+The compilation (the selection of systems, the links and their kinds, the notes and their wording) is © Colin Shunryu Garvey, all rights reserved; see [`LICENSE`](../../LICENSE). The release facts drawn from the Unix History Repository (Apache 2.0) remain under its terms.

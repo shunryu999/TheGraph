@@ -140,7 +140,7 @@ From `docs/roadmap.md`. The Notion copy of the roadmap has a dated status line u
 | SARS-CoV-2 lineages, 2019–26 | 60 / 65 | Nextstrain `ncov` and Pango `pango-designation`, pinned; WHO reclassification dates | Reproducible with `build.py`. To refresh, bump the two pinned SHAs and rerun. 25 of 60 places are inferred because the Pango notes name no place. |
 | Unix family, 1970–2026 | 27 / 35 | Spinellis's Unix History Repository for the backbone; per-node sources for the rest | A pass against Éric Lévénez's chart (blocked from the build environment), which would add HP-UX, IRIX, Ultrix, Tru64 and the Linux distributions. |
 
-Licences: each compilation is CC BY 4.0. SARS-CoV-2 derives from MIT (Nextstrain) and CC BY 4.0 (Pango) data; the city list from GeoNames (CC BY 4.0).
+Licensing: **everything here is all rights reserved until launch** ([`LICENSE`](../LICENSE)), including the datasets as compiled. Third-party material keeps its own terms and is listed in `LICENSE`: the GeoNames city list (CC BY 4.0), Natural Earth coastlines (public domain), and the facts drawn from Nextstrain (MIT), Pango (CC BY 4.0) and the Unix History Repository (Apache 2.0). New datasets set `meta.licence` to `All rights reserved (compilation); see LICENSE`.
 
 ## 8. What to do next
 
@@ -177,6 +177,7 @@ Licences: each compilation is CC BY 4.0. SARS-CoV-2 derives from MIT (Nextstrain
 - **Generated files.** Edit the generator, not its outputs: `prototypes/ontograph-plates/build.py`, `data/sars-cov-2-lineages/build.py`.
 - **Visual system.** `docs/conventions.md` (tokens), plus the Illustration Brief in Notion for the plates: three line weights, one accent, no gradients, no glow, nothing drawn inside a Horizon.
 - **Writing.** Plain, exact English in the Brief's register. Captions and notes are part of the work and are reviewed like code.
+- **Rights.** The work is unpublished and all rights reserved (see `LICENSE`). Don't copy it into other projects, public gists or forks, don't paste it into third-party services beyond what the work needs, and keep new concepts out of this public repo until the owner decides to publish them. `site/robots.txt` asks crawlers to stay away until launch; remove it only when the owner says so.
 
 ## 10. First hour, suggested
 

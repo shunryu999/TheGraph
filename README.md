@@ -31,6 +31,10 @@ The full ranked list is in [`docs/roadmap.md`](docs/roadmap.md). The current pri
 
 Every push to `main` is checked and published by GitHub Pages to twigzistence.shunryugarvey.com (`.github/workflows/pages.yml`). This repository is public, so drafts that are not ready to be public (essays awaiting approval, notebook material) live in the owner's Notion workspace or the private archive repo, not here.
 
+## Rights
+
+© 2003–2026 Colin Shunryu Garvey. **All rights reserved.** This is unpublished work: the ideas as written, the terminology, the plates and images, the prototypes and their code, and the datasets as compiled may not be copied, reused or used to train models without permission. Third-party data keep their own terms; see [`LICENSE`](LICENSE). Until launch, [`site/robots.txt`](site/robots.txt) asks crawlers not to index the site.
+
 ## Taking over
 
 Start with [`docs/HANDOFF.md`](docs/HANDOFF.md): where everything lives, how the viewer works, what each dataset still owes, and what to do next.

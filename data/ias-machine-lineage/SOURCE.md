@@ -10,6 +10,10 @@ Twenty-three nodes and twenty-two links: the computers built from, or closely mo
 
 Wikipedia text is CC BY-SA 4.0. This dataset is a compilation of dates and places, not a copy of that text.
 
+## Licence
+
+The compilation (the selection, links, notes and wording) is © Colin Shunryu Garvey, all rights reserved; see [`LICENSE`](../../LICENSE).
+
 ## Choices and caveats
 
 - **Years** are first-operational years, rounded. Several machines ran partially a year before formal completion.
