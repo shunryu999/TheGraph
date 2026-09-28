@@ -15,6 +15,8 @@ CI runs the same check on every pull request.
 - [`sars-cov-2-lineages/`](sars-cov-2-lineages/) (viewer M2): SARS-CoV-2 clades, 2019–2026, built from Nextstrain and Pango by `build.py`.
 - [`unix-family/`](unix-family/) (viewer M3): the Unix family, 1970–2026, 27 systems.
 
+- [`hominin-fossils/`](hominin-fossils/): 32 fossil occurrences, 7 Ma–40 ka, with age qualifications and 15 inferred comparison links.
+
 Also [`places/cities.json`](places/cities.json): the 1,712 places of 250,000 people or more, from GeoNames (CC BY 4.0) via the `all-the-cities` package, for the viewer's place finder.
 
 Later: `paradise-lost-editions/` (#15), `pbdb-extract/` (#17).

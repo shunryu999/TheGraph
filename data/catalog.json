@@ -32,6 +32,14 @@
    "span": "1970–2026",
    "blurb": "Twenty-seven systems from Bell Labs Unix to macOS, Android and the BSDs, linked by code, by influence, and by merges of several lines.",
    "why": "Software shows heredity more plainly than anything else: code is copied, forked and merged, and the record of who took what from whom is unusually complete. It also shows what a family tree hides. Linux took no code from Unix, only its design, so the link is drawn faint and can be left out of a trace; macOS has two parents, NeXTSTEP and BSD; and System V Release 4 has four. Pick macOS, then turn off Follow influence links, to see which ancestry is code and which is ideas."
+  },
+  {
+   "id": "hominins",
+   "path": "hominin-fossils/hominin-fossils.json",
+   "title": "Hominin fossil finds, 7 Ma–40 ka",
+   "span": "7 Ma–40 ka",
+   "blurb": "Thirty-two fossil finds, with estimated ages, approximate regions and comparisons within published taxonomic groups.",
+   "why": "The first deep-time case study asks how scattered fossils can be read together without turning incomplete evidence into a single chain of ancestors. Dates use millions and thousands of years before present. Select a find to inspect its age estimate and sources; clear the selection to see inferred placement and comparison links in grey."
   }
  ]
 }

@@ -35,6 +35,8 @@ python3 tools/validate.py --catalog data/catalog.json     # every dataset in the
 | `sources` | no | A list of citations for the dataset as a whole. |
 | `caveats` | no | What a careful reader should know: rounding, choices, omissions. |
 | `defaultPick` | no | The id of the node selected when the dataset opens. |
+| `defaultGradient` | no | Initial density gradient, a finite number from 0 to 5. Defaults to 1; reset on each dataset load and rounded to the control's 0.1 increment. |
+| `relationshipMode` | no | `lineage` (default) or `comparison`. Comparison mode describes connected records without calling them ancestors or descendants. The data's notes must explain the evidence for each comparison. |
 | `linkKinds` | no | A caption for each `kind` of link used, e.g. `{"copy": "a design copied"}`. The viewer builds its key from these, and the card shows each parent as "From *parent*: *caption*", so write captions that read well after that. |
 | `kinds` | no | A caption for each `kind` of node used, e.g. `{"translation": "a translation"}`. |
 | `inferredSpans` | no | Stretches of time that are reconstructed rather than recorded, as `[[t0, t1], …]`. The viewer hatches these shells (M4). |
@@ -49,12 +51,15 @@ python3 tools/validate.py --catalog data/catalog.json     # every dataset in the
 | `lat`, `lng` | yes | Decimal degrees, WGS 84. Latitude −90 to 90, longitude −180 to 180. |
 | `t` | yes | When the thing began: first ran, first printed, first detected. See *Time*. |
 | `tEnd` | no | When it ended: stopped running, was displaced, died out. The worldline stops there. If absent, the thing continues to the present. |
+| `dateLabel` | no | Non-empty text displayed in the card instead of the formatted date or date range, e.g. `286 ± 32 ka`. It qualifies the numeric plotting date; it does not change chronology or draw uncertainty bounds. Use the note to explain how `t` was chosen. |
 | `place` | no | The place in words, shown on the card. |
 | `note` | no | A sentence or two shown on the card. |
 | `kind` | no | A free category, captioned in `meta.kinds`. |
 | `provenance` | no | How the node's place and date are known (see below). Defaults to `record`. |
 | `inferred` | no | Shorthand kept from the draft: `true` means `"provenance": "inferred"`. |
 | `sources` | no | Citations for this node alone. |
+
+For an occurrence with no claimed duration, set `tEnd` equal to `t`: the viewer draws one point and no worldline. Do not use a dating uncertainty interval as a lifespan. A fossil may be physically documented while its date or placement is inferred; explain this distinction in its note. The [hominin sample](../data/hominin-fossils/SOURCE.md) demonstrates ranges, approximate dates and a one-sided age constraint. URL-only citation strings become clickable HTTP(S) links; other citation text remains plain text.
 
 ### Provenance
 
@@ -90,6 +95,8 @@ A node may have several parents: write one link for each. Links must not form a 
 | `merge` | One of several parents that combined. | Darwin from NeXTSTEP and BSD |
 
 Other kinds are allowed if they are captioned in `meta.linkKinds`.
+
+In a `comparison` dataset, `from` and `to` orient a comparison for acyclic tracing, not parenthood. The hominin case study uses a captioned `comparison` kind for editorial links between museum taxonomic assignments, all marked `inferred`. Source classification does not establish individual ancestry, a migration route or temporal precedence when age estimates overlap.
 
 ## Time
 

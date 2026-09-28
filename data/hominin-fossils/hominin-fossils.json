@@ -1,0 +1,666 @@
+{
+  "format": 1,
+  "meta": {
+    "title": "Hominin fossil finds, 7 Ma–40 ka",
+    "unit": "yearBP",
+    "tStart": 7000000,
+    "tEnd": 40000,
+    "defaultPick": "knm-wt-15000",
+    "defaultGradient": 3,
+    "relationshipMode": "comparison",
+    "description": "32 fossil finds across deep time. Lines compare finds assigned to the same taxon; they do not establish ancestry. Ages and map locations are estimates.",
+    "sources": [
+      "https://humanorigins.si.edu/evidence/human-fossils/fossils",
+      "https://doi.org/10.1038/nature22335",
+      "https://doi.org/10.1038/s41586-020-2165-4",
+      "https://doi.org/10.1038/s41586-021-04275-8"
+    ],
+    "caveats": "A selected sample, not a complete human family tree. Every point represents a fossil occurrence, not a species origin or a lifespan. Grey marks identify estimated dates and approximate regional locations; the fossils themselves are documented. Links are editorial comparisons within museum taxonomic groups, not ancestors, descendants or migrations. Clear selection to see inference in grey. Ranges and one-sided ages are explained on the cards; the picture shows display anchors, not uncertainty distributions. Modern geography is a reference backdrop, not a reconstruction of ancient coastlines.",
+    "linkKinds": {
+      "comparison": "comparison within a published taxonomic group"
+    },
+    "kinds": {
+      "Sahelanthropus tchadensis": "Sahelanthropus tchadensis",
+      "Orrorin tugenensis": "Orrorin tugenensis",
+      "Ardipithecus ramidus": "Ardipithecus ramidus",
+      "Australopithecus anamensis": "Australopithecus anamensis",
+      "Australopithecus afarensis": "Australopithecus afarensis",
+      "Australopithecus africanus": "Australopithecus africanus",
+      "Australopithecus garhi": "Australopithecus garhi",
+      "Paranthropus aethiopicus": "Paranthropus aethiopicus",
+      "Paranthropus robustus": "Paranthropus robustus",
+      "Homo rudolfensis": "Homo rudolfensis",
+      "Homo habilis": "Homo habilis",
+      "Homo erectus": "Homo erectus",
+      "Paranthropus boisei": "Paranthropus boisei",
+      "Homo heidelbergensis": "Homo heidelbergensis",
+      "Homo sapiens": "Homo sapiens",
+      "Homo neanderthalensis": "Homo neanderthalensis"
+    },
+    "licence": "All rights reserved (compilation); third-party sources retain their own terms."
+  },
+  "nodes": [
+    {
+      "id": "tm-266-01-060-1",
+      "label": "TM 266-01-060-1 (Toumaï)",
+      "lat": 16,
+      "lng": 17,
+      "t": 6500000,
+      "tEnd": 6500000,
+      "dateLabel": "6 Ma–7 Ma; plotted at 6.5 Ma",
+      "place": "Toros-Menalla, Chad (approximate region)",
+      "kind": "Sahelanthropus tchadensis",
+      "provenance": "inferred",
+      "note": "Assigned to Sahelanthropus tchadensis in the cited museum record. The plotting date is the midpoint of the museum’s age range; it is not a known year of death. Location is an estimated regional marker, rounded to a whole degree, not an excavation coordinate.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/tm-266-01-060-1"
+      ]
+    },
+    {
+      "id": "bar-100200",
+      "label": "BAR 1002’00",
+      "lat": 1,
+      "lng": 36,
+      "t": 6000000,
+      "tEnd": 6000000,
+      "dateLabel": "c. 6 Ma",
+      "place": "Tugen Hills, Kenya (approximate region)",
+      "kind": "Orrorin tugenensis",
+      "provenance": "inferred",
+      "note": "Assigned to Orrorin tugenensis in the cited museum record. Approximate age; it is not a known year of death. Location is an estimated regional marker, rounded to a whole degree, not an excavation coordinate.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/bar-100200"
+      ]
+    },
+    {
+      "id": "ara-vp-6500",
+      "label": "ARA-VP-6/500 (Ardi)",
+      "lat": 10,
+      "lng": 40,
+      "t": 4400000,
+      "tEnd": 4400000,
+      "dateLabel": "c. 4.4 Ma",
+      "place": "Aramis, Middle Awash, Ethiopia (approximate region)",
+      "kind": "Ardipithecus ramidus",
+      "provenance": "inferred",
+      "note": "Assigned to Ardipithecus ramidus in the cited museum record. Approximate age; it is not a known year of death. Location is an estimated regional marker, rounded to a whole degree, not an excavation coordinate.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/ara-vp-6500"
+      ]
+    },
+    {
+      "id": "knm-kp-29285",
+      "label": "KNM-KP 29285",
+      "lat": 2,
+      "lng": 36,
+      "t": 4100000,
+      "tEnd": 4100000,
+      "dateLabel": "c. 4.1 Ma",
+      "place": "Kanapoi, Kenya (approximate region)",
+      "kind": "Australopithecus anamensis",
+      "provenance": "inferred",
+      "note": "Assigned to Australopithecus anamensis in the cited museum record. Approximate age; it is not a known year of death. Location is an estimated regional marker, rounded to a whole degree, not an excavation coordinate.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/knm-kp-29285"
+      ]
+    },
+    {
+      "id": "dik-1-1",
+      "label": "DIK-1-1 (Selam)",
+      "lat": 11,
+      "lng": 41,
+      "t": 3300000,
+      "tEnd": 3300000,
+      "dateLabel": "c. 3.3 Ma",
+      "place": "Dikika, Ethiopia (approximate region)",
+      "kind": "Australopithecus afarensis",
+      "provenance": "inferred",
+      "note": "Assigned to Australopithecus afarensis in the cited museum record. Approximate age; it is not a known year of death. Location is an estimated regional marker, rounded to a whole degree, not an excavation coordinate.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/dik-1-1"
+      ]
+    },
+    {
+      "id": "al-288-1",
+      "label": "AL 288-1 (Lucy)",
+      "lat": 11,
+      "lng": 41,
+      "t": 3200000,
+      "tEnd": 3200000,
+      "dateLabel": "c. 3.2 Ma",
+      "place": "Hadar, Ethiopia (approximate region)",
+      "kind": "Australopithecus afarensis",
+      "provenance": "inferred",
+      "note": "Assigned to Australopithecus afarensis in the cited museum record. Approximate age; it is not a known year of death. Location is an estimated regional marker, rounded to a whole degree, not an excavation coordinate.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/al-288-1"
+      ]
+    },
+    {
+      "id": "al-444-2",
+      "label": "AL 444-2",
+      "lat": 11,
+      "lng": 41,
+      "t": 3000000,
+      "tEnd": 3000000,
+      "dateLabel": "c. 3 Ma",
+      "place": "Hadar, Ethiopia (approximate region)",
+      "kind": "Australopithecus afarensis",
+      "provenance": "inferred",
+      "note": "Assigned to Australopithecus afarensis in the cited museum record. Approximate age; it is not a known year of death. Location is an estimated regional marker, rounded to a whole degree, not an excavation coordinate.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/al-444-2"
+      ]
+    },
+    {
+      "id": "taung-child",
+      "label": "Taung Child",
+      "lat": -28,
+      "lng": 25,
+      "t": 2800000,
+      "tEnd": 2800000,
+      "dateLabel": "c. 2.8 Ma",
+      "place": "Taung, Republic of South Africa (approximate region)",
+      "kind": "Australopithecus africanus",
+      "provenance": "inferred",
+      "note": "Assigned to Australopithecus africanus in the cited museum record. Approximate age; it is not a known year of death. Location is an estimated regional marker, rounded to a whole degree, not an excavation coordinate.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/taung-child"
+      ]
+    },
+    {
+      "id": "bou-vp-121",
+      "label": "BOU-VP-12/1",
+      "lat": 10,
+      "lng": 41,
+      "t": 2500000,
+      "tEnd": 2500000,
+      "dateLabel": "c. 2.5 Ma",
+      "place": "Bouri, Middle Awash, Ethiopia (approximate region)",
+      "kind": "Australopithecus garhi",
+      "provenance": "inferred",
+      "note": "Assigned to Australopithecus garhi in the cited museum record. Approximate age; it is not a known year of death. Location is an estimated regional marker, rounded to a whole degree, not an excavation coordinate.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/bou-vp-121"
+      ]
+    },
+    {
+      "id": "knm-wt-17000",
+      "label": "KNM-WT 17000",
+      "lat": 4,
+      "lng": 36,
+      "t": 2500000,
+      "tEnd": 2500000,
+      "dateLabel": "c. 2.5 Ma",
+      "place": "West Turkana, Kenya (approximate region)",
+      "kind": "Paranthropus aethiopicus",
+      "provenance": "inferred",
+      "note": "Assigned to Paranthropus aethiopicus in the cited museum record. Approximate age; it is not a known year of death. Location is an estimated regional marker, rounded to a whole degree, not an excavation coordinate.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/knm-wt-17000"
+      ]
+    },
+    {
+      "id": "dnh-7",
+      "label": "DNH 7",
+      "lat": -26,
+      "lng": 28,
+      "t": 1995000,
+      "tEnd": 1995000,
+      "dateLabel": "1.95 Ma–2.04 Ma; plotted at 1.995 Ma",
+      "place": "Drimolen Main Quarry, Republic of South Africa (approximate region)",
+      "kind": "Paranthropus robustus",
+      "provenance": "inferred",
+      "note": "Assigned to Paranthropus robustus in the cited museum record. The plotting date is the midpoint of the museum’s age range; it is not a known year of death. Location is an estimated regional marker, rounded to a whole degree, not an excavation coordinate.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/dnh-7"
+      ]
+    },
+    {
+      "id": "knm-er-1470",
+      "label": "KNM-ER 1470",
+      "lat": 4,
+      "lng": 36,
+      "t": 1900000,
+      "tEnd": 1900000,
+      "dateLabel": "c. 1.9 Ma",
+      "place": "Koobi Fora, Kenya (approximate region)",
+      "kind": "Homo rudolfensis",
+      "provenance": "inferred",
+      "note": "Assigned to Homo rudolfensis in the cited museum record. Approximate age; it is not a known year of death. Location is an estimated regional marker, rounded to a whole degree, not an excavation coordinate.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/knm-er-1470"
+      ]
+    },
+    {
+      "id": "knm-er-1813",
+      "label": "KNM-ER 1813",
+      "lat": 4,
+      "lng": 36,
+      "t": 1900000,
+      "tEnd": 1900000,
+      "dateLabel": "c. 1.9 Ma",
+      "place": "Koobi Fora, Kenya (approximate region)",
+      "kind": "Homo habilis",
+      "provenance": "inferred",
+      "note": "Assigned to Homo habilis in the cited museum record. Approximate age; it is not a known year of death. Location is an estimated regional marker, rounded to a whole degree, not an excavation coordinate.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/knm-er-1813"
+      ]
+    },
+    {
+      "id": "knm-er-3733",
+      "label": "KNM-ER 3733",
+      "lat": 4,
+      "lng": 36,
+      "t": 1800000,
+      "tEnd": 1800000,
+      "dateLabel": "c. 1.8 Ma",
+      "place": "Koobi Fora, Kenya (approximate region)",
+      "kind": "Homo erectus",
+      "provenance": "inferred",
+      "note": "Assigned to Homo erectus in the cited museum record. Approximate age; it is not a known year of death. Location is an estimated regional marker, rounded to a whole degree, not an excavation coordinate.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/knm-er-3733"
+      ]
+    },
+    {
+      "id": "oh-24",
+      "label": "OH 24",
+      "lat": -3,
+      "lng": 35,
+      "t": 1800000,
+      "tEnd": 1800000,
+      "dateLabel": "c. 1.8 Ma",
+      "place": "Olduvai Gorge, Tanzania (approximate region)",
+      "kind": "Homo habilis",
+      "provenance": "inferred",
+      "note": "Assigned to Homo habilis in the cited museum record. Approximate age; it is not a known year of death. Location is an estimated regional marker, rounded to a whole degree, not an excavation coordinate.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/oh-24"
+      ]
+    },
+    {
+      "id": "oh-5",
+      "label": "OH 5",
+      "lat": -3,
+      "lng": 35,
+      "t": 1800000,
+      "tEnd": 1800000,
+      "dateLabel": "c. 1.8 Ma",
+      "place": "Olduvai Gorge, Tanzania (approximate region)",
+      "kind": "Paranthropus boisei",
+      "provenance": "inferred",
+      "note": "Assigned to Paranthropus boisei in the cited museum record. Approximate age; it is not a known year of death. Location is an estimated regional marker, rounded to a whole degree, not an excavation coordinate.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/oh-5"
+      ]
+    },
+    {
+      "id": "d2282",
+      "label": "D2282",
+      "lat": 41,
+      "lng": 44,
+      "t": 1770000,
+      "tEnd": 1770000,
+      "dateLabel": "c. 1.77 Ma",
+      "place": "Dmanisi, Republic of Georgia (approximate region)",
+      "kind": "Homo erectus",
+      "provenance": "inferred",
+      "note": "Assigned to Homo erectus in the cited museum record. Approximate age; it is not a known year of death. Location is an estimated regional marker, rounded to a whole degree, not an excavation coordinate.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/d2282"
+      ]
+    },
+    {
+      "id": "d3444",
+      "label": "D3444",
+      "lat": 41,
+      "lng": 44,
+      "t": 1770000,
+      "tEnd": 1770000,
+      "dateLabel": "c. 1.77 Ma",
+      "place": "Dmanisi, Republic of Georgia (approximate region)",
+      "kind": "Homo erectus",
+      "provenance": "inferred",
+      "note": "Assigned to Homo erectus in the cited museum record. Approximate age; it is not a known year of death. Location is an estimated regional marker, rounded to a whole degree, not an excavation coordinate.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/d3444"
+      ]
+    },
+    {
+      "id": "knm-er-406",
+      "label": "KNM-ER 406",
+      "lat": 4,
+      "lng": 36,
+      "t": 1700000,
+      "tEnd": 1700000,
+      "dateLabel": "c. 1.7 Ma",
+      "place": "Koobi Fora, Kenya (approximate region)",
+      "kind": "Paranthropus boisei",
+      "provenance": "inferred",
+      "note": "Assigned to Paranthropus boisei in the cited museum record. Approximate age; it is not a known year of death. Location is an estimated regional marker, rounded to a whole degree, not an excavation coordinate.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/knm-er-406"
+      ]
+    },
+    {
+      "id": "knm-er-732",
+      "label": "KNM-ER 732 A",
+      "lat": 4,
+      "lng": 36,
+      "t": 1700000,
+      "tEnd": 1700000,
+      "dateLabel": "c. 1.7 Ma",
+      "place": "Koobi Fora, Kenya (approximate region)",
+      "kind": "Paranthropus boisei",
+      "provenance": "inferred",
+      "note": "Assigned to Paranthropus boisei in the cited museum record. Approximate age; it is not a known year of death. Location is an estimated regional marker, rounded to a whole degree, not an excavation coordinate.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/knm-er-732"
+      ]
+    },
+    {
+      "id": "sk-46",
+      "label": "SK 46",
+      "lat": -26,
+      "lng": 28,
+      "t": 1650000,
+      "tEnd": 1650000,
+      "dateLabel": "1.5 Ma–1.8 Ma; plotted at 1.65 Ma",
+      "place": "Swartkrans, Republic of South Africa (approximate region)",
+      "kind": "Paranthropus robustus",
+      "provenance": "inferred",
+      "note": "Assigned to Paranthropus robustus in the cited museum record. The plotting date is the midpoint of the museum’s age range; it is not a known year of death. Location is an estimated regional marker, rounded to a whole degree, not an excavation coordinate.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/sk-46"
+      ]
+    },
+    {
+      "id": "sk-48",
+      "label": "SK 48",
+      "lat": -26,
+      "lng": 28,
+      "t": 1650000,
+      "tEnd": 1650000,
+      "dateLabel": "1.5 Ma–1.8 Ma; plotted at 1.65 Ma",
+      "place": "Swartkrans, Republic of South Africa (approximate region)",
+      "kind": "Paranthropus robustus",
+      "provenance": "inferred",
+      "note": "Assigned to Paranthropus robustus in the cited museum record. The plotting date is the midpoint of the museum’s age range; it is not a known year of death. Location is an estimated regional marker, rounded to a whole degree, not an excavation coordinate.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/sk-48"
+      ]
+    },
+    {
+      "id": "knm-er-3883",
+      "label": "KNM-ER 3883",
+      "lat": 4,
+      "lng": 36,
+      "t": 1600000,
+      "tEnd": 1600000,
+      "dateLabel": "c. 1.6 Ma",
+      "place": "Koobi Fora, Kenya (approximate region)",
+      "kind": "Homo erectus",
+      "provenance": "inferred",
+      "note": "Assigned to Homo erectus in the cited museum record. Approximate age; it is not a known year of death. Location is an estimated regional marker, rounded to a whole degree, not an excavation coordinate.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/knm-er-3883"
+      ]
+    },
+    {
+      "id": "knm-wt-15000",
+      "label": "KNM-WT 15000",
+      "lat": 4,
+      "lng": 36,
+      "t": 1600000,
+      "tEnd": 1600000,
+      "dateLabel": "c. 1.6 Ma",
+      "place": "Nariokotome, West Turkana, Kenya (approximate region)",
+      "kind": "Homo erectus",
+      "provenance": "inferred",
+      "note": "Assigned to Homo erectus in the cited museum record. Approximate age; it is not a known year of death. Location is an estimated regional marker, rounded to a whole degree, not an excavation coordinate.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/knm-wt-15000"
+      ]
+    },
+    {
+      "id": "sangiran-17",
+      "label": "Sangiran 17",
+      "lat": -7,
+      "lng": 111,
+      "t": 1150000,
+      "tEnd": 1150000,
+      "dateLabel": "1 Ma–1.3 Ma; plotted at 1.15 Ma",
+      "place": "Sangiran, Java, Indonesia (approximate region)",
+      "kind": "Homo erectus",
+      "provenance": "inferred",
+      "note": "Assigned to Homo erectus in the cited museum record. The plotting date is the midpoint of the museum’s age range; it is not a known year of death. Location is an estimated regional marker, rounded to a whole degree, not an excavation coordinate.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/sangiran-17"
+      ]
+    },
+    {
+      "id": "bodo",
+      "label": "Bodo",
+      "lat": 10,
+      "lng": 41,
+      "t": 600000,
+      "tEnd": 600000,
+      "dateLabel": "c. 600 ka",
+      "place": "Middle Awash, Ethiopia (approximate region)",
+      "kind": "Homo heidelbergensis",
+      "provenance": "inferred",
+      "note": "Assigned to Homo heidelbergensis in the cited museum record. Approximate age; it is not a known year of death. Location is an estimated regional marker, rounded to a whole degree, not an excavation coordinate.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/bodo"
+      ]
+    },
+    {
+      "id": "kabwe-1",
+      "label": "Kabwe 1",
+      "lat": -14,
+      "lng": 28,
+      "t": 299000,
+      "tEnd": 299000,
+      "dateLabel": "299 ± 25 ka (2σ)",
+      "place": "Kabwe, Zambia (approximate region)",
+      "kind": "Homo heidelbergensis",
+      "provenance": "inferred",
+      "note": "The 2020 direct-dating study gives 299 ± 25 ka (2σ). The museum groups this fossil as Homo heidelbergensis; its taxonomic assignment is debated. The point uses the central age estimate, not a precise year of death. Location is an estimated regional marker, not an excavation coordinate.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/kabwe-1",
+        "https://doi.org/10.1038/s41586-020-2165-4"
+      ]
+    },
+    {
+      "id": "irhoud-3",
+      "label": "Irhoud 3",
+      "lat": 32,
+      "lng": -9,
+      "t": 286000,
+      "tEnd": 286000,
+      "dateLabel": "286 ± 32 ka",
+      "place": "Jebel Irhoud, Morocco (approximate region)",
+      "kind": "Homo sapiens",
+      "provenance": "inferred",
+      "note": "Homo sapiens. The 2017 study recalculates the age of a tooth in Irhoud 3 to 286 ± 32 ka; this replaces the museum page’s older 160 ka estimate. The separate 315 ± 34 ka estimate concerns the associated archaeological context. Location is an estimated regional marker, not an excavation coordinate.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/irhoud-3",
+        "https://doi.org/10.1038/nature22335"
+      ]
+    },
+    {
+      "id": "omo-i",
+      "label": "Omo I",
+      "lat": 5,
+      "lng": 36,
+      "t": 233000,
+      "tEnd": 233000,
+      "dateLabel": "Older than a 233 ± 22 ka dated horizon",
+      "place": "Omo River, Ethiopia (approximate region)",
+      "kind": "Homo sapiens",
+      "provenance": "inferred",
+      "note": "Homo sapiens. The 2022 study dates an overlying volcanic horizon, establishing a minimum age, not the fossil’s exact age. Plotted at 233 ka as a lower-bound display anchor; its actual position belongs farther into the past. This replaces the museum page’s older 195 ka estimate. Location is an estimated regional marker, not an excavation coordinate. No chronological comparison link is drawn from this one-sided age constraint.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/omo-i",
+        "https://doi.org/10.1038/s41586-021-04275-8"
+      ]
+    },
+    {
+      "id": "la-chapelle-aux-saints",
+      "label": "La Chapelle-aux-Saints 1",
+      "lat": 45,
+      "lng": 2,
+      "t": 60000,
+      "tEnd": 60000,
+      "dateLabel": "c. 60 ka",
+      "place": "La Chapelle-aux-Saints, France (approximate region)",
+      "kind": "Homo neanderthalensis",
+      "provenance": "inferred",
+      "note": "Assigned to Homo neanderthalensis in the cited museum record. Approximate age; it is not a known year of death. Location is an estimated regional marker, rounded to a whole degree, not an excavation coordinate.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/la-chapelle-aux-saints"
+      ]
+    },
+    {
+      "id": "la-ferrassie",
+      "label": "La Ferrassie 1",
+      "lat": 45,
+      "lng": 1,
+      "t": 60000,
+      "tEnd": 60000,
+      "dateLabel": "50 ka–70 ka; plotted at 60 ka",
+      "place": "La Ferrassie Cave, France (approximate region)",
+      "kind": "Homo neanderthalensis",
+      "provenance": "inferred",
+      "note": "Assigned to Homo neanderthalensis in the cited museum record. The plotting date is the midpoint of the museum’s age range; it is not a known year of death. Location is an estimated regional marker, rounded to a whole degree, not an excavation coordinate.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/la-ferrassie"
+      ]
+    },
+    {
+      "id": "feldhofer",
+      "label": "Feldhofer 1",
+      "lat": 51,
+      "lng": 7,
+      "t": 40000,
+      "tEnd": 40000,
+      "dateLabel": "c. 40 ka",
+      "place": "Feldhofer Cave, Neander Valley, Germany (approximate region)",
+      "kind": "Homo neanderthalensis",
+      "provenance": "inferred",
+      "note": "Assigned to Homo neanderthalensis in the cited museum record. Approximate age; it is not a known year of death. Location is an estimated regional marker, rounded to a whole degree, not an excavation coordinate.",
+      "sources": [
+        "https://humanorigins.si.edu/evidence/human-fossils/fossils/feldhofer"
+      ]
+    }
+  ],
+  "links": [
+    {
+      "to": "al-288-1",
+      "kind": "comparison",
+      "inferred": true,
+      "note": "Both museum records use Australopithecus afarensis. This link is an editorial comparison, not a migration route or a claim of descent.",
+      "from": "dik-1-1"
+    },
+    {
+      "to": "al-444-2",
+      "kind": "comparison",
+      "inferred": true,
+      "note": "Both museum records use Australopithecus afarensis. This link is an editorial comparison, not a migration route or a claim of descent.",
+      "from": "dik-1-1"
+    },
+    {
+      "to": "d2282",
+      "kind": "comparison",
+      "inferred": true,
+      "note": "Both museum records use Homo erectus. This link is an editorial comparison, not a migration route or a claim of descent.",
+      "from": "knm-er-3733"
+    },
+    {
+      "to": "d3444",
+      "kind": "comparison",
+      "inferred": true,
+      "note": "Both museum records use Homo erectus. This link is an editorial comparison, not a migration route or a claim of descent.",
+      "from": "knm-er-3733"
+    },
+    {
+      "to": "knm-er-3883",
+      "kind": "comparison",
+      "inferred": true,
+      "note": "Both museum records use Homo erectus. This link is an editorial comparison, not a migration route or a claim of descent.",
+      "from": "knm-er-3733"
+    },
+    {
+      "to": "knm-wt-15000",
+      "kind": "comparison",
+      "inferred": true,
+      "note": "Both museum records use Homo erectus. This link is an editorial comparison, not a migration route or a claim of descent.",
+      "from": "knm-er-3733"
+    },
+    {
+      "to": "sangiran-17",
+      "kind": "comparison",
+      "inferred": true,
+      "note": "Both museum records use Homo erectus. This link is an editorial comparison, not a migration route or a claim of descent.",
+      "from": "knm-er-3733"
+    },
+    {
+      "to": "oh-24",
+      "kind": "comparison",
+      "inferred": true,
+      "note": "Both museum records use Homo habilis. This link is an editorial comparison, not a migration route or a claim of descent.",
+      "from": "knm-er-1813"
+    },
+    {
+      "to": "kabwe-1",
+      "kind": "comparison",
+      "inferred": true,
+      "note": "Both museum records use Homo heidelbergensis. This link is an editorial comparison, not a migration route or a claim of descent.",
+      "from": "bodo"
+    },
+    {
+      "to": "la-ferrassie",
+      "kind": "comparison",
+      "inferred": true,
+      "note": "Both museum records use Homo neanderthalensis. This link is an editorial comparison, not a migration route or a claim of descent.",
+      "from": "la-chapelle-aux-saints"
+    },
+    {
+      "to": "feldhofer",
+      "kind": "comparison",
+      "inferred": true,
+      "note": "Both museum records use Homo neanderthalensis. This link is an editorial comparison, not a migration route or a claim of descent.",
+      "from": "la-chapelle-aux-saints"
+    },
+    {
+      "to": "knm-er-406",
+      "kind": "comparison",
+      "inferred": true,
+      "note": "Both museum records use Paranthropus boisei. This link is an editorial comparison, not a migration route or a claim of descent.",
+      "from": "oh-5"
+    },
+    {
+      "to": "knm-er-732",
+      "kind": "comparison",
+      "inferred": true,
+      "note": "Both museum records use Paranthropus boisei. This link is an editorial comparison, not a migration route or a claim of descent.",
+      "from": "oh-5"
+    },
+    {
+      "to": "sk-46",
+      "kind": "comparison",
+      "inferred": true,
+      "note": "Both museum records use Paranthropus robustus. This link is an editorial comparison, not a migration route or a claim of descent.",
+      "from": "dnh-7"
+    },
+    {
+      "to": "sk-48",
+      "kind": "comparison",
+      "inferred": true,
+      "note": "Both museum records use Paranthropus robustus. This link is an editorial comparison, not a migration route or a claim of descent.",
+      "from": "dnh-7"
+    }
+  ]
+}

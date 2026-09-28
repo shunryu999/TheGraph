@@ -2,7 +2,7 @@
 
 *Drawn from the Twigzistence Reader (through the Storyboarding and Ontograph notebooks), the Recapitulation, the Gleanings, the Illustration Brief, and the Notebook Intake Log. Compiled 22 Sept 2026.*
 
-> **Current priority (25 Sept 2026):** building out the Stratasphere Viewer (#11) to MVP, with three new case studies: the spread of printing, SARS-CoV-2 variants and the Unix family. See [`stratasphere-viewer-roadmap.md`](stratasphere-viewer-roadmap.md).
+> **Current priority (28 Sept 2026):** the Stratasphere Viewer (#11) M5 release is merged. The next case study is prepared for review: 32 hominin fossil occurrences across 7 Ma–40 ka, with inferred comparison links and explicit age qualifications. A reviewed ancestry model remains open. See [`stratasphere-viewer-roadmap.md`](stratasphere-viewer-roadmap.md) for status and outstanding source/platform checks; #12 follows the deep-time case study.
 
 Projects run from the lowest-hanging fruit down to the heavy lifts. Each one names the thread in the archive it comes from, what it produces, and what it needs first. Effort is a rough guess at focused work: **S** = a day or two, **M** = one to three weeks, **L** = one to three months, **XL** = a season or more, or a team.
 

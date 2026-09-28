@@ -256,3 +256,32 @@ test('the worked spreadsheet example loads as a local file', async ({ page }) =>
   await expect(page.locator('#tour')).toBeHidden();
   await expectDrawing(page);
 });
+
+test('deep-time comparisons show age limits, sources and dataset defaults', async ({ page }) => {
+  await page.goto(`${viewer}?d=hominins&pick=omo-i&t=233000`);
+  await expect(page.locator('#oT')).toHaveText('233 ka');
+  await expect(page.locator('#grad')).toHaveValue('30');
+  await expect(page.locator('#oGrad')).toHaveText('3.0');
+  await expect(page.locator('#card')).toContainText('Older than a 233 ± 22 ka dated horizon');
+  await expect(page.locator('#card')).toContainText('lower-bound display anchor');
+  await expect(page.locator('#card .lineage')).toContainText('No comparison link');
+  await expect(page.locator('#card a[href="https://doi.org/10.1038/s41586-021-04275-8"]')).toBeVisible();
+  await page.reload();
+  await expect(page.locator('#oT')).toHaveText('233 ka');
+  await page.locator('#list [data-id="knm-wt-15000"]').click();
+  await expect(page.locator('#card')).toContainText('Compared with');
+  await expect(page.locator('#card')).toContainText('do not establish ancestry');
+  await expect(page.locator('#card')).not.toContainText('Led on to');
+  await expect(page.locator('#card')).not.toContainText('Traced back');
+  await page.locator('#bClear').click();
+  await expect(page.locator('#card')).toContainText('not a complete human family tree');
+  await expect(page.locator('#keyRec')).toBeHidden();
+  await expect(page.locator('#keyInf')).toContainText('comparison links, not ancestry');
+  await expect(page.locator('#keySel')).toContainText('comparison trace');
+  await page.locator('#ds').selectOption('ias');
+  await expect(page.locator('#grad')).toHaveValue('10');
+  await expect(page.locator('#oGrad')).toHaveText('1.0');
+  await expect(page.locator('#keyRec')).toBeVisible();
+  await expect(page.locator('#keySel')).toHaveText('the lineage you picked');
+  await expect(page.locator('#card')).toContainText('Traced back');
+});

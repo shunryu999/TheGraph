@@ -20,7 +20,9 @@ The graph permits several parents per child and requires acyclic links. Standard
 
 Node provenance is `record`, `inferred` or `detected`. Detection locates the first known observation, not necessarily an origin. A relationship has its own independent `inferred` flag, and `meta.inferredSpans` declares reconstructed intervals. These distinctions must survive both the visual key and the text account. In the current renderer, a selected lineage takes the vermilion highlight even over inferred segments; readers should clear selection to inspect the grey encoding and read the card's inference notes. Highlighting alone is not evidence status.
 
-The format currently has one combined node provenance field, not separate confidence values for date and place. Notes and citations must explain partial uncertainty; the format does not express probability distributions or competing temporal intervals. New uncertainty requirements should be specified explicitly before expanding the schema.
+The format currently has one combined node provenance field, not separate confidence values for date and place. Notes and citations must explain partial uncertainty; the format does not express probability distributions or competing temporal intervals. Optional `dateLabel` qualifies the card's numeric plotting date in words without drawing a confidence interval. An occurrence with `tEnd = t` has one point and no implied lifespan. The hominin sample uses both conventions, including an explicitly labeled minimum-age display anchor for Omo I.
+
+`meta.relationshipMode: "comparison"` changes the card's relationship wording: connections are comparisons, not asserted ancestors or descendants. The hominin sample connects selected records within museum taxonomic groups, marks every link as inference and documents the editorial rule. This is a comparison dataset, not a completed phylogenetic reconstruction. `meta.defaultGradient` supplies each dataset's initial density (default 1, hominins 3), reset on load; it affects spacing only.
 
 ## Distribution and reproduction
 
