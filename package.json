@@ -1,0 +1,12 @@
+{
+  "name": "phylograph-checks",
+  "private": true,
+  "scripts": {
+    "test:browser": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "pngjs": "7.0.0",
+    "three": "0.128.0"
+  }
+}

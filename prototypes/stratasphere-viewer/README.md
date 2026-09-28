@@ -2,15 +2,14 @@
 
 A general viewer for any lineage with places and dates. Each node sits on the globe where it happened, at the shell for its year: the present is the outer shell and the start of the dataset is the center. Each node's worldline runs outward to the present. Each link is an arc from parent to child that climbs through the shells as it crosses the globe.
 
-The first dataset is the IAS machine family (#8), in [`data/ias-machine-lineage/`](../../data/ias-machine-lineage/).
+The catalog contains the IAS machine family, the spread of printing, Unix and SARS-CoV-2 lineages. A short first-visit tour introduces them in that order, with one sentence per stop. Skip, finish or change datasets to leave the tour; reopen it from the header. Only the completed/skipped preference is stored locally, and shared dataset links bypass the tour.
 
 ## What it does
 
 - **Shells.** The same vertex-shader approach as Life on the Stratasphere (#7). Radius is computed on the GPU from `tNow`, `tStart` and the density gradient `f = (1 − e^(−k·age)) / (1 − e^(−k))`. Moving the time slider or the gradient recomputes nothing on the CPU.
-- **Land.** The Natural Earth 110 m coastlines, simplified to 84 rings and redrawn on about sixteen shells between the start and the present, so geography is legible at every depth.
+- **Land.** The Natural Earth 110 m coastlines, simplified to 84 rings and redrawn at ten intervals between the start and the present, so geography is legible at every depth.
 - **Picking.** Click a name or a list entry to trace its ancestors and descendants in vermilion. The card gives the chain of descent and the machines that copied it.
 - **Inference.** Nodes and links marked `"inferred": true` are drawn in grey italic. Record and inference stay visibly apart.
-- **Labels.** Names sit at each node's present tip. When names would overlap, the picked lineage wins, then older nodes.
 - **Time.** A slider and a Play button run the lineage forward from its start. Nodes not yet built are hidden.
 - **Cutaway.** An optional oblique cut facing the viewer shows the shells in section.
 - **Framing.** Each dataset opens in a three-quarter view of its own region, so the radial lines of time are seen side-on. A regional dataset (all within about 70° of arc, like the spread of printing) is orbited from the middle of its cone and does not turn by itself. A global one is orbited from the centre.
@@ -29,8 +28,8 @@ The first dataset is the IAS machine family (#8), in [`data/ias-machine-lineage/
 
 ## Dependencies
 
-three.js r128 (cdnjs) and OrbitControls (jsDelivr). Land outlines are embedded in the page. There is no build step.
+three.js r128 (cdnjs) and OrbitControls (jsDelivr). Land outlines are embedded in the page. There is no build step. The embedded IAS data alone does not make a fresh browser work offline: the external libraries must also be available. See the root [README](../../README.md#check-a-change) for the optional development dependencies used by the browser checks.
 
 ## Next
 
-The build-out to MVP is planned in [`docs/stratasphere-viewer-roadmap.md`](../../docs/stratasphere-viewer-roadmap.md): the spread of printing, SARS-CoV-2 variants and the Unix family, then hominin fossils.
+M5 adds the tour, Chromium checks, a [worked CSV conversion](../../docs/data-format.md#worked-example-two-spreadsheets-to-one-lineage), and the [data design specification](../../docs/stratasphere-data-design.md). The [roadmap](../../docs/stratasphere-viewer-roadmap.md) retains the outstanding printing-source verification, Unix expansion, Safari export and real-GPU checks. Hominin fossils are the next planned dataset after the MVP review.

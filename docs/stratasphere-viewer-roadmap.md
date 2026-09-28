@@ -112,7 +112,11 @@ These are the parts of the original #11 spec still unbuilt. They land once the t
 
 *Done when:* all three case studies use hatching where it applies, the reader's line can be placed, and an export works in Chromium and Safari.
 
-### M5 · MVP release (S)
+### M5 · MVP release (S) — implementation prepared 28 Sept 2026
+
+The four-stop tour, runnable CSV example, collaborator documentation, data design section and automated Chromium checks are implemented for review. The tour is optional, remembers completion or skipping locally, and yields to shared links and manual dataset choices. Browser checks cover all catalog entries, nonblank rendering, names, selection, shared state, tour navigation and local file loading; they run in `Check` on pull requests.
+
+See the [quick start and checks](../README.md), [spreadsheet recipe](data-format.md#worked-example-two-spreadsheets-to-one-lineage) and [data design section](stratasphere-data-design.md). Owner review and merge remain the release step. The earlier M1 ISTC/citation work and M4 Safari-export/real-GPU acceptance checks are still open; M5 does not close them.
 
 - The catalog opens on a short guided tour: IAS → printing → Unix → SARS-CoV-2, each with one sentence on what to look at.
 - `README.md` and `docs/data-format.md` are final enough to hand to a collaborator, with a worked example of converting a spreadsheet into the format.

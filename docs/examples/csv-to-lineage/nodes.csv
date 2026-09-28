@@ -1,0 +1,4 @@
+id,label,lat,lng,t,tEnd,place,provenance,source,note
+harbor,Harbor workshop,35.0,135.8,1900,,Example harbor,record,Fictional teaching example,A made-up workshop; not a historical claim.
+hill,Hill workshop,35.2,135.9,1910,1930,Example hill,record,Fictional teaching example,A made-up workshop that closes in 1930.
+river,River workshop,34.9,135.7,1920,,Example river,inferred,Fictional teaching example,The place and date are reconstructed within this invented example.
