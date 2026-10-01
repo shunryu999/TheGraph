@@ -39,7 +39,7 @@ python3 -m http.server 8000
 
 Open `http://localhost:8000/prototypes/stratasphere-viewer/`. On a first visit, a four-stop tour introduces IAS → printing → Unix → SARS-CoV-2. Skip it to explore freely, or reopen it from the header. A shared `?d=…&pick=…&t=…` view takes precedence over the tour.
 
-The **Hominin fossil finds** entry adds 32 sourced occurrences across 7 Ma–40 ka. Open `?d=hominins&pick=knm-wt-15000` or choose it in the dataset picker. Its links compare museum taxonomic groupings; they do not assert individual ancestry. Read its [sources and limits](data/hominin-fossils/SOURCE.md). The introductory tour retains its original four stops.
+The **Hominin fossil finds** entry adds 32 sourced occurrences across 7 Ma–40 ka. Open `?d=hominins&pick=knm-wt-15000` or choose it in the dataset picker. Its links compare museum taxonomic groupings; they do not assert individual ancestry. Its fossil panel follows the selection with a thin-line drawing, source-photo mode and zoom; 29 records have images and three have explicit unavailable states. Read its [sources and limits](data/hominin-fossils/SOURCE.md) and [image credits](data/hominin-fossils/MEDIA.md). The introductory tour retains its original four stops.
 
 The renderer loads pinned libraries from CDNs. An embedded IAS dataset is available if catalog access fails, but a fresh offline browser still needs those libraries; this is not yet a complete offline bundle.
 

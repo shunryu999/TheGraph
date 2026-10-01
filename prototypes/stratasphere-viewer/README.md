@@ -28,6 +28,12 @@ The catalog contains the IAS machine family, the spread of printing, Unix and SA
 
 For fossil occurrences, `tEnd = t` produces a single point. Optional `dateLabel` text preserves an age range or minimum on the card. `meta.relationshipMode: "comparison"` uses comparison wording and `meta.defaultGradient` sets the initial density (3.0 for hominins; otherwise 1.0). The gradient resets on dataset load. URL-only citations become clickable links.
 
+## Fossil panel
+
+In the hominin catalog entry, a panel above Dataset follows the selected fossil. It renders a thin-line study of the sourced photograph, with Photo mode, detail adjustment, zoom and drag-to-pan. Focus the drawing to use +/− for zoom, arrow keys for panning, and 0 to fit. Line strokes follow the light or dark theme. These are two-dimensional photographic contours, not a reconstructed 3D fossil.
+
+[`fossil-viewer.js`](fossil-viewer.js) reads the [image register](../../data/hominin-fossils/media.json) and same-origin image assets. The original photographs stay unchanged. Source attribution and terms remain visible, and [MEDIA.md](../../data/hominin-fossils/MEDIA.md) records the source choices and limits. The three Smithsonian records without a photograph display a message instead. A bounded cache and selection token prevent stale images after rapid picking. This panel is separate from the globe's PNG/clip export.
+
 ## Dependencies
 
 three.js r128 (cdnjs) and OrbitControls (jsDelivr). Land outlines are embedded in the page. There is no build step. The embedded IAS data alone does not make a fresh browser work offline: the external libraries must also be available. See the root [README](../../README.md#check-a-change) for the optional development dependencies used by the browser checks.
