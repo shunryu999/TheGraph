@@ -125,6 +125,8 @@ See the [quick start and checks](../README.md), [spreadsheet recipe](data-format
 
 ### After the MVP
 
+- **x86 design-family pilot — prepared 1 October 2026.** [Eleven milestones and eight connections](../data/x86-design-pilot/SOURCE.md) test stable family colors, separate manufacturer coloring, feature transfers and hybrid composition. City anchors carry direct team-location or author-affiliation evidence; distributed work is qualified in the card. Network wording avoids inventing a single ancestor chain. The next stage is a sourced 30–40-design sample, with early x86 and AMD/Atom/Core gaps filled only when both relationship and location evidence support them. Unplaced candidates stay in the research inventory.
+
 - **Hominin fossils — first comparison dataset prepared 28 Sept 2026.** [32 fossil occurrences](../data/hominin-fossils/SOURCE.md), spanning 7 Ma–40 ka, use `yearBP`, a default density gradient of 3.0, qualified age labels and specimen citations. All 15 links are inferred editorial comparisons within museum taxonomic groups. Points are occurrences, not million-year lifespans; comparison cards avoid ancestry claims. This delivers the deep-time viewer case study and begins the bridge to #17. It does **not** complete the proposed inference-heavy phylogeny: specialist chronology/taxonomy review, sourced excavation coordinates and evidence-backed ancestry hypotheses remain open.
 - ***Paradise Lost* editions (#15).** This comes after #9 supplies the psycho → phono → pheno staging; `node.kind` already carries it.
 - **#12, the Ontograph navigator,** docks beside the viewer and uses the permalink state from M0.

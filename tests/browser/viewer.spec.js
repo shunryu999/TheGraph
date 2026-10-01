@@ -139,6 +139,84 @@ for (const entry of catalog) {
   });
 }
 
+test('x86 preserves family colors through tracing, changes mode and restores shared state', async ({ page }) => {
+  await page.goto(`${viewer}?d=x86&pick=core`);
+  await expect(page.locator('#familyPanel')).toBeVisible();
+  await expect(page.locator('#card h2')).toHaveText('Core microarchitecture');
+  await page.locator('#spin').uncheck();
+  const swatch = page.locator('#list [data-id="netburst"] .family-swatch');
+  const color = () => swatch.evaluate(el => getComputedStyle(el).borderTopColor);
+  const original = await color();
+  await expect(page.locator('#list [data-id="netburst"]')).toHaveClass(/sel/);
+  await page.locator('#infl').uncheck();
+  await expect(page.locator('#list [data-id="netburst"]')).not.toHaveClass(/sel/);
+  expect(await color()).toBe(original);
+  await page.locator('#colorMode').selectOption('vendor');
+  expect(await color()).not.toBe(original);
+  await expect(page.locator('#familyKey')).toHaveText('IntelAMD');
+  await page.reload();
+  await expect(page.locator('#colorMode')).toHaveValue('vendor');
+  await expect(page.locator('#infl')).not.toBeChecked();
+  await expect(page.locator('#card h2')).toHaveText('Core microarchitecture');
+  await expect(page.locator('#list [data-id="netburst"]')).not.toHaveClass(/sel/);
+  await page.locator('#colorMode').selectOption('mono');
+  await page.locator('#ds').selectOption('ias');
+  await expect(page.locator('#familyPanel')).toBeHidden();
+  await expect(page.locator('#keyTransfer')).toBeHidden();
+  await expect(page.locator('#keySel')).toHaveText('the lineage you picked');
+});
+
+test('x86 shows both hybrid contributors and the basis for its design location', async ({ page }) => {
+  await page.goto(`${viewer}?d=x86&pick=alder-lake`);
+  await expect(page.locator('#card h2')).toHaveText('Alder Lake');
+  await expect(page.locator('#card .from')).toContainText('Golden Cove / P-core');
+  await expect(page.locator('#card .from')).toContainText('Gracemont / E-core');
+  await expect(page.locator('#card .location-evidence')).toContainText('Austin');
+  await expect(page.locator('#card .location-evidence a')).toHaveAttribute('href', /^https:/);
+  await expect(page.locator('#card')).not.toContainText('Traced back:');
+  await page.getByRole('button', {name:'Gracemont / E-core',exact:true}).click();
+  await expect(page.locator('#card h2')).toHaveText('Gracemont / E-core');
+  await expect(page.locator('#card')).toContainText('Austin, Texas');
+  await page.locator('#list [data-id="zen-2"]').click();
+  await expect(page.locator('#card .location-evidence')).toContainText('paper affiliation');
+  await expect(page.locator('#card .location-evidence')).toContainText('Markham');
+});
+
+test('x86 colors reach the canvas in both themes and the controls fit a phone', async ({ page }) => {
+  await page.goto(`${viewer}?d=x86&pick=alder-lake`);
+  await expect(page.locator('#card h2')).toHaveText('Alder Lake');
+  await page.locator('#spin').uncheck();
+  for (const scheme of ['light','dark']) {
+    await page.emulateMedia({colorScheme:scheme});
+    for (const tone of [1,3]) {
+      const target = await page.evaluate(t => {
+        const value=getComputedStyle(document.documentElement).getPropertyValue('--family-'+t).trim();
+        return [1,3,5].map(i=>parseInt(value.slice(i,i+2),16));
+      },tone);
+      await expect.poll(async()=>{
+        const png=PNG.sync.read(await page.locator('#view canvas').screenshot());
+        let count=0;
+        for(let i=0;i<png.data.length;i+=4) if(target.every((v,c)=>Math.abs(v-png.data[i+c])<22)) count++;
+        return count;
+      },{message:`Visible family ${tone} pixels in ${scheme}`}).toBeGreaterThan(1);
+    }
+  }
+  await page.setViewportSize({width:390,height:844});
+  await expect(page.locator('#familyPanel')).toBeVisible();
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+});
+
+test('x86 rejects invalid location metadata without replacing the current dataset', async ({ page }) => {
+  await page.goto(`${viewer}?d=ias&pick=illiac`);
+  await expect(page.locator('#card h2')).toHaveText('ILLIAC I');
+  const data=dataset(catalog.find(e=>e.id==='x86'));
+  data.nodes[0].designLocation.sources=['javascript:alert(1)'];
+  await page.locator('#file').setInputFiles({name:'bad-design.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(data))});
+  await expect(page.locator('#err')).toContainText('Design locations need');
+  await expect(page.locator('#card h2')).toHaveText('ILLIAC I');
+  await expect(page.locator('#familyPanel')).toBeHidden();
+});
+
 test('restores a shared lineage and month', async ({ page }) => {
   await page.goto(`${viewer}?d=sars-cov-2&pick=20I&t=2021-06`);
   await expect(page.locator('#ds')).toHaveValue('sars-cov-2');

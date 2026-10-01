@@ -1,0 +1,23 @@
+{
+  "checked": "2026-10-01",
+  "sources": {
+    "netburst": "https://bioee.ee.columbia.edu/courses/ee6321/papers/hinton01.pdf",
+    "netburst_date": "https://www.intel.com/content/dam/www/public/us/en/documents/research/2001-vol05-iss-1-intel-technology-journal.pdf",
+    "banias": "https://www.intel.com/content/dam/www/public/us/en/documents/research/2003-vol07-iss-2-intel-technology-journal.pdf",
+    "yonah": "https://www.intel.com/content/dam/www/public/us/en/documents/research/2006-vol10-iss-2-intel-technology-journal.pdf",
+    "yonah_date": "https://www.cbsnews.com/pictures/the-big-show/",
+    "core": "https://www.intel.com/pressroom/kits/core2duo/pdf/ICM_whitepaper.pdf",
+    "core_date": "https://www.intel.com/pressroom/archive/releases/2006/20060307corp.htm",
+    "penryn": "https://www.intel.com/content/dam/doc/white-paper/45nm-next-generation-core-microarchitecture-white-paper.pdf",
+    "penryn_date": "https://www.intel.com/pressroom/chipshots/archive.htm",
+    "yoaz": "https://www.hardwareluxx.de/index.php/news/hardware/prozessoren/57731-interview-mit-adi-yoaz-intels-chief-architect-des-performance-core.html",
+    "zen_location": "https://picture.iczhiku.com/resource/eetop/WhigdyhqRrzsqXbv.pdf",
+    "zen_date": "https://ir.amd.com/news-events/press-releases/detail/753/amd-ryzentm-7-desktop-processors-featuring-record-breaking-overclocking-performance-available-worldwide-today",
+    "zen2_location": "https://www.mics.caltech.edu/wp-content/uploads/2019/12/ISSCC2020AdvanceProgram.pdf",
+    "zen2": "https://ir.amd.com/news-events/press-releases/detail/892/amd-announces-next-generation-leadership-products-at-computex-2019-keynote",
+    "hybrid": "https://download.intel.com/newsroom/2021/client-computing/intel-architecture-day-2021-fact-sheet.pdf",
+    "alder_date": "https://www.intel.com/content/www/us/en/newsroom/resources/press-kit-12th-gen-core-procesors.html",
+    "sapphire_date": "https://download.intel.com/newsroom/archive/2025/en-us-2023-01-10-intel-launches-4th-gen-xeon-scalable-processors-max-series-cpus.pdf",
+    "sdm": "https://www.intel.com/content/dam/doc/manual/64-ia-32-architectures-optimization-manual.pdf"
+  }
+}

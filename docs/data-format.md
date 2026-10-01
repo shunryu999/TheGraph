@@ -36,7 +36,9 @@ python3 tools/validate.py --catalog data/catalog.json     # every dataset in the
 | `caveats` | no | What a careful reader should know: rounding, choices, omissions. |
 | `defaultPick` | no | The id of the node selected when the dataset opens. |
 | `defaultGradient` | no | Initial density gradient, a finite number from 0 to 5. Defaults to 1; reset on each dataset load and rounded to the control's 0.1 increment. |
-| `relationshipMode` | no | `lineage` (default) or `comparison`. Comparison mode describes connected records without calling them ancestors or descendants. The data's notes must explain the evidence for each comparison. |
+| `relationshipMode` | no | `lineage` (default), `comparison`, or `network`. Comparison mode avoids ancestry language. Network mode displays typed contributions and connected designs instead of a single ancestry chain. |
+| `families` | no | Nonempty map of stable family IDs to `{ "label": "…", "tone": 1 }`. Enables branch colors. Integer tones 0–4 mean ink, blue, ochre, teal, purple, with light/dark variants. Every node must reference a family. |
+| `vendors` | no | Same shape as `families`, for the manufacturer color mode. Every node must reference a vendor when provided. |
 | `linkKinds` | no | A caption for each `kind` of link used, e.g. `{"copy": "a design copied"}`. The viewer builds its key from these, and the card shows each parent as "From *parent*: *caption*", so write captions that read well after that. |
 | `kinds` | no | A caption for each `kind` of node used, e.g. `{"translation": "a translation"}`. |
 | `inferredSpans` | no | Stretches of time that are reconstructed rather than recorded, as `[[t0, t1], …]`. The viewer hatches these shells (M4). |
@@ -58,10 +60,14 @@ python3 tools/validate.py --catalog data/catalog.json     # every dataset in the
 | `provenance` | no | How the node's place and date are known (see below). Defaults to `record`. |
 | `inferred` | no | Shorthand kept from the draft: `true` means `"provenance": "inferred"`. |
 | `sources` | no | Citations for this node alone. |
+| `family`, `vendor` | conditional | IDs from the corresponding metadata maps, required when those maps are present. Membership does not itself establish ancestry. |
+| `designLocation` | no | Evidence for a design-team or contributor anchor; see below. |
 
 For an occurrence with no claimed duration, set `tEnd` equal to `t`: the viewer draws one point and no worldline. Do not use a dating uncertainty interval as a lifespan. A fossil may be physically documented while its date or placement is inferred; explain this distinction in its note. The [hominin sample](../data/hominin-fossils/SOURCE.md) demonstrates ranges, approximate dates and a one-sided age constraint. URL-only citation strings become clickable HTTP(S) links; other citation text remains plain text.
 
 ### Provenance
+
+Design-location evidence supplies `precision` (`city` or `region`), `basis` (`direct` or `author-affiliation`), nonempty `role` and `evidence` text, and a nonempty `sources` list of HTTP(S) URLs. Optional `otherPlaces` lists additional documented contributors. Coordinates locate the stated role at the stated scale; author affiliation does not establish an exclusive origin. Keep unsupported candidates unplaced in the research inventory. See the [x86 placement audit](../data/x86-design-pilot/SOURCE.md).
 
 | Value | Means | Drawn as |
 |---|---|---|
@@ -80,6 +86,7 @@ A dataset never claims an origin its sources do not support. Use `detected` when
 | `kind` | no | What passed from parent to child (see below). Defaults to `descent`. |
 | `inferred` | no | `true` if the link itself is reconstructed. |
 | `note` | no | A sentence for the card. |
+| `sources` | no | Nonempty HTTP(S) evidence URL list for this relationship, displayed beside its note. |
 
 A node may have several parents: write one link for each. Links must not form a cycle. A child should not begin before its parent; the validator warns if one does, because it usually means a date is wrong.
 
