@@ -1,6 +1,6 @@
 # Stratasphere Viewer: roadmap to MVP (roadmap #11)
 
-*Drafted 25 Sept 2026. For now this takes priority over the other projects in [`roadmap.md`](roadmap.md).*
+*Drafted 25 Sept 2026; status reconciled 1 October 2026. The M5 MVP is released. See the [overall project chart](roadmap.md) for the next build choice and the [x86 handoff](x86-design-pilot-handoff.md) for the parked pilot.*
 
 The viewer's first version ([`prototypes/stratasphere-viewer/`](../prototypes/stratasphere-viewer/)) draws one small lineage, the IAS machine family: 23 nodes over 14 years. The MVP is the version that can carry several real case studies side by side and be shown in a talk, cited in the faux-4D paper (#20), and handed a new dataset without code changes.
 
@@ -14,9 +14,9 @@ The build is paced by three approved case studies. Each one is chosen to force o
 | next | Hominin fossils | 7 Ma–40 ka | ~30–40 | deep time in years before present; an inference-heavy lineage |
 | later | *Paradise Lost* editions | 1667–today | ~40–60 | stays with #15, after #9 |
 
-## What the current viewer assumes
+## Starting assumptions before M0 (historical)
 
-These are the limits the case studies run into. Each is fixed in the milestone that first needs it.
+These describe the original IAS-only viewer. The milestones below record the implemented changes and remaining acceptance work; they are not a list of current defects.
 
 1. **Every worldline runs to the present.** A node's line is drawn from its date to `tEnd`, so nothing can die out. Extinct lineages (Alpha, Delta), presses that closed, and discontinued systems all need an end date.
 2. **Time is whole years.** The slider steps by 1 and every label is a rounded year. Variants need months; hominins need millions of years before present.
@@ -103,7 +103,7 @@ The format in `conventions.md` is still a draft. Settle it as v1, backward compa
 - **Performance:** label placement uses a screen grid, and a 2,000-node dataset profiles at under 3% of frame time in label work. The 60 fps target could not be measured here: the build environment renders with a software GPU, where the stress set runs at 11 fps and IAS at 27.
 
 
-These are the parts of the original #11 spec still unbuilt. They land once the three datasets exist to test them on.
+The following was the M4 implementation brief. Its features are built; Safari export and real-GPU acceptance remain open as stated above.
 
 - **Hatched inference shells.** When a stretch of time is reconstructed rather than recorded (declared in `meta.inferredSpans`), its shells are drawn with the 45° hatch, grey, never as record.
 - **The reader's worldline in vermilion.** The reader chooses a place (by typing a city, or by the browser's location with permission). A vermilion line runs from that point on the present shell back into the dataset to the nearest node, so the reader can see where they stand in relation to the lineage. This is the only use of vermilion other than the picked lineage.
@@ -125,9 +125,10 @@ See the [quick start and checks](../README.md), [spreadsheet recipe](data-format
 
 ### After the MVP
 
-- **x86 design-family pilot — prepared 1 October 2026.** [Eleven milestones and eight connections](../data/x86-design-pilot/SOURCE.md) test stable family colors, separate manufacturer coloring, feature transfers and hybrid composition. City anchors carry direct team-location or author-affiliation evidence; distributed work is qualified in the card. Network wording avoids inventing a single ancestor chain. The next stage is a sourced 30–40-design sample, with early x86 and AMD/Atom/Core gaps filled only when both relationship and location evidence support them. Unplaced candidates stay in the research inventory.
+- **x86 design-family pilot — implemented, unmerged; further work parked 1 October 2026.** [PR #11](https://github.com/shunryu999/TheGraph/pull/11) depends on #10. The [handoff](x86-design-pilot-handoff.md) records evidence, implementation, tests, limits and restart steps. [Eleven milestones and eight connections](../data/x86-design-pilot/SOURCE.md) test stable family colors, separate manufacturer coloring, feature transfers and hybrid composition. City anchors carry direct team-location or author-affiliation evidence; distributed work is qualified in the card. Network wording avoids inventing a single ancestor chain. The next stage is a sourced 30–40-design sample, with early x86 and AMD/Atom/Core gaps filled only when both relationship and location evidence support them. Unplaced candidates stay in the research inventory.
 
-- **Hominin fossils — first comparison dataset prepared 28 Sept 2026.** [32 fossil occurrences](../data/hominin-fossils/SOURCE.md), spanning 7 Ma–40 ka, use `yearBP`, a default density gradient of 3.0, qualified age labels and specimen citations. All 15 links are inferred editorial comparisons within museum taxonomic groups. Points are occurrences, not million-year lifespans; comparison cards avoid ancestry claims. This delivers the deep-time viewer case study and begins the bridge to #17. It does **not** complete the proposed inference-heavy phylogeny: specialist chronology/taxonomy review, sourced excavation coordinates and evidence-backed ancestry hypotheses remain open.
+- **Hominin fossils — comparison dataset merged and deployed 28 Sept 2026 in [PR #9](https://github.com/shunryu999/TheGraph/pull/9).** [32 fossil occurrences](../data/hominin-fossils/SOURCE.md), spanning 7 Ma–40 ka, use `yearBP`, a default density gradient of 3.0, qualified age labels and specimen citations. All 15 links are inferred editorial comparisons within museum taxonomic groups. Points are occurrences, not million-year lifespans; comparison cards avoid ancestry claims. This delivers the deep-time viewer case study and begins the bridge to #17. It does **not** complete the proposed inference-heavy phylogeny: specialist chronology/taxonomy review, sourced excavation coordinates and evidence-backed ancestry hypotheses remain open.
+- **Selected fossil image viewer — implemented, awaiting review in [PR #10](https://github.com/shunryu999/TheGraph/pull/10).** A right-column thin-line rendering and photo mode follow the selection; 29 specimens have attributed photographs, and three have explicit unavailable states. These are photographic contours, not reconstructed 3D fossils. See the [media audit](../data/hominin-fossils/MEDIA.md).
 - ***Paradise Lost* editions (#15).** This comes after #9 supplies the psycho → phono → pheno staging; `node.kind` already carries it.
 - **#12, the Ontograph navigator,** docks beside the viewer and uses the permalink state from M0.
 - **#13 and #17** plug in as further catalog entries.
