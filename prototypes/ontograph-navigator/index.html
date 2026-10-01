@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ontograph Navigator · The Phylograph</title>
+<meta name="description" content="Explore the Phylograph through its Ontograph: choose a level, inspect a historical shell, and expand it into a spatial view.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="navigator.css">
+<script type="module" src="navigator.js"></script>
+</head>
+<body>
+<main>
+  <header>
+    <div class="eyebrow">Phylograph · Project 12 · first working navigator</div>
+    <h1>The map and its compass</h1>
+    <p class="lede">Choose a level. Find a moment inside its history. Open that shell as a world.</p>
+    <nav aria-label="Related instruments"><a href="../stratasphere-viewer/">Stratasphere viewer</a> <span aria-hidden="true">·</span> <a href="../ontograph-plates/">Ontograph plates</a></nav>
+  </header>
+  <div id="error" class="error" role="alert" hidden><span id="errorText"></span> <button id="retry" type="button">Try again</button></div>
+  <div class="workspace">
+    <section class="ontograph" aria-labelledby="ontoTitle">
+      <h2 id="ontoTitle"><span class="number">02</span> Ontograph <span class="annotation">the compass</span></h2>
+      <div class="compass">
+        <svg viewBox="0 0 200 280" role="img" aria-labelledby="loopTitle loopDesc">
+          <title id="loopTitle">Energy, Matter, Life, Mind and “I”</title>
+          <desc id="loopDesc">Nested loops meet at a common pinch. The selected level is emphasized. Use the adjacent level buttons to navigate.</desc>
+          <g fill="none" stroke="currentColor" stroke-width=".8">
+            <path data-loop="energy" d="M144 275L100 232C-19 116 15 16 100 16C185 16 219 116 100 232L56 275"/>
+            <path data-loop="matter" d="M100 232C4 139 33 68 100 68C167 68 196 139 100 232"/>
+            <path data-loop="life" d="M100 232C32 166 53 117 100 117C147 117 168 166 100 232"/>
+            <path data-loop="mind" d="M100 232C60 193 72 163 100 163C128 163 140 193 100 232"/>
+            <path data-loop="i" d="M100 232C82 215 88 201 100 201C112 201 118 215 100 232"/>
+          </g>
+          <text x="100" y="213" text-anchor="middle">“I”</text>
+        </svg>
+        <div class="levels" role="group" aria-label="Ontograph level">
+          <button type="button" data-level="energy" aria-pressed="false">Energy <small>No dataset yet</small></button>
+          <button type="button" data-level="matter" aria-pressed="false">Matter <small>No dataset yet</small></button>
+          <button type="button" data-level="life" aria-pressed="true">Life <small>Biological records</small></button>
+          <button type="button" data-level="mind" aria-pressed="false">Mind <small>Culture &amp; technology</small></button>
+          <button type="button" data-level="i" aria-pressed="false">“I” <small>Your vantage point</small></button>
+        </div>
+      </div>
+      <p id="levelNote" class="note"></p>
+      <label id="datasetLabel" for="dataset">Case study <select id="dataset" disabled></select></label>
+      <form id="placeForm" hidden>
+        <div class="coordinates"><label>Latitude <input id="latitude" type="number" min="-90" max="90" step="any" required></label><label>Longitude <input id="longitude" type="number" min="-180" max="180" step="any" required></label></div>
+        <div class="actions"><button type="submit">Set my place</button><button id="removePlace" type="button" hidden>Remove</button></div>
+        <p class="note" id="placeNote">Optional. Coordinates stay in this page and are excluded from shared links.</p>
+      </form>
+    </section>
+    <section class="history" aria-labelledby="historyTitle">
+      <h2 id="historyTitle"><span class="number">01</span> Phylograph <span class="annotation">history nested in space</span></h2>
+      <div id="empty" class="empty" hidden><h3 id="emptyTitle"></h3><p id="emptyText"></p><button type="button" id="returnLife">Explore Life</button></div>
+      <div id="historyContent">
+        <p id="datasetTitle" class="dataset-title">Opening the historical view…</p>
+        <div class="history-frame"><iframe id="historyFrame" title="Phylograph: nested history" src="../stratasphere-viewer/?embed=history&amp;d=hominins" loading="eager"></iframe></div>
+        <div class="shell-controls">
+          <label for="shell">Inspect a shell <output id="shellDate"></output></label>
+          <div class="scrub"><button type="button" id="earlier" aria-label="Earlier shell" disabled>←</button><input id="shell" type="range" min="0" max="1" value="0" step="1" disabled><button type="button" id="later" aria-label="Later shell" disabled>→</button></div>
+          <div class="actions"><button type="button" id="expand" disabled>Expand this shell</button><button type="button" id="whole" disabled>Full history</button><span id="scaleNote" class="note"></span></div>
+        </div>
+        <div class="settings"><label for="record">Selected record <select id="record" disabled></select></label><label for="gradient">Shell spacing <output id="gradientValue">3.0</output><input id="gradient" type="range" min="0" max="5" step=".1" value="3"></label></div>
+        <p class="note">Drag either globe to turn it. The dark ring marks the inspected shell; vermilion marks the outer boundary and selection. Grey and italic marks identify inference.</p>
+        <div id="recordCard" class="record-card"></div>
+        <div class="actions"><a id="standalone" href="../stratasphere-viewer/?d=hominins">Open this record in the viewer</a><button id="copyLink" type="button">Copy this view’s link</button></div>
+      </div>
+    </section>
+    <section class="spatial" aria-labelledby="spatialTitle">
+      <h2 id="spatialTitle"><span class="number">03</span> 3D view <span class="annotation">one shell, full size</span></h2>
+      <div id="spatialContent">
+        <iframe id="sliceFrame" title="3D spatial view of the inspected shell" src="../stratasphere-viewer/?embed=slice&amp;d=hominins" loading="eager"></iframe>
+        <p id="sliceSummary" class="slice-summary"></p>
+        <ul id="sliceRecords" aria-label="Records on this shell"></ul>
+        <p class="note">Positions from the dataset, on modern coastlines. This is a spatial record view, not a reconstructed landscape or specimen model.</p>
+      </div>
+      <p id="spatialEmpty" class="note" hidden>A sourced dataset is needed before this level can have a spatial view.</p>
+    </section>
+  </div>
+  <p id="status" class="status" role="status" aria-live="polite">Loading the two views…</p>
+  <footer><p>After the three-pane sketch in the Ontograph notebook, p. 5 (ON-141). The level assignments organize the available case studies; their dates do not establish the origins of life or mind.</p><details><summary>What this first version represents</summary><p>Life opens biological records; Mind opens human-made lineages. Energy and Matter await suitable datasets. “I” adds your optional viewing position without inventing a personal ancestry. The loops follow the existing Ontograph plates; this interface does not settle the open interpretation of their pinch point.</p><p>Each shell is a dated event in the selected dataset. The spatial pane shows records whose stated intervals intersect that moment; an occurrence is shown at its own dated shell. Empty shells are labeled explicitly. Expanding a shell changes the displayed time extent, not the source data or geography.</p></details></footer>
+</main>
+</body>
+</html>

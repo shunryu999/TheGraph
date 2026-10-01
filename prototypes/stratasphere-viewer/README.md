@@ -35,3 +35,7 @@ three.js r128 (cdnjs) and OrbitControls (jsDelivr). Land outlines are embedded i
 ## Next
 
 M5 adds the tour, Chromium checks, a [worked CSV conversion](../../docs/data-format.md#worked-example-two-spreadsheets-to-one-lineage), and the [data design specification](../../docs/stratasphere-data-design.md). The [roadmap](../../docs/stratasphere-viewer-roadmap.md) retains the outstanding printing-source verification, Unix expansion, Safari export and real-GPU checks. The first hominin fossil comparison dataset is prepared for review. See its [sources and scientific limits](../../data/hominin-fossils/SOURCE.md); a reviewed ancestry-hypothesis model remains future work.
+
+## Ontograph navigator
+
+The [three-pane navigator](../ontograph-navigator/) embeds this renderer in history and spatial-slice modes. Its [state contract](../ontograph-navigator/README.md#implementation-and-state-contract) documents explicit shell expansion and synchronization. Standalone URLs keep their original time scale and controls.

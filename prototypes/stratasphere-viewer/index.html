@@ -113,7 +113,14 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--ground);bor
 .tour .progress{font-family:var(--mono);font-size:12px;color:var(--ink-2)}
 .tour h2:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
 button:disabled{opacity:.45;cursor:default}
+/* The navigator hosts the same renderer in two compact, same-origin panes. */
+html[data-embed] .wrap{max-width:none;padding:0}
+html[data-embed] header,html[data-embed] .tour,html[data-embed] aside,html[data-embed] .notes,html[data-embed] .stage>:not(.view){display:none!important}
+html[data-embed] .main,html[data-embed] .stage{display:block}
+html[data-embed] .view{height:100vh;aspect-ratio:auto;border:0}
+html[data-embed] .year{font-size:11px;max-width:90%;background:var(--ground)}
 </style>
+<script>if(['history','slice'].includes(new URLSearchParams(location.search).get('embed')))document.documentElement.dataset.embed=new URLSearchParams(location.search).get('embed');</script>
 
 </head>
 <body>
@@ -579,6 +586,9 @@ button:disabled{opacity:.45;cursor:default}
 <script>
 (() => {
   const $ = id => document.getElementById(id);
+  const embedMode = document.documentElement.dataset.embed || '';
+  let shellTime = null, bridgeRun = 0, bridgeApplying = false, bridgeFramed = false;
+  const inShell = n => shellTime !== null && n.t <= shellTime + 1e-6 && (n.tEnd ?? D.meta.tEnd) >= shellTime - 1e-6;
   const view = $('view'), labelsEl = $('labels');
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!window.THREE){ $('fallback').hidden=false; $('fallback').textContent='The 3D library failed to load. Check the connection and reload.'; return; }
@@ -592,20 +602,21 @@ button:disabled{opacity:.45;cursor:default}
 
   const R = 1, LAND = JSON.parse($('data-land').textContent);
   const uniforms = {
-    tNow:{value:0}, tStart:{value:0}, tEnd:{value:1}, grad:{value:1}, R:{value:R},
+    tNow:{value:0}, tStart:{value:0}, tEnd:{value:1}, flatMode:{value:embedMode === 'slice' ? 1 : 0}, grad:{value:1}, R:{value:R},
     cInk:{value:new THREE.Color()}, cGrey:{value:new THREE.Color()}, cAcc:{value:new THREE.Color()}, cLand:{value:new THREE.Color()},
     cutOn:{value:0}, cutN:{value:new THREE.Vector3(0,0,1)}, cutD:{value:.1}, psize:{value:4}
   };
   // cls: 0 land · 1 record · 2 selected · 3 inference, or a line that ended · 4 first detected here (ring) · 5 detected, selected · 6 influence without code
   const vs = `
     attribute vec3 dir; attribute float gen; attribute float cls;
-    uniform float tNow, tStart, tEnd, grad, R, psize; varying float vCls; varying vec3 vPos; varying float vHide; varying float vF;
+    uniform float tNow, tStart, tEnd, flatMode, grad, R, psize; varying float vCls; varying vec3 vPos; varying float vHide; varying float vF;
     void main(){
       vHide = gen > tNow + 0.001 ? 1.0 : 0.0;
       // Keep the time scale fixed while the present advances, one increment at a time.
       float age = clamp((tNow - gen) / max(tEnd - tStart, 1e-6), 0.0, 1.0);
       float f = grad < 0.01 ? age : (1.0 - exp(-grad*age)) / (1.0 - exp(-grad));
       float r = R * (1.0 - f) * 0.94 + R * 0.06;
+      if (flatMode > 0.5){ r = R; f = 0.0; }
       vec3 p = normalize(dir) * r; vPos = p; vCls = cls; vF = f;
       vec4 mv = modelViewMatrix * vec4(p, 1.0); gl_Position = projectionMatrix * mv;
       gl_PointSize = psize * ((cls > 1.5 && cls < 2.5) || cls > 4.5 ? 1.35 : 1.0) * (cls > 3.5 ? 1.25 : 1.0) * (0.45 + 0.55*(1.0-f)) * (3.4 / -mv.z);
@@ -663,6 +674,7 @@ button:disabled{opacity:.45;cursor:default}
     }
   }
 
+  const shellRing = circle(); shellRing.visible = false; shellRing.material.opacity = .85; scene.add(shellRing);
   const ll = (lat,lng) => { const a = lat*Math.PI/180, b = lng*Math.PI/180; return [Math.cos(a)*Math.cos(b), Math.sin(a), -Math.cos(a)*Math.sin(b)]; };
   const gc = (a, b) => Math.acos(Math.max(-1, Math.min(1, a[0]*b[0]+a[1]*b[1]+a[2]*b[2]))); // angle between unit vectors
   function slerp(a,b,t){ const d = Math.max(-1,Math.min(1,a[0]*b[0]+a[1]*b[1]+a[2]*b[2])), w = Math.acos(d);
@@ -709,8 +721,8 @@ button:disabled{opacity:.45;cursor:default}
   }
   function buildLand(){
     if (landObj){ scene.remove(landObj); landObj.geometry.dispose(); }
-    const v = [], span = D.meta.tEnd - D.meta.tStart, n = Math.max(1, Math.min(10, Math.round(span / stepOf(span)))); // ten redrawn Earths read as well as sixteen, at 40% less drawing
-    for (let k = 0; k <= n; k++){ const y = D.meta.tStart + span*k/n; for (const r of LAND) for (let i=0;i+3<r.length;i+=2){ const a = ll(r[i+1],r[i]), b = ll(r[i+3],r[i+2]); v.push(...a,y,0,...b,y,0); } }
+    const v = [], end = embedMode === 'history' ? uniforms.tEnd.value : D.meta.tEnd, span = end - D.meta.tStart, n = Math.max(1, Math.min(10, Math.round(span / stepOf(span)))); // ten redrawn Earths read as well as sixteen, at 40% less drawing
+    for (let k = 0; k <= n; k++){ const y = embedMode === 'slice' ? D.meta.tEnd : D.meta.tStart + span*k/n; if ((embedMode === 'slice' || span === 0) && k > 0) break; for (const r of LAND) for (let i=0;i+3<r.length;i+=2){ const a = ll(r[i+1],r[i]), b = ll(r[i+3],r[i+2]); v.push(...a,y,0,...b,y,0); } }
     landObj = new THREE.LineSegments(geo(v), matL); landObj.frustumCulled = false; scene.add(landObj);
   }
   let followInfl = true; // trace through influence links too, or only through what was passed on
@@ -722,6 +734,11 @@ button:disabled{opacity:.45;cursor:default}
   }
   function buildGraph(){
     for (const o of objs){ scene.remove(o); o.geometry.dispose(); } objs = [];
+    if (embedMode === 'slice'){
+      const points = [];
+      for (const nd of D.nodes.filter(inShell)) points.push(...nodeDir[nd.id], nd.t, isInf(nd) ? 3 : nd.id === sel ? 2 : nd.provenance === 'detected' ? 4 : 1);
+      const object = new THREE.Points(geo(points), matP); object.frustumCulled = false; scene.add(object); objs.push(object); return;
+    }
     const S = sel ? lineageOf(sel) : null, tE = D.meta.tEnd;
     const L = [], P = [];
     const clsOf = (inf, on) => on ? 2 : inf ? 3 : 1;
@@ -750,7 +767,7 @@ button:disabled{opacity:.45;cursor:default}
     labelsEl.innerHTML = ''; labs = D.nodes.map(nd => { const el = document.createElement('div'); el.className = 'lab' + (isInf(nd) ? ' inf' : ''); el.textContent = nd.label; el.onclick = () => pick(nd.id); labelsEl.appendChild(el); return { nd, el }; });
   }
   // Match the shader's full-dataset scale for labels and inferred-shell boundaries.
-  const radiusAt = t => { const tn = uniforms.tNow.value, ts = uniforms.tStart.value, te = uniforms.tEnd.value, g = uniforms.grad.value;
+  const radiusAt = t => { if (embedMode === 'slice') return R; const tn = uniforms.tNow.value, ts = uniforms.tStart.value, te = uniforms.tEnd.value, g = uniforms.grad.value;
     const age = Math.min(1, Math.max(0, (tn - t)/Math.max(te - ts, 1e-6))); const f = g < .01 ? age : (1-Math.exp(-g*age))/(1-Math.exp(-g)); return R*(1-f)*.94 + R*.06; };
   const v3 = new THREE.Vector3();
   const eyeDir = new THREE.Vector3();
@@ -758,14 +775,14 @@ button:disabled{opacity:.45;cursor:default}
     const r = renderer.domElement.getBoundingClientRect(), show = $('labs').checked, cand = [];
     eyeDir.copy(camera.position).normalize();
     for (const { nd, el } of labs){
-      const d = nodeDir[nd.id], vis = nd.t <= uniforms.tNow.value + 1e-3;
+      const d = nodeDir[nd.id], vis = nd.t <= uniforms.tNow.value + 1e-3 && (embedMode !== 'slice' || inShell(nd));
       // the name sits where the thing began, on its own shell
       const rr = radiusAt(Math.min(nd.t, uniforms.tNow.value));
       v3.set(d[0]*rr, d[1]*rr, d[2]*rr);
       const cut = uniforms.cutOn.value > .5 && v3.dot(uniforms.cutN.value) > uniforms.cutD.value;
       const facing = (v3.x*eyeDir.x + v3.y*eyeDir.y + v3.z*eyeDir.z) / (v3.length() || 1) > -0.15;
       const onSel = sel === nd.id || hoverId === nd.id;
-      if (!show && !onSel || !vis || cut || !facing){ el.style.display = 'none'; continue; }
+      if (!show && !onSel || !vis || cut || (!facing && !(embedMode && onSel))){ el.style.display = 'none'; continue; }
       v3.project(camera);
       const inL = !!(sel && lineageSet && lineageSet.has(nd.id));
       el.classList.toggle('sel', inL);
@@ -881,6 +898,7 @@ button:disabled{opacity:.45;cursor:default}
 
   // ---------- keyboard ----------
   document.addEventListener('keydown', e => {
+    if (embedMode) return;
     const tag = (e.target.tagName || '').toLowerCase();
     if (e.target.classList && e.target.classList.contains('item') && (e.key === 'ArrowDown' || e.key === 'ArrowUp')){
       const sib = e.key === 'ArrowDown' ? e.target.nextElementSibling : e.target.previousElementSibling; if (sib){ e.preventDefault(); sib.focus(); } return;
@@ -931,7 +949,7 @@ button:disabled{opacity:.45;cursor:default}
     syncList();
   }
   function syncList(){ for (const b of $('list').children){ const nd = byId[b.dataset.id]; b.classList.toggle('sel', !!(lineageSet && lineageSet.has(nd.id))); b.classList.toggle('future', nd.t > uniforms.tNow.value); } }
-  function pick(id){ sel = id; lineageSet = id ? lineageOf(id) : null; buildGraph(); card(); syncList(); saveURL(); }
+  function pick(id){ sel = id; lineageSet = id ? lineageOf(id) : null; buildGraph(); card(); syncList(); saveURL(); if (embedMode && !bridgeApplying) window.PhylographEmbed?.onPick?.(id,dsId); }
 
   // ---------- loading ----------
   function load(src, id = null, want = {}){
@@ -1008,6 +1026,7 @@ button:disabled{opacity:.45;cursor:default}
   function saveURL(){
     if (!D) return;
     const q = new URLSearchParams();
+    if (embedMode) q.set('embed',embedMode);
     if (dsId){ q.set('d', dsId); if (sel) q.set('pick', sel); if (uniforms.tNow.value < D.meta.tEnd - 1e-9) q.set('t', rawT(uniforms.tNow.value)); }
     const url = location.pathname + (q.toString() ? '?' + q : '');
     try { history.replaceState(null, '', url); } catch(e){}
@@ -1115,8 +1134,8 @@ button:disabled{opacity:.45;cursor:default}
 
   // ---------- theme, size, loop ----------
   const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
-  function theme(){ if (typeof themeHatches === 'function') themeHatches(); renderer.setClearColor(new THREE.Color(css('--ground')),1); uniforms.cInk.value.set(css('--ink')); uniforms.cGrey.value.set(css('--grey')); uniforms.cAcc.value.set(css('--accent')); uniforms.cLand.value.set(css('--land')); ring.material.color.set(css('--accent')); }
-  function size(){ const r = view.getBoundingClientRect(); renderer.setSize(r.width, r.height, false); camera.aspect = r.width/r.height; camera.updateProjectionMatrix(); uniforms.psize.value = Math.max(3, r.width/180); }
+  function theme(){ if (typeof themeHatches === 'function') themeHatches(); renderer.setClearColor(new THREE.Color(css('--ground')),1); uniforms.cInk.value.set(css('--ink')); uniforms.cGrey.value.set(css('--grey')); uniforms.cAcc.value.set(css('--accent')); uniforms.cLand.value.set(css('--land')); ring.material.color.set(css('--accent')); shellRing.material.color.set(css('--ink')); }
+  function size(){ const r = view.getBoundingClientRect(); if (!r.width || !r.height) return; renderer.setSize(r.width, r.height, false); camera.aspect = r.width/r.height; camera.updateProjectionMatrix(); uniforms.psize.value = Math.max(3, r.width/180); }
   new ResizeObserver(size).observe(view);
   new MutationObserver(theme).observe(document.documentElement, { attributes:true, attributeFilter:['data-theme'] });
   matchMedia('(prefers-color-scheme: dark)').addEventListener('change', theme);
@@ -1128,7 +1147,10 @@ button:disabled{opacity:.45;cursor:default}
     uniforms.cutN.value.copy(eye).addScaledVector(camera.up, .75).normalize();
     ring.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0), eye);
     if (recording) turnStep(now);
-    controls.update(); placeHatches(eye); renderer.render(scene, camera); placeLabels();
+    controls.update(); placeHatches(eye);
+    if (embedMode === 'slice') for (const h of hatches) h.mesh.visible = h.rIn.visible = h.rOut.visible = false;
+    if (shellRing.visible){ shellRing.scale.setScalar(radiusAt(shellTime)); shellRing.quaternion.copy(ring.quaternion); }
+    renderer.render(scene, camera); placeLabels();
     if (recording) composite(clipCtx, 1);
     requestAnimationFrame(frame);
   }
@@ -1136,13 +1158,53 @@ button:disabled{opacity:.45;cursor:default}
   const q = new URLSearchParams(location.search);
   load(EMBEDDED.data(), EMBEDDED.id); // draw at once; the catalog may replace it a moment later
   requestAnimationFrame(frame);
-  openCatalog().then(async () => {
+  const ready = openCatalog().then(async () => {
     if (!await openDataset(q.get('d') || catalog[0].id, { pick:q.get('pick'), t:q.get('t') })) return;
     const hasTour = TOUR.every(stop => catalog.some(entry => entry.id === stop.id));
     $('bTour').hidden = !hasTour;
-    if (hasTour && !['d','pick','t'].some(key => q.has(key)) && !tourSeen()) await tourStop(0, false);
+    if (!embedMode && hasTour && !['d','pick','t'].some(key => q.has(key)) && !tourSeen()) await tourStop(0, false);
   })
-    .catch(x => { $('err').hidden = false; $('err').textContent = 'Could not open that dataset: ' + x.message; });
+    .catch(x => { $('err').hidden = false; $('err').textContent = 'Could not open that dataset: ' + x.message; if (embedMode) throw x; });
+  if (embedMode){
+    // Same-origin embed API. No cross-window messages,
+    // dataset payloads, external URLs, or personal locations are accepted from elsewhere.
+    window.PhylographEmbed = { ready, onPick:null, async setView(want){
+      const run = ++bridgeRun; ++loadRequest; bridgeApplying = true;
+      try {
+        await ready;
+        if (run !== bridgeRun) return null;
+        if (!catalog.some(entry => entry.id === want.dataset)) throw new Error('Unknown dataset.');
+        const shouldFrame = !bridgeFramed || dsId !== want.dataset;
+        if (dsId !== want.dataset && !await openDataset(want.dataset)) return null;
+        if (run !== bridgeRun) return null;
+        const shell = toNum(['year','yearBP'].includes(unit) ? Number(want.shell) : want.shell);
+        if (!Number.isFinite(shell) || shell < D.meta.tStart || shell > D.meta.tEnd) throw new Error('Shell outside this dataset.');
+        shellTime = shell;
+        const expanded = embedMode === 'history' && !!want.expanded;
+        const oldEnd = uniforms.tEnd.value;
+        uniforms.tEnd.value = expanded ? shell : D.meta.tEnd;
+        if (oldEnd !== uniforms.tEnd.value) buildLand();
+        uniforms.grad.value = Number.isFinite(want.gradient) ? Math.max(0,Math.min(5,want.gradient)) : 1;
+        setT(expanded ? shell : D.meta.tEnd);
+        controls.autoRotate = false; $('spin').checked = false;
+        shellRing.visible = embedMode === 'history';
+        // A full, centered globe keeps shell size comparable between the two panes.
+        if (shouldFrame){ controls.target.set(0,0,0); camera.position.normalize().multiplyScalar(3.5); controls.update(); bridgeFramed = true; }
+        reader = null;
+        if (want.reader && Number.isFinite(want.reader.lat) && Number.isFinite(want.reader.lng) && Math.abs(want.reader.lat) <= 90 && Math.abs(want.reader.lng) <= 180){
+          reader = {lat:want.reader.lat,lng:want.reader.lng,label:'Your place'};
+        }
+        placeReader();
+        if (embedMode === 'slice' && readerObj) readerObj[0].visible = false; // vantage point only; no invented spatial ancestry
+        pick(byId[want.pick] ? want.pick : null);
+        $('yearTag').textContent = embedMode === 'slice' ? 'shell · ' + fmtT(shell) : (expanded ? 'expanded to ' : 'selected shell · ') + fmtT(shell);
+        view.dataset.shellRadius = String(radiusAt(shell));
+        view.dataset.shell = rawT(shell); view.dataset.expanded = String(expanded);
+        return {dataset:dsId, shell:rawT(shell), radius:radiusAt(shell), records:D.nodes.filter(inShell).map(n=>n.id)};
+      } finally { if (run === bridgeRun) bridgeApplying = false; }
+    }};
+    ready.catch(()=>{}); // the parent displays a recoverable pane error
+  }
 })();
 </script>
 
