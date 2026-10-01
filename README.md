@@ -23,7 +23,10 @@ This repo holds the buildable parts: prototypes, datasets, specs and the public 
 | 5 | [Ontograph plates](prototypes/ontograph-plates/): eight plates for the Ontograph in the Illustration Brief style, with prompts | First version |
 | 7 | [Life on the Stratasphere](prototypes/life-sphere/): Conway's Life on a sphere, its history nested as shells | First version |
 | 8 | [IAS machine family](data/ias-machine-lineage/): 23 machines, 1946–1960, placed and dated with sources | First version |
-| 11 | [Stratasphere viewer](prototypes/stratasphere-viewer/): IAS computers, printing, Unix, SARS-CoV-2 and hominin fossil comparisons as nested shells | M5 released; deep-time case study prepared |
+| 11 | [Stratasphere viewer](prototypes/stratasphere-viewer/): IAS computers, printing, Unix, SARS-CoV-2 and hominin fossil comparisons as nested shells | M5 and hominin comparison dataset released |
+| 12 | [Ontograph navigator](prototypes/ontograph-navigator/): linked history, Ontograph and spatial view | First version; awaiting review |
+
+The [Ontograph navigator](prototypes/ontograph-navigator/) (roadmap #12) adds a three-pane working slice: choose Life or Mind, inspect a dated shell, and expand it into spatial context. Open `http://localhost:8000/prototypes/ontograph-navigator/`. Its [design checkpoint](docs/ontograph-navigator-design.md) records scope and remaining work.
 
 The full ranked list is in [`docs/roadmap.md`](docs/roadmap.md). The viewer's milestones and outstanding source/platform checks are in [`docs/stratasphere-viewer-roadmap.md`](docs/stratasphere-viewer-roadmap.md).
 
