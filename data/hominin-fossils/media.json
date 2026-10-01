@@ -1,0 +1,303 @@
+{
+  "retrieved": "2026-10-01",
+  "terms": "https://www.si.edu/termsofuse",
+  "rights": "Usage conditions apply; these images are not designated CC0. Original rights and credits remain with their respective holders.",
+  "specimens": {
+    "tm-266-01-060-1": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/tm-266-01-060-1",
+      "status": "available",
+      "image": "images/tm-266-01-060-1.webp",
+      "original": "https://humanorigins.si.edu/sites/default/files/styles/full_width/public/images/portrait/NHB2014-02878%20Sahelanthropus%20tchadensis_p.jpg.webp?itok=sCQUh3ke",
+      "alt": "Image of Sahelanthropus tchadensis, Toumai - TM 266-01-060-1, skull, 3/4 view",
+      "credit": "(Human Origins Program, Smithsonian Institution)",
+      "sha256": "133d689a65b5a56d14bd12986d4b0312bf4756ce3396289cdb37c846a643ba5e"
+    },
+    "bar-100200": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/bar-100200",
+      "status": "available",
+      "image": "images/bar-100200.webp",
+      "original": "https://humanorigins.si.edu/sites/default/files/styles/full_width/public/images/portrait/tugenensis_Bar1002_femur_CC_p.jpg.webp?itok=ztWZli7P",
+      "alt": "Orrorin tugenensis, BAR 1002'00 femur",
+      "credit": "(Chip Clark, Smithsonian Institution)",
+      "sha256": "26cac1cab42f5a6b65b6bda9bac17020da8999025c135f147ff0424057eb1bf8"
+    },
+    "ara-vp-6500": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/ara-vp-6500",
+      "status": "unavailable",
+      "reason": "The Smithsonian specimen page currently lists “photo not available”."
+    },
+    "knm-kp-29285": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/knm-kp-29285",
+      "status": "available",
+      "image": "images/knm-kp-29285.webp",
+      "original": "https://humanorigins.si.edu/sites/default/files/styles/full_width/public/images/portrait/anamensis_KP29285_tibia_CC_p.jpg.webp?itok=Krac6sxi",
+      "alt": "KNM-KP 29285, tibia, Australopithecus anamensis",
+      "credit": "(Chip Clark, Smithsonian Institution)",
+      "sha256": "8cdec61ea391318cd1de82ff97e242050ebe610020e78495a02db243a205e523"
+    },
+    "dik-1-1": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/dik-1-1",
+      "status": "available",
+      "image": "images/dik-1-1.webp",
+      "original": "https://humanorigins.si.edu/sites/default/files/styles/full_width/public/afarensis_skull_n_skeleton_ZA_p.jpg.webp?itok=VpOPymKf",
+      "alt": "skull and partial skeleton of  Australopithecus afarensis; Dikika 1",
+      "credit": "Australopithecus afarensis; Dikika 1, skull and partial skeleton (Zeresenay Alemseged)",
+      "sha256": "13b00685873269879407742b8a0511194d460fcc171c399854cda69f95684884"
+    },
+    "al-288-1": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/al-288-1",
+      "status": "available",
+      "image": "images/al-288-1.webp",
+      "original": "https://humanorigins.si.edu/sites/default/files/styles/full_width/public/afarensis_AL288_1_skeleton_CC_rt_3qtr_p_0.jpg.webp?itok=2t5DfZK8",
+      "alt": "Skeleton of early human ancestor Australopithecus afarensis \"Lucy\" standing upright on two feet",
+      "credit": "Australopithecus afarensis, \"Lucy\", reconstructed skeleton (Chip Clark, Smithsonian Institution)",
+      "sha256": "48c1d57cf629a4fbeb4d80e00add14a4f9c0c78286050f31bb799bffddb38654",
+      "note": "Reconstructed skeleton, as shown in the source photograph; line view omits its black side borders.",
+      "crop": [
+        0.06,
+        0,
+        0.88,
+        1
+      ]
+    },
+    "al-444-2": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/al-444-2",
+      "status": "available",
+      "image": "images/al-444-2.webp",
+      "original": "https://humanorigins.si.edu/sites/default/files/styles/full_width/public/images/portrait/NHB2014-02767%20AL444-2%20p.jpg.webp?itok=1bjKI4BO",
+      "alt": "3/4 view of large male skull of  Australopithecus afarensis, AL 444-2",
+      "credit": "(Human Origins Program, Smithsonian Institution)",
+      "sha256": "281879b3d4b2c8a79de5502f494f56e6284bde2cd1428734b84eae3ed687c1a7"
+    },
+    "taung-child": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/taung-child",
+      "status": "available",
+      "image": "images/taung-child.webp",
+      "original": "https://humanorigins.si.edu/sites/default/files/styles/full_width/public/images/landscape/africanus_taung_child_skull_CC_rt_3qtr_l.jpg.webp?itok=Wa23lwUR",
+      "alt": "right 3/4 view of Australopithecus africanus,\"Taung Child\"skull",
+      "credit": "(Chip Clark, Smithsonian Institution)",
+      "sha256": "83468776ec817b2065e815d7ee554d480505695d335d39b26b289705caf9f753"
+    },
+    "bou-vp-121": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/bou-vp-121",
+      "status": "unavailable",
+      "reason": "The Smithsonian specimen page currently lists “photo not available”."
+    },
+    "knm-wt-17000": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/knm-wt-17000",
+      "status": "available",
+      "image": "images/knm-wt-17000.webp",
+      "original": "https://humanorigins.si.edu/sites/default/files/styles/full_width/public/images/landscape/aethiopicus_WT17000_skull_CC_lt_3qtr_l.jpg.webp?itok=haEkBN2-",
+      "alt": "left 3/4 view of Paranthropus aethiopicus, KNM-WT 17000 skull",
+      "credit": "(Chip Clark, Smithsonian Institution)",
+      "sha256": "3e49f9b956164bf88e32fad1413d467f483b746b8e629b962567bd31f18a5c99"
+    },
+    "dnh-7": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/dnh-7",
+      "status": "available",
+      "image": "images/dnh-7.webp",
+      "original": "https://humanorigins.si.edu/sites/default/files/styles/full_width/public/images/portrait/DNH7%20real%20p.jpg.webp?itok=NoiXV7ol",
+      "alt": "Image of Paranthropus robustus, DNH 7, Skull, 3/4 view - Courtesy of The Drimolen Field School",
+      "credit": "Dr. Andy I. R. Herries (DrHerries), The Drimolen Field School, via Smithsonian and Wikimedia Commons.",
+      "sha256": "aca4e70e167b0ab9685dafb9f34186b7daccb4e832200fc9733e320184d0dcea",
+      "rights": "CC BY-SA 4.0; The Drimolen Field School, via Wikimedia Commons. See the original file for attribution and licence.",
+      "rightsSource": "https://commons.wikimedia.org/wiki/File:DNH7.jpg",
+      "licenseLabel": "CC BY-SA 4.0",
+      "licenseURL": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "note": "The photograph and this derived line study are CC BY-SA 4.0."
+    },
+    "knm-er-1470": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/knm-er-1470",
+      "status": "available",
+      "image": "images/knm-er-1470.webp",
+      "original": "https://humanorigins.si.edu/sites/default/files/styles/full_width/public/images/landscape/rudolfensis_KNMER1470_skull_CC_lt_3qtr_l.jpg.webp?itok=k0s3r8qj",
+      "alt": "3/4 view of Homo rudolfensis, KNM-ER 1470 skull",
+      "credit": "(Chip Clark, Smithsonian Institution)",
+      "sha256": "f339836e4cbb0acff7ae845292c97d13847e1a0a88c4c5341bab98004b46749e"
+    },
+    "knm-er-1813": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/knm-er-1813",
+      "status": "available",
+      "image": "images/knm-er-1813.webp",
+      "original": "https://humanorigins.si.edu/sites/default/files/styles/full_width/public/habilis_KNMER1813_skull_CC_lt_3qtr_sq.jpg.webp?itok=TXT9GaN7",
+      "alt": "3/4 view of Homo habilis, KNM-ER 1813 skull",
+      "credit": "(Chip Clark, Smithsonian Institution)",
+      "sha256": "e475747a3da9644ccdcfdda36dd33fe89f156c6eb6f2a45d9b0618d685ca7cc1"
+    },
+    "knm-er-3733": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/knm-er-3733",
+      "status": "available",
+      "image": "images/knm-er-3733.webp",
+      "original": "https://humanorigins.si.edu/sites/default/files/styles/full_width/public/images/landscape/ergaster_KNMER3733_skull__CC_lt_3qtr_l.jpg.webp?itok=WAaSsJZp",
+      "alt": "3/4 view of Homo erectus, KNM-ER 3733 skull",
+      "credit": "(Chip Clark, Smithsonian Institution)",
+      "sha256": "99df8e61691ef653f5ae516644019de2625f2d70bf7df280088a8c1045f538fa"
+    },
+    "oh-24": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/oh-24",
+      "status": "available",
+      "image": "images/oh-24.webp",
+      "original": "https://humanorigins.si.edu/sites/default/files/styles/full_width/public/images/landscape/habilis_OH24_skull_CC_rt_3qtr_l.jpg.webp?itok=0NC8b_zR",
+      "alt": "3/4 view of Homo habilis, OH 24 skull",
+      "credit": "(Chip Clark, Smithsonian Institution)",
+      "sha256": "6dcad6be00709d25803bb308f27ebc06250d79d3bfa8a56ff4b365a591603b7b"
+    },
+    "oh-5": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/oh-5",
+      "status": "available",
+      "image": "images/oh-5.webp",
+      "original": "https://humanorigins.si.edu/sites/default/files/styles/full_width/public/images/landscape/boisei_OH5_skull_CC_rt_3qtr_l.jpg.webp?itok=L6ZMjqGV",
+      "alt": "3/4 view of Paranthropus boisei, OH 5 Zinj skull",
+      "credit": "(Chip Clark, Smithsonian Institution)",
+      "sha256": "e4b4dadf663c03d2295977e3f9a918f029c874c2f75f1d539bde7f39a217cf73"
+    },
+    "d2282": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/d2282",
+      "status": "available",
+      "image": "images/d2282.webp",
+      "original": "https://humanorigins.si.edu/sites/default/files/styles/full_width/public/2021-05/NHB2014-02845%20Dmanisi%20D2282_sq.jpg.webp?itok=0HGTFQv_",
+      "alt": "3/4 view of Homo erectus, Dmanisi D2282 skull",
+      "credit": "(Human Origins Programs, Smithsonian Institution)",
+      "sha256": "bac4f9767584085661df3866b9135325fff37140d5478677ffb426c937ef4acd"
+    },
+    "d3444": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/d3444",
+      "status": "available",
+      "image": "images/d3444.webp",
+      "original": "https://humanorigins.si.edu/sites/default/files/styles/full_width/public/images/landscape/erectus_D3444_skull_jddh_3qtr_l.jpg.webp?itok=u_hguwZR",
+      "alt": "3/4 view of Homo erectus D3444 skull, Dmanisi, Republic of Georgia",
+      "credit": "D3444 skull; Dmanisi, Republic of Georgia (James Di Loreto, & Donald H. Hurlbert, Smithsonian Institution)",
+      "sha256": "26ca779a56d5497d92b342a68c8e1ae027d2c21b7d514e83e94273f61655c033"
+    },
+    "knm-er-406": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/knm-er-406",
+      "status": "available",
+      "image": "images/knm-er-406.webp",
+      "original": "https://humanorigins.si.edu/sites/default/files/styles/full_width/public/images/landscape/boisei_%20KNMER406_skull_CC_rt_3qtr_l.jpg.webp?itok=5WLwr8B_",
+      "alt": "3/4 view of Paranthropus boisei , KNM-ER 406 skull",
+      "credit": "(Chip Clark, Smithsonian Institution)",
+      "sha256": "fb7ef62ceca974f83eddf6a5e659fbfef929c481271a094b2228b7d7491602cf"
+    },
+    "knm-er-732": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/knm-er-732",
+      "status": "available",
+      "image": "images/knm-er-732.webp",
+      "original": "https://humanorigins.si.edu/sites/default/files/styles/full_width/public/images/landscape/boisei_KNMER732_CC_3qtr_r_l.jpg.webp?itok=HVimCxYQ",
+      "alt": "3/4 view of Paranthropus boisei , KNM-ER 732 skull",
+      "credit": "Paranthropus boisei: KNM-ER 732 (Chip Clark, Smithsonian Institution)",
+      "sha256": "9ccafce76117f29c613cca0479475c1643a70aa5ea357863c60656c38c991508"
+    },
+    "sk-46": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/sk-46",
+      "status": "available",
+      "image": "images/sk-46.webp",
+      "original": "https://humanorigins.si.edu/sites/default/files/styles/full_width/public/images/landscape/robustus_SK46_skull_CC_lt_s_l.jpg.webp?itok=XjiUiFdd",
+      "alt": "side view of Paranthropus robustus, SK 46 skull",
+      "credit": "(Chip Clark, Smithsonian Institution)",
+      "sha256": "3a1e289789d266572d7f4685572e92bdeeb2e9af316728a38e5da18d571d8d81"
+    },
+    "sk-48": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/sk-48",
+      "status": "available",
+      "image": "images/sk-48.webp",
+      "original": "https://humanorigins.si.edu/sites/default/files/styles/full_width/public/images/landscape/robustus_SK48_skull_CC_lt_3qtr_l_0.jpg.webp?itok=CMw6hw4_",
+      "alt": "3/4 view of Paranthropus robustus, SK 48 skull",
+      "credit": "Smithsonian Human Origins Program; individual photographer not listed on this page.",
+      "sha256": "ffafcdcbc410ccceacfa195d070d8579052a5e47903fb65565f2b11727cc25ec"
+    },
+    "knm-er-3883": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/knm-er-3883",
+      "status": "available",
+      "image": "images/knm-er-3883.webp",
+      "original": "https://humanorigins.si.edu/sites/default/files/styles/full_width/public/images/landscape/erectus_KNMER3883_skull_CC_rt_3qtr_l.jpg.webp?itok=N9W8_Fcq",
+      "alt": "3/4 view of Homo erectus KNM-ER 3883 skull",
+      "credit": "(Chip Clark, Smithsonian Institution)",
+      "sha256": "6189b56f192cc13191f872310c7eb03b61f2f3c22a6cb1122e171398f2a20069"
+    },
+    "knm-wt-15000": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/knm-wt-15000",
+      "status": "available",
+      "image": "images/knm-wt-15000.webp",
+      "original": "https://humanorigins.si.edu/sites/default/files/styles/full_width/public/erectus_KNMERWT15000_Skeleton_front_CC_p.jpg.webp?itok=2fA80QFH",
+      "alt": "front view of partial skeleton of Homo erectus, WT 15000",
+      "credit": "(Chip Clark, Smithsonian Institution)",
+      "sha256": "84067b5a19a3b036fdb8132596f952ac718b3ac207db9fdd53c88f4bc19028b3",
+      "crop": [
+        0.085,
+        0,
+        0.83,
+        1
+      ],
+      "note": "Partial skeleton; line view omits the photograph’s black side borders."
+    },
+    "sangiran-17": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/sangiran-17",
+      "status": "available",
+      "image": "images/sangiran-17.webp",
+      "original": "https://humanorigins.si.edu/sites/default/files/styles/full_width/public/images/landscape/erectus_%20Sangiran17_CC_3qtr_l_l.jpg.webp?itok=lSS4rn2K",
+      "alt": "3/4 view of Homo erectus, Sangiran 17 skull",
+      "credit": "Homo erectus, Sangiran 17 skull (Chip Clark, Smithsonian Institution)",
+      "sha256": "c1d8eb9b06db48e76b94eaf31dabcc76211351ba6348c878259a1b0100f4fadd"
+    },
+    "bodo": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/bodo",
+      "status": "available",
+      "image": "images/bodo.webp",
+      "original": "https://humanorigins.si.edu/sites/default/files/styles/full_width/public/images/portrait/NHB2014-02800%20Bodo_p.jpg.webp?itok=dvqsX27Q",
+      "alt": "3/4 view of Homo heidelbergensis, Bodo skull",
+      "credit": "(Human Origins Program, Smithsonian Institution)",
+      "sha256": "6ff357eeba6d74a941b76a9f937bfeaeed55994eb95fe84486c9a444f8293711"
+    },
+    "kabwe-1": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/kabwe-1",
+      "status": "available",
+      "image": "images/kabwe-1.webp",
+      "original": "https://humanorigins.si.edu/sites/default/files/styles/full_width/public/images/landscape/heidelbergensis_Kabwe_jddh_3qtr_l.jpg.webp?itok=3icYMkkz",
+      "alt": "3/4 view of Homo Heidelbergensis Kawbwe skull",
+      "credit": "Homo heidelbergensis; Kabwe skull (Jim Di Loreto and Don Hurlbert, Smithsonian Institution)",
+      "sha256": "8f3ecab05749832a486a766a59c6a5ede85d637331b541cfcd2689e1f70a7cc8"
+    },
+    "irhoud-3": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/irhoud-3",
+      "status": "available",
+      "image": "images/irhoud-3.webp",
+      "original": "https://humanorigins.si.edu/sites/default/files/styles/full_width/public/images/portrait/3.6.3-13_JebelTooth_Composite_TS_p.jpg.webp?itok=b4PzIsJw",
+      "alt": "Jebel tooth fragment with photomicrograph inset",
+      "credit": "(Tanya Smith)",
+      "sha256": "3a4129c81f5366a3d263dc1725551bff2465920e1508df309c94cc4d620c2b58",
+      "note": "Tooth fragment with a photomicrograph inset, as shown in the source."
+    },
+    "omo-i": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/omo-i",
+      "status": "unavailable",
+      "reason": "The Smithsonian specimen page currently lists “photo not available”."
+    },
+    "la-chapelle-aux-saints": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/la-chapelle-aux-saints",
+      "status": "available",
+      "image": "images/la-chapelle-aux-saints.webp",
+      "original": "https://humanorigins.si.edu/sites/default/files/styles/full_width/public/images/landscape/neanderthalensis_LaChapelle_aux_Saints_TE_3qtr_rt_l.jpg.webp?itok=wPhKHuYD",
+      "alt": "Image of La Chapelle-aux-Saints, skull, 3/4 vie3/4 view of Homo neadnerthalensis, La Chapelle-aux-Saints skull",
+      "credit": "Homo neanderthalensis; La Chapelle-aux-Saints (Tyler Evans)",
+      "sha256": "1eeeec896f25ff99a7ad61f3925dc5c9924fdf6214f11144e7400ab13b2fe3c7"
+    },
+    "la-ferrassie": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/la-ferrassie",
+      "status": "available",
+      "image": "images/la-ferrassie.webp",
+      "original": "https://humanorigins.si.edu/sites/default/files/styles/full_width/public/images/landscape/neanderthalensis_laferrassie_skull_3qtr_l.jpg.webp?itok=jq5l89NV",
+      "alt": "Homo neanderthalensis fossilized skull from La Ferrassie, France",
+      "credit": "Neanderthal skull La Ferrassie 1 from La Ferrassie, France (Copyright Smithsonian Institution)",
+      "sha256": "ba23c94ef34beda6f80ff9ad150a078a782e749f4d39fc2906e35c65b13a1f0d"
+    },
+    "feldhofer": {
+      "source": "https://humanorigins.si.edu/evidence/human-fossils/fossils/feldhofer",
+      "status": "available",
+      "image": "images/feldhofer.webp",
+      "original": "https://humanorigins.si.edu/sites/default/files/styles/full_width/public/images/portrait/neaderthalensis_neandertal_1_skull_jddh_p.jpg.webp?itok=AxDPtRrw",
+      "alt": "3/4 view of Homo neanderthalensis, Feldhofer skull",
+      "credit": "(Human Origins Program, Smithsonian Institution)",
+      "sha256": "3c86dcc2eda1c4bac9998cbe56240018cf0060223cd84957252a7e4b58af94dd"
+    }
+  }
+}
