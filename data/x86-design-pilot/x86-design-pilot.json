@@ -1,0 +1,446 @@
+{
+  "format": 1,
+  "meta": {
+    "title": "x86 design families · pilot, 2000–2023",
+    "unit": "month",
+    "tStart": "2000-11",
+    "tEnd": "2023-01",
+    "defaultPick": "alder-lake",
+    "defaultGradient": 1,
+    "relationshipMode": "network",
+    "description": "Eleven architectural and product milestones, located at documented design teams or engineering contributors. Colors distinguish design families; links distinguish development, feature transfer and core composition.",
+    "caveats": "A sourced pilot, not a complete x86 family tree. City anchors identify documented contributors, not exclusive origins, fabs or launch venues. Dates are the labeled public milestones, not the start of secret design work. Same-city designs share coordinates. Missing links and omitted generations make no ancestry claim. The outer shell is the January 2023 end of this sample.",
+    "families": {
+      "core": {
+        "label": "Intel mobile / Core / P-core",
+        "tone": 1
+      },
+      "netburst": {
+        "label": "Intel NetBurst",
+        "tone": 2
+      },
+      "efficient": {
+        "label": "Intel E-core",
+        "tone": 3
+      },
+      "zen": {
+        "label": "AMD Zen",
+        "tone": 4
+      },
+      "mixed": {
+        "label": "Mixed architecture product",
+        "tone": 0
+      }
+    },
+    "vendors": {
+      "intel": {
+        "label": "Intel",
+        "tone": 1
+      },
+      "amd": {
+        "label": "AMD",
+        "tone": 4
+      }
+    },
+    "kinds": {
+      "architecture": "architecture or design family",
+      "product": "processor product"
+    },
+    "linkKinds": {
+      "development": "design development",
+      "transfer": "feature transfer",
+      "composition": "core used in product"
+    },
+    "sources": [
+      "https://www.intel.com/pressroom/kits/core2duo/pdf/ICM_whitepaper.pdf",
+      "https://download.intel.com/newsroom/2021/client-computing/intel-architecture-day-2021-fact-sheet.pdf",
+      "https://ir.amd.com/news-events/press-releases/detail/892/amd-announces-next-generation-leadership-products-at-computex-2019-keynote"
+    ],
+    "licence": "Compilation: all rights reserved until launch. Linked publications retain their original rights."
+  },
+  "nodes": [
+    {
+      "id": "netburst",
+      "label": "NetBurst / Pentium 4",
+      "t": "2000-11",
+      "tEnd": "2000-11",
+      "lat": 45.5229,
+      "lng": -122.9898,
+      "place": "Hillsboro, Oregon, USA",
+      "dateLabel": "Nov 2000 · Pentium 4 introduction",
+      "kind": "architecture",
+      "family": "netburst",
+      "vendor": "intel",
+      "note": "A separate Intel architecture. The link to Core records transferred features, not a claim that Core descended wholly from NetBurst.",
+      "designLocation": {
+        "precision": "city",
+        "role": "Documented architecture and circuit-design team",
+        "basis": "direct",
+        "evidence": "Hinton and colleagues’ paper identifies Pentium 4 designers at Intel in Hillsboro; this is a city anchor, not a fab address.",
+        "sources": [
+          "https://bioee.ee.columbia.edu/courses/ee6321/papers/hinton01.pdf"
+        ],
+        "otherPlaces": []
+      },
+      "sources": [
+        "https://www.intel.com/content/dam/www/public/us/en/documents/research/2001-vol05-iss-1-intel-technology-journal.pdf"
+      ]
+    },
+    {
+      "id": "pentium-m",
+      "label": "Pentium M / Banias",
+      "t": "2003-03",
+      "tEnd": "2003-03",
+      "lat": 32.818,
+      "lng": 34.989,
+      "place": "Haifa, Israel",
+      "dateLabel": "Mar 2003 · Pentium M introduction",
+      "kind": "architecture",
+      "family": "core",
+      "vendor": "intel",
+      "note": "This pilot begins within the mobile design line; its earlier P6 connections are not reconstructed here.",
+      "designLocation": {
+        "precision": "city",
+        "role": "Microarchitecture definition team",
+        "basis": "direct",
+        "evidence": "The 2003 paper places the Pentium M architecture leads in Intel’s Mobile Platforms Group in Haifa.",
+        "sources": [
+          "https://www.intel.com/content/dam/www/public/us/en/documents/research/2003-vol07-iss-2-intel-technology-journal.pdf"
+        ],
+        "otherPlaces": []
+      },
+      "sources": [
+        "https://www.intel.com/content/dam/www/public/us/en/documents/research/2003-vol07-iss-2-intel-technology-journal.pdf"
+      ]
+    },
+    {
+      "id": "yonah",
+      "label": "Yonah / Core Duo",
+      "t": "2006-01",
+      "tEnd": "2006-01",
+      "lat": 32.818,
+      "lng": 34.989,
+      "place": "Haifa, Israel",
+      "dateLabel": "Jan 2006 · Core Duo introduction",
+      "kind": "architecture",
+      "family": "core",
+      "vendor": "intel",
+      "note": "An enhanced Pentium M implementation. Core Duo and the later Core microarchitecture are distinct entries.",
+      "designLocation": {
+        "precision": "city",
+        "role": "Documented architecture and power-management team",
+        "basis": "direct",
+        "evidence": "Intel’s Core Duo paper identifies participating Mobile Platform Group architects in Haifa.",
+        "sources": [
+          "https://www.intel.com/content/dam/www/public/us/en/documents/research/2006-vol10-iss-2-intel-technology-journal.pdf"
+        ],
+        "otherPlaces": []
+      },
+      "sources": [
+        "https://www.intel.com/content/dam/doc/manual/64-ia-32-architectures-optimization-manual.pdf",
+        "https://www.cbsnews.com/pictures/the-big-show/"
+      ]
+    },
+    {
+      "id": "core",
+      "label": "Core microarchitecture",
+      "t": "2006-03",
+      "tEnd": "2006-03",
+      "lat": 32.818,
+      "lng": 34.989,
+      "place": "Haifa, Israel",
+      "dateLabel": "Mar 2006 · architecture unveiling",
+      "kind": "architecture",
+      "family": "core",
+      "vendor": "intel",
+      "note": "The Merom-era architecture. Intel documents both the mobile power-efficiency approach and reused NetBurst features. This entry is the shared architecture, not every branded Core product.",
+      "designLocation": {
+        "precision": "city",
+        "role": "Architecture team",
+        "basis": "direct",
+        "evidence": "Yoaz identifies Haifa as this design’s architecture-team location. Implementation involved other sites.",
+        "sources": [
+          "https://www.hardwareluxx.de/index.php/news/hardware/prozessoren/57731-interview-mit-adi-yoaz-intels-chief-architect-des-performance-core.html"
+        ],
+        "otherPlaces": []
+      },
+      "sources": [
+        "https://www.intel.com/pressroom/archive/releases/2006/20060307corp.htm",
+        "https://www.intel.com/pressroom/kits/core2duo/pdf/ICM_whitepaper.pdf"
+      ]
+    },
+    {
+      "id": "penryn",
+      "label": "Penryn family",
+      "t": "2007-11",
+      "tEnd": "2007-11",
+      "lat": 32.818,
+      "lng": 34.989,
+      "place": "Haifa, Israel",
+      "dateLabel": "Nov 2007 · first Penryn-family products",
+      "kind": "architecture",
+      "family": "core",
+      "vendor": "intel",
+      "note": "An enhanced generation of the Core microarchitecture; the pilot treats the family as one entry.",
+      "designLocation": {
+        "precision": "city",
+        "role": "Architecture team",
+        "basis": "direct",
+        "evidence": "Yoaz identifies Haifa as this design’s architecture-team location. Implementation involved other sites.",
+        "sources": [
+          "https://www.hardwareluxx.de/index.php/news/hardware/prozessoren/57731-interview-mit-adi-yoaz-intels-chief-architect-des-performance-core.html"
+        ],
+        "otherPlaces": []
+      },
+      "sources": [
+        "https://www.intel.com/content/dam/doc/white-paper/45nm-next-generation-core-microarchitecture-white-paper.pdf",
+        "https://www.intel.com/pressroom/chipshots/archive.htm"
+      ]
+    },
+    {
+      "id": "zen",
+      "label": "Zen",
+      "t": "2017-03",
+      "tEnd": "2017-03",
+      "lat": 30.267,
+      "lng": -97.743,
+      "place": "Austin, Texas, USA",
+      "dateLabel": "Mar 2017 · first Ryzen products",
+      "kind": "architecture",
+      "family": "zen",
+      "vendor": "amd",
+      "note": "A separate AMD design family. Austin is a documented contributor location; it is not claimed as the sole birthplace.",
+      "designLocation": {
+        "precision": "city",
+        "role": "Documented engineering contributors (paper affiliation)",
+        "basis": "author-affiliation",
+        "evidence": "ISSCC 2017, paper 3.2, lists Austin-based authors alongside Fort Collins and Sunnyvale contributors.",
+        "sources": [
+          "https://picture.iczhiku.com/resource/eetop/WhigdyhqRrzsqXbv.pdf"
+        ],
+        "otherPlaces": [
+          "Fort Collins, Colorado, USA",
+          "Sunnyvale, California, USA"
+        ]
+      },
+      "sources": [
+        "https://ir.amd.com/news-events/press-releases/detail/753/amd-ryzentm-7-desktop-processors-featuring-record-breaking-overclocking-performance-available-worldwide-today"
+      ]
+    },
+    {
+      "id": "zen-2",
+      "label": "Zen 2",
+      "t": "2019-05",
+      "tEnd": "2019-05",
+      "lat": 30.267,
+      "lng": -97.743,
+      "place": "Austin, Texas, USA",
+      "dateLabel": "May 2019 · Ryzen / EPYC architecture announcement",
+      "kind": "architecture",
+      "family": "zen",
+      "vendor": "amd",
+      "note": "The next Zen core generation in this sample. The date is the public announcement, not first shipment.",
+      "designLocation": {
+        "precision": "city",
+        "role": "Documented engineering contributors (paper affiliation)",
+        "basis": "author-affiliation",
+        "evidence": "ISSCC 2020, paper 2.1, affiliates the core-paper authors with Austin and Markham. The adjacent chiplet paper describes a different contribution.",
+        "sources": [
+          "https://www.mics.caltech.edu/wp-content/uploads/2019/12/ISSCC2020AdvanceProgram.pdf"
+        ],
+        "otherPlaces": [
+          "Markham, Ontario, Canada"
+        ]
+      },
+      "sources": [
+        "https://ir.amd.com/news-events/press-releases/detail/892/amd-announces-next-generation-leadership-products-at-computex-2019-keynote"
+      ]
+    },
+    {
+      "id": "golden-cove",
+      "label": "Golden Cove / P-core",
+      "t": "2021-08",
+      "tEnd": "2021-08",
+      "lat": 32.818,
+      "lng": 34.989,
+      "place": "Haifa, Israel",
+      "dateLabel": "Aug 2021 · detailed architecture disclosure",
+      "kind": "architecture",
+      "family": "core",
+      "vendor": "intel",
+      "note": "A performance core shared by client and server designs. Intermediate Core generations are deliberately omitted.",
+      "designLocation": {
+        "precision": "city",
+        "role": "Architecture team",
+        "basis": "direct",
+        "evidence": "Yoaz identifies Haifa as this design’s architecture-team location. Implementation involved other sites.",
+        "sources": [
+          "https://www.hardwareluxx.de/index.php/news/hardware/prozessoren/57731-interview-mit-adi-yoaz-intels-chief-architect-des-performance-core.html"
+        ],
+        "otherPlaces": []
+      },
+      "sources": [
+        "https://download.intel.com/newsroom/2021/client-computing/intel-architecture-day-2021-fact-sheet.pdf"
+      ]
+    },
+    {
+      "id": "gracemont",
+      "label": "Gracemont / E-core",
+      "t": "2021-08",
+      "tEnd": "2021-08",
+      "lat": 30.267,
+      "lng": -97.743,
+      "place": "Austin, Texas, USA",
+      "dateLabel": "Aug 2021 · detailed architecture disclosure",
+      "kind": "architecture",
+      "family": "efficient",
+      "vendor": "intel",
+      "note": "A separate efficiency-core design. Sharing the x86 instruction set does not establish descent from the P-core.",
+      "designLocation": {
+        "precision": "city",
+        "role": "Efficiency-core architecture team",
+        "basis": "direct",
+        "evidence": "Yoaz identifies the contemporary efficiency-core team as Austin, separate from the Haifa core team.",
+        "sources": [
+          "https://www.hardwareluxx.de/index.php/news/hardware/prozessoren/57731-interview-mit-adi-yoaz-intels-chief-architect-des-performance-core.html"
+        ],
+        "otherPlaces": []
+      },
+      "sources": [
+        "https://download.intel.com/newsroom/2021/client-computing/intel-architecture-day-2021-fact-sheet.pdf"
+      ]
+    },
+    {
+      "id": "alder-lake",
+      "label": "Alder Lake",
+      "t": "2021-10",
+      "tEnd": "2021-10",
+      "lat": 32.818,
+      "lng": 34.989,
+      "place": "Haifa, Israel",
+      "dateLabel": "Oct 2021 · desktop product introduction",
+      "kind": "product",
+      "family": "mixed",
+      "vendor": "intel",
+      "note": "A hybrid product. Each incoming composition link retains its contributing core’s family color; the product marker is neutral.",
+      "designLocation": {
+        "precision": "city",
+        "role": "Performance-core architecture anchor for a distributed product",
+        "basis": "direct",
+        "evidence": "Haifa anchors the P-core contribution. Austin supplies the E-core contribution; this point is not an exclusive whole-product origin.",
+        "sources": [
+          "https://www.hardwareluxx.de/index.php/news/hardware/prozessoren/57731-interview-mit-adi-yoaz-intels-chief-architect-des-performance-core.html"
+        ],
+        "otherPlaces": [
+          "Austin, Texas, USA (E-core architecture)"
+        ]
+      },
+      "sources": [
+        "https://www.intel.com/content/www/us/en/newsroom/resources/press-kit-12th-gen-core-procesors.html",
+        "https://download.intel.com/newsroom/2021/client-computing/intel-architecture-day-2021-fact-sheet.pdf"
+      ]
+    },
+    {
+      "id": "sapphire-rapids",
+      "label": "Sapphire Rapids",
+      "t": "2023-01",
+      "tEnd": "2023-01",
+      "lat": 32.818,
+      "lng": 34.989,
+      "place": "Haifa, Israel",
+      "dateLabel": "Jan 2023 · 4th Gen Xeon launch",
+      "kind": "product",
+      "family": "core",
+      "vendor": "intel",
+      "note": "A server implementation of the performance core, with server-specific capabilities. The arrow records core composition, not a claim of descent from Alder Lake.",
+      "designLocation": {
+        "precision": "city",
+        "role": "Performance-core architecture anchor",
+        "basis": "direct",
+        "evidence": "Yoaz identifies his Haifa team’s core work for Sapphire Rapids; the city does not locate all SoC or implementation work.",
+        "sources": [
+          "https://www.hardwareluxx.de/index.php/news/hardware/prozessoren/57731-interview-mit-adi-yoaz-intels-chief-architect-des-performance-core.html"
+        ],
+        "otherPlaces": []
+      },
+      "sources": [
+        "https://download.intel.com/newsroom/archive/2025/en-us-2023-01-10-intel-launches-4th-gen-xeon-scalable-processors-max-series-cpus.pdf",
+        "https://download.intel.com/newsroom/2021/client-computing/intel-architecture-day-2021-fact-sheet.pdf"
+      ]
+    }
+  ],
+  "links": [
+    {
+      "to": "yonah",
+      "kind": "development",
+      "note": "The optimization manual describes Core Duo as an enhanced Pentium M microarchitecture.",
+      "sources": [
+        "https://www.intel.com/content/dam/doc/manual/64-ia-32-architectures-optimization-manual.pdf"
+      ],
+      "from": "pentium-m"
+    },
+    {
+      "to": "core",
+      "kind": "transfer",
+      "note": "Intel describes the mobile power-efficiency philosophy as an input. This conservative edge does not assert wholesale design descent.",
+      "sources": [
+        "https://www.intel.com/pressroom/kits/core2duo/pdf/ICM_whitepaper.pdf"
+      ],
+      "from": "pentium-m"
+    },
+    {
+      "to": "core",
+      "kind": "transfer",
+      "note": "Intel explicitly records reuse of NetBurst features.",
+      "sources": [
+        "https://www.intel.com/pressroom/kits/core2duo/pdf/ICM_whitepaper.pdf"
+      ],
+      "from": "netburst"
+    },
+    {
+      "to": "penryn",
+      "kind": "development",
+      "note": "Intel describes Penryn as an evolution with microarchitectural enhancements.",
+      "sources": [
+        "https://www.intel.com/content/dam/doc/white-paper/45nm-next-generation-core-microarchitecture-white-paper.pdf"
+      ],
+      "from": "core"
+    },
+    {
+      "to": "zen-2",
+      "kind": "development",
+      "note": "AMD describes the predecessor Zen architecture and Zen 2 core improvements. Intermediate Zen+ is omitted.",
+      "sources": [
+        "https://ir.amd.com/news-events/press-releases/detail/892/amd-announces-next-generation-leadership-products-at-computex-2019-keynote"
+      ],
+      "from": "zen"
+    },
+    {
+      "to": "alder-lake",
+      "kind": "composition",
+      "note": "The performance core is one component of the hybrid design.",
+      "sources": [
+        "https://download.intel.com/newsroom/2021/client-computing/intel-architecture-day-2021-fact-sheet.pdf"
+      ],
+      "from": "golden-cove"
+    },
+    {
+      "to": "alder-lake",
+      "kind": "composition",
+      "note": "The efficiency core is the other CPU-core architecture in the hybrid design.",
+      "sources": [
+        "https://download.intel.com/newsroom/2021/client-computing/intel-architecture-day-2021-fact-sheet.pdf"
+      ],
+      "from": "gracemont"
+    },
+    {
+      "to": "sapphire-rapids",
+      "kind": "composition",
+      "note": "The server product uses the performance-core architecture with server-specific extensions.",
+      "sources": [
+        "https://download.intel.com/newsroom/2021/client-computing/intel-architecture-day-2021-fact-sheet.pdf"
+      ],
+      "from": "golden-cove"
+    }
+  ]
+}

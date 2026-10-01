@@ -40,6 +40,14 @@
    "span": "7 Ma–40 ka",
    "blurb": "Thirty-two fossil finds, with estimated ages, approximate regions and comparisons within published taxonomic groups.",
    "why": "The first deep-time case study asks how scattered fossils can be read together without turning incomplete evidence into a single chain of ancestors. Dates use millions and thousands of years before present. Select a find to inspect its age estimate and sources; clear the selection to see inferred placement and comparison links in grey."
+  },
+  {
+   "id": "x86",
+   "path": "x86-design-pilot/x86-design-pilot.json",
+   "title": "x86 design families · pilot, 2000–2023",
+   "span": "2000–2023",
+   "blurb": "Eleven x86 design milestones: architectural families, feature transfers and hybrid products, anchored to documented engineering locations.",
+   "why": "This pilot tests whether branch colors can show architectural families without hiding cross-family contributions. Pick Core to compare its documented inputs, or Alder Lake to see two core families converge. Location evidence separates design teams from manufacturing sites and marks paper-affiliation anchors explicitly."
   }
  ]
 }

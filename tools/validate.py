@@ -74,8 +74,26 @@ def check(data, name="dataset"):
     if unit not in UNITS:
         r.err(f"meta.unit {unit!r} should be one of {', '.join(UNITS)}")
         unit = "year"
-    if meta.get("relationshipMode", "lineage") not in ("lineage", "comparison"):
-        r.err("meta.relationshipMode should be lineage or comparison")
+    if meta.get("relationshipMode", "lineage") not in ("lineage", "comparison", "network"):
+        r.err("meta.relationshipMode should be lineage, comparison or network")
+    groups = {}
+    for key in ("families", "vendors"):
+        if key not in meta:
+            continue
+        value = meta[key]
+        if not isinstance(value, dict) or not value:
+            r.err(f"meta.{key} should be a nonempty object")
+            continue
+        groups[key] = value
+        for gid, group in value.items():
+            if (not isinstance(group, dict) or not isinstance(group.get("label"), str)
+                    or not group["label"].strip() or type(group.get("tone")) is not int
+                    or not 0 <= group["tone"] <= 4):
+                r.err(f"meta.{key}.{gid} needs a label and integer palette tone 0–4")
+
+    def source_urls(value):
+        return isinstance(value, list) and bool(value) and all(
+            isinstance(s, str) and re.fullmatch(r"https?://\S+", s, re.I) for s in value)
     if "defaultGradient" in meta:
         g = meta["defaultGradient"]
         if isinstance(g, bool) or not isinstance(g, (int, float)) or not math.isfinite(g) or not 0 <= g <= 5:
@@ -113,6 +131,26 @@ def check(data, name="dataset"):
         if nid in ids:
             r.err(f"{where}: id is used more than once")
         ids.add(nid)
+        for key, field in (("families", "family"), ("vendors", "vendor")):
+            if key in groups and (not isinstance(n.get(field), str) or n[field] not in groups[key]):
+                r.err(f"{where}: {field} must reference a declared {field}")
+        if "designLocation" in n:
+            loc = n["designLocation"]
+            if not isinstance(loc, dict):
+                r.err(f"{where}: designLocation should be an object")
+            else:
+                if loc.get("precision") not in ("city", "region"):
+                    r.err(f"{where}: designLocation.precision should be city or region")
+                if loc.get("basis") not in ("direct", "author-affiliation"):
+                    r.err(f"{where}: designLocation.basis should be direct or author-affiliation")
+                for field in ("role", "evidence"):
+                    if not isinstance(loc.get(field), str) or not loc[field].strip():
+                        r.err(f"{where}: designLocation.{field} is required")
+                if not source_urls(loc.get("sources")):
+                    r.err(f"{where}: designLocation.sources needs HTTP(S) evidence URLs")
+                if "otherPlaces" in loc and (not isinstance(loc["otherPlaces"], list) or not all(
+                        isinstance(p, str) and p.strip() for p in loc["otherPlaces"])):
+                    r.err(f"{where}: designLocation.otherPlaces should be a list of place names")
         if not n.get("label"):
             r.warn(f"{where}: no label; the id will be shown")
         if "dateLabel" in n and (not isinstance(n["dateLabel"], str) or not n["dateLabel"].strip()):
@@ -173,6 +211,8 @@ def check(data, name="dataset"):
             r.warn(f"{where}: duplicate link")
         seen_pairs.add((a, b))
         kind = lk.get("kind", "descent")
+        if "sources" in lk and not source_urls(lk["sources"]):
+            r.err(f"{where}: sources needs HTTP(S) evidence URLs")
         if kind not in kinds_ok:
             r.err(f"{where}: kind {kind!r} is not a standard kind and has no caption in meta.linkKinds")
         if "inferred" in lk and not isinstance(lk["inferred"], bool):

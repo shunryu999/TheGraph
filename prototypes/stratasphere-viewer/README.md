@@ -2,7 +2,7 @@
 
 A general viewer for any lineage with places and dates. Each node sits on the globe where it happened, at the shell for its year: the present is the outer shell and the start of the dataset is the center. Each node's worldline runs outward to the present. Each link is an arc from parent to child that climbs through the shells as it crosses the globe.
 
-The catalog contains the IAS machine family, the spread of printing, Unix and SARS-CoV-2 lineages, plus a hominin fossil comparison dataset. A short first-visit tour introduces the original four in that order, with one sentence per stop. Skip, finish or change datasets to leave the tour; reopen it from the header. Only the completed/skipped preference is stored locally, and shared dataset links bypass the tour.
+The catalog contains the IAS machine family, the spread of printing, Unix and SARS-CoV-2 lineages, plus hominin fossil comparisons and an x86 design-family pilot. A short first-visit tour introduces the original four in that order, with one sentence per stop. Skip, finish or change datasets to leave the tour; reopen it from the header. Only the completed/skipped preference is stored locally, and shared dataset links bypass the tour.
 
 ## What it does
 
@@ -28,6 +28,12 @@ The catalog contains the IAS machine family, the spread of printing, Unix and SA
 
 For fossil occurrences, `tEnd = t` produces a single point. Optional `dateLabel` text preserves an age range or minimum on the card. `meta.relationshipMode: "comparison"` uses comparison wording and `meta.defaultGradient` sets the initial density (3.0 for hominins; otherwise 1.0). The gradient resets on dataset load. URL-only citations become clickable links.
 
+## Architectural branch colors
+
+The x86 pilot introduces optional `meta.families` and `meta.vendors` palettes. Family, manufacturer and monochrome modes preserve category identity during selection: traced connections stay bright, unrelated branches fade, and selected points enlarge. Inference remains grey. Dotted feature transfers can be excluded from tracing; dashed composition links retain the contributing core's color when they enter a mixed product. Other datasets keep their original rendering.
+
+`relationshipMode: "network"` shows typed contributions and connected-design buttons instead of a first-parent ancestry chain. The card exposes `designLocation` evidence, its geographic scale and other documented contributors. Same-city designs keep their coordinates; select an obscured label through the list or connected-design buttons. The [pilot audit](../../data/x86-design-pilot/SOURCE.md) documents city anchors and source limitations. Optional `color=vendor|mono` and `transfers=0` URL parameters restore the chosen view. Family and transfer settings reset when changing datasets.
+
 ## Fossil panel
 
 In the hominin catalog entry, a panel above Dataset follows the selected fossil. It renders a thin-line study of the sourced photograph, with Photo mode, detail adjustment, zoom and drag-to-pan. Focus the drawing to use +/− for zoom, arrow keys for panning, and 0 to fit. Line strokes follow the light or dark theme. These are two-dimensional photographic contours, not a reconstructed 3D fossil.
@@ -40,4 +46,4 @@ three.js r128 (cdnjs) and OrbitControls (jsDelivr). Land outlines are embedded i
 
 ## Next
 
-M5 adds the tour, Chromium checks, a [worked CSV conversion](../../docs/data-format.md#worked-example-two-spreadsheets-to-one-lineage), and the [data design specification](../../docs/stratasphere-data-design.md). The [roadmap](../../docs/stratasphere-viewer-roadmap.md) retains the outstanding printing-source verification, Unix expansion, Safari export and real-GPU checks. The first hominin fossil comparison dataset is prepared for review. See its [sources and scientific limits](../../data/hominin-fossils/SOURCE.md); a reviewed ancestry-hypothesis model remains future work.
+M5 delivered the tour, Chromium checks, a [worked CSV conversion](../../docs/data-format.md#worked-example-two-spreadsheets-to-one-lineage), and the [data design specification](../../docs/stratasphere-data-design.md). The [roadmap](../../docs/stratasphere-viewer-roadmap.md) retains the outstanding printing-source verification, Unix expansion, Safari export and real-GPU checks. The first hominin fossil comparison dataset is merged and deployed; its image panel remains in PR #10. The x86 pilot remains in PR #11, with further work parked in its [handoff](../../docs/x86-design-pilot-handoff.md). See its [sources and scientific limits](../../data/hominin-fossils/SOURCE.md); a reviewed ancestry-hypothesis model remains future work.

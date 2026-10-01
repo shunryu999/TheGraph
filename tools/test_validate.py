@@ -112,6 +112,33 @@ class TestCheck(unittest.TestCase):
         d["links"].append({"from": "a", "to": "a"})
         self.assertError(d, "own parent")
 
+    def test_family_and_location_evidence(self):
+        pilot = V.load(ROOT / 'data/x86-design-pilot/x86-design-pilot.json')
+        self.assertEqual(run(pilot).errors, [])
+        for change, fragment in (
+            (lambda d: d['meta']['families']['core'].update(tone='blue'), 'palette tone'),
+            (lambda d: d['nodes'][0].update(family='missing'), 'declared family'),
+            (lambda d: d['nodes'][0]['designLocation'].update(sources=[]), 'evidence URLs'),
+            (lambda d: d['nodes'][0]['designLocation'].update(basis='headquarters'), 'basis'),
+            (lambda d: d['nodes'][0]['designLocation'].update(otherPlaces='Austin'), 'place names'),
+            (lambda d: d['links'][0].update(sources=['javascript:alert(1)']), 'evidence URLs'),
+        ):
+            d = copy.deepcopy(pilot)
+            change(d)
+            self.assertError(d, fragment)
+
+    def test_x86_pilot_preserves_evidence_and_composition(self):
+        pilot = V.load(ROOT / 'data/x86-design-pilot/x86-design-pilot.json')
+        for node in pilot['nodes']:
+            self.assertTrue(node['designLocation']['sources'], node['id'])
+            self.assertEqual(node['designLocation']['precision'], 'city')
+            self.assertEqual(node['tEnd'], node['t'], 'A milestone must not invent a lifespan')
+        for link in pilot['links']:
+            self.assertTrue(link['sources'])
+            self.assertIn(link['kind'], ('development','transfer','composition'))
+        parents = {l['from'] for l in pilot['links'] if l['to'] == 'alder-lake' and l['kind'] == 'composition'}
+        self.assertEqual(parents, {'golden-cove','gracemont'})
+
     def test_child_before_parent_warns(self):
         d = with_(nodes__1__t=1895, meta__tStart=1890)
         r = run(d)

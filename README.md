@@ -23,13 +23,13 @@ This repo holds the buildable parts: prototypes, datasets, specs and the public 
 | 5 | [Ontograph plates](prototypes/ontograph-plates/): eight plates for the Ontograph in the Illustration Brief style, with prompts | First version |
 | 7 | [Life on the Stratasphere](prototypes/life-sphere/): Conway's Life on a sphere, its history nested as shells | First version |
 | 8 | [IAS machine family](data/ias-machine-lineage/): 23 machines, 1946–1960, placed and dated with sources | First version |
-| 11 | [Stratasphere viewer](prototypes/stratasphere-viewer/): IAS computers, printing, Unix, SARS-CoV-2 and hominin fossil comparisons as nested shells | M5 released; deep-time case study prepared |
+| 11 | [Stratasphere viewer](prototypes/stratasphere-viewer/): IAS computers, printing, Unix, SARS-CoV-2, hominin fossils and x86 design families as nested shells | M5 + hominin data released; fossil images/x86 in open PRs |
 
 The full ranked list is in [`docs/roadmap.md`](docs/roadmap.md). The viewer's milestones and outstanding source/platform checks are in [`docs/stratasphere-viewer-roadmap.md`](docs/stratasphere-viewer-roadmap.md).
 
 ## Run locally
 
-The site has no build step. Use Python 3 to serve the repository over HTTP so the viewer can fetch all five datasets:
+The site has no build step. Use Python 3 to serve the repository over HTTP so the viewer can fetch all six datasets:
 
 ```sh
 git clone https://github.com/shunryu999/TheGraph.git
@@ -40,6 +40,8 @@ python3 -m http.server 8000
 Open `http://localhost:8000/prototypes/stratasphere-viewer/`. On a first visit, a four-stop tour introduces IAS → printing → Unix → SARS-CoV-2. Skip it to explore freely, or reopen it from the header. A shared `?d=…&pick=…&t=…` view takes precedence over the tour.
 
 The **Hominin fossil finds** entry adds 32 sourced occurrences across 7 Ma–40 ka. Open `?d=hominins&pick=knm-wt-15000` or choose it in the dataset picker. Its links compare museum taxonomic groupings; they do not assert individual ancestry. Its fossil panel follows the selection with a thin-line drawing, source-photo mode and zoom; 29 records have images and three have explicit unavailable states. Read its [sources and limits](data/hominin-fossils/SOURCE.md) and [image credits](data/hominin-fossils/MEDIA.md). The introductory tour retains its original four stops.
+
+The **x86 design families** pilot adds 11 milestones and eight documented connections. Open `?d=x86&pick=alder-lake` for hybrid composition, or `?d=x86&pick=core` for feature transfer. Branch colors distinguish architectural families, with manufacturer and monochrome alternatives. Every selection gives its qualified design-location evidence. See the [placement audit and research inventory](data/x86-design-pilot/SOURCE.md). Further x86 work is parked; the [handoff and restart guide](docs/x86-design-pilot-handoff.md) records the implementation checkpoint, review dependency and remaining work.
 
 The renderer loads pinned libraries from CDNs. An embedded IAS dataset is available if catalog access fails, but a fresh offline browser still needs those libraries; this is not yet a complete offline bundle.
 

@@ -2,37 +2,39 @@
 
 *Drawn from the Twigzistence Reader (through the Storyboarding and Ontograph notebooks), the Recapitulation, the Gleanings, the Illustration Brief, and the Notebook Intake Log. Compiled 22 Sept 2026.*
 
-> **Current priority (28 Sept 2026):** the Stratasphere Viewer (#11) M5 release is merged. The next case study is prepared for review: 32 hominin fossil occurrences across 7 Ma–40 ka, with inferred comparison links and explicit age qualifications. A reviewed ancestry model remains open. See [`stratasphere-viewer-roadmap.md`](stratasphere-viewer-roadmap.md) for status and outstanding source/platform checks; #12 follows the deep-time case study.
+> **Checkpoint (1 October 2026):** #11's M5 release, first-time-step fix and 32-hominin comparison dataset are merged and deployed (PRs #7–9). The fossil image viewer ([PR #10](https://github.com/shunryu999/TheGraph/pull/10)) and x86 pilot ([PR #11](https://github.com/shunryu999/TheGraph/pull/11)) remain open. Further x86 work is parked at the owner’s request; its [handoff and restart guide](x86-design-pilot-handoff.md) records the complete checkpoint. **Recommended next build: #12, the Ontograph navigator**, joining the existing plates and viewer. This is a recommendation, not a new implementation commitment.
+
+Status reconciled with the [Notion project chart](https://app.notion.com/p/3e347659b3ec8160ab2ac970a2b6d271), repository artifacts and GitHub on 1 October 2026. “First version” does not mean research/editorial review is complete. The 121-term lexicon, 183-record figure register and four essay drafts are reported by the Notion chart; their contents remain in the private workspace/archive. Roadmap project numbers and GitHub PR numbers are separate sequences.
 
 Projects run from the lowest-hanging fruit down to the heavy lifts. Each one names the thread in the archive it comes from, what it produces, and what it needs first. Effort is a rough guess at focused work: **S** = a day or two, **M** = one to three weeks, **L** = one to three months, **XL** = a season or more, or a team.
 
 ## At a glance
 
-| # | Project | Tier | Effort | Needs first |
-|---|---|---|---|---|
-| 1 | Lineland ring-history toy (1D automaton on nested rings) | Low | S | — |
-| 2 | Genealogical diamond simulator | Low | S | — |
-| 3 | Canonical lexicon with first-attestation dates | Low | S | — |
-| 4 | Figure register of the notebook drawings | Low | S–M | high-res scans |
-| 5 | Ontograph plates in the Illustration Brief style | Low | S–M | 3 |
-| 6 | Essays from the notebooks (wells of attention, planetary/globular, Circle of Empathy) | Low | S each | — |
-| 7 | Game of Life on the stratasphere | Low–Mid | M | 1 |
-| 8 | Computer family tree on nested globes (IAS-machine lineage) | Low–Mid | M | 7 or 11 |
-| 9 | Dimensional reduction chart, phonomeme → phenomeme | Mid | M | 3 |
-| 10 | Twelve links mapped onto the Ontograph | Mid | M | 5 |
-| 11 | Stratasphere viewer MVP (web) | Mid | M–L | 1, 7 |
-| 12 | Ontograph navigator, three-pane interface | Mid | M | 5, 11 |
-| 13 | Data blooms today: fork networks and edition lineages | Mid | M | 11 |
-| 14 | Cultural layer spec: the vector burst | Mid | M | 9 |
-| 15 | *Paradise Lost* edition lineage on the stratasphere | Mid–Heavy | M–L | 9, 11 |
-| 16 | Real Earth shells from satellite archives | Mid–Heavy | L | 11 |
-| 17 | Fossil nebula from the Paleobiology Database | Heavy | L | 11 |
-| 18 | A. Hexagon teaching animation, storyboard revision → animatic | Heavy | L | 4, 7 |
-| 19 | Illustrated Recapitulation (29 plates) | Heavy | L | 5 |
-| 20 | Scholarly paper: faux-4D as a representational technique | Heavy | L | 11 + one real dataset |
-| 21 | The full phylograph: Tree of Life twigzillated across 540 My | Heavy | XL | 11, 17 |
-| 22 | Ancient-DNA human worldlines and the autophylograph | Heavy | XL | 21 |
-| 23 | Memoir / talk series: "like transcribing his future" | Heavy | XL | intake complete |
+| # | Project | Tier | Effort | Needs first | Status · 1 Oct 2026 |
+|---|---|---|---|---|---|
+| 1 | Lineland ring-history toy (1D automaton on nested rings) | Low | S | — | First version published |
+| 2 | Genealogical diamond simulator | Low | S | — | First version published |
+| 3 | Canonical lexicon with first-attestation dates | Low | S | — | First version: 121 terms; dating questions open |
+| 4 | Figure register of the notebook drawings | Low | S–M | high-res scans | First version: 183 records; rescans owed |
+| 5 | Ontograph plates in the Illustration Brief style | Low | S–M | 3 | 8 plates published; Horizon choice/rescans open |
+| 6 | Essays from the notebooks (wells of attention, planetary/globular, Circle of Empathy) | Low | S each | — | 4 private drafts; owner review pending |
+| 7 | Game of Life on the stratasphere | Low–Mid | M | 1 | First version published |
+| 8 | Computer family tree on nested globes (IAS-machine lineage) | Low–Mid | M | 7 or 11 | 23-machine IAS dataset published; x86 extension parked |
+| 9 | Dimensional reduction chart, phonomeme → phenomeme | Mid | M | 3 | Previously deferred; not implemented |
+| 10 | Twelve links mapped onto the Ontograph | Mid | M | 5 | Not started; plates available |
+| 11 | Stratasphere viewer MVP (web) | Mid | M–L | 1, 7 | MVP released; fossil images/x86 in review |
+| 12 | Ontograph navigator, three-pane interface | Mid | M | 5, 11 | Not started; recommended next build |
+| 13 | Data blooms today: fork networks and edition lineages | Mid | M | 11 | Not started; viewer dependency available |
+| 14 | Cultural layer spec: the vector burst | Mid | M | 9 | Not started; waits on #9 |
+| 15 | *Paradise Lost* edition lineage on the stratasphere | Mid–Heavy | M–L | 9, 11 | Not started; waits on #9 |
+| 16 | Real Earth shells from satellite archives | Mid–Heavy | L | 11 | Not started; viewer dependency available |
+| 17 | Fossil nebula from the Paleobiology Database | Heavy | L | 11 | Hominin groundwork exists; PBDB/paleogeography unbuilt |
+| 18 | A. Hexagon teaching animation, storyboard revision → animatic | Heavy | L | 4, 7 | Not started; registers and simulations available |
+| 19 | Illustrated Recapitulation (29 plates) | Heavy | L | 5 | Not started; Brief and 8 Ontograph plates available |
+| 20 | Scholarly paper: faux-4D as a representational technique | Heavy | L | 11 + one real dataset | Not started; demonstrator and real data available |
+| 21 | The full phylograph: Tree of Life twigzillated across 540 My | Heavy | XL | 11, 17 | Not started; depends on #17 integration |
+| 22 | Ancient-DNA human worldlines and the autophylograph | Heavy | XL | 21 | Not started; depends on #21 |
+| 23 | Memoir / talk series: "like transcribing his future" | Heavy | XL | intake complete | Not started; intake completion unconfirmed |
 
 ---
 
@@ -127,7 +129,16 @@ Add the fur by level of detail, with the Cambrian as "an emptiness before a flow
 
 ---
 
-## Suggested first moves
+## Next choices at this checkpoint
+
+1. **#12: Ontograph navigator.** Recommended next implementation: a small three-pane slice linking an Ontograph level, a viewer interval and a contextual 3D view. Define the level-to-time mapping and selection contract before broadening it. The open Horizon/pinch interpretation in #5 should remain explicit.
+2. **Finish review of existing work when wanted.** #10 precedes #11; retarget #11 to `main` after #10 merges. The older [PR #6](https://github.com/shunryu999/TheGraph/pull/6) handoff/rights proposal also remains unresolved and needs reconciliation with current work. X86 expansion stays parked.
+3. **Close evidence and platform debts.** Printing's ISTC/per-node citations, Unix expansion/source review, Safari exports and real-GPU performance remain open. Hominin comparisons do not establish ancestry; specialist age/taxonomy review and sourced excavation coordinates remain owed.
+4. **Keep the longer paths distinct.** #13 is a further non-biological case study; #17 is the route toward the full biological Phylograph (#21); #20 can use the existing instrument and datasets for a paper. #9 was previously deferred, so #14–15 should not be presented as ready by default.
+
+## Original suggested first moves (22 Sept 2026; historical)
+
+These preserve the initial sequence; the status chart and checkpoint above govern current planning.
 
 1. **Project 1 this week.** It's small, it proves the method visually, and it becomes the seed code for 7 and 11.
 2. **Projects 3 and 4 alongside the remaining notebook intake.** The lexicon and figure register feed the overall summary directly.

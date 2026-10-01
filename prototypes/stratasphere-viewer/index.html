@@ -13,6 +13,7 @@
   --ground:#FAF7F0; --panel:#F3EEE3; --rule:#E2DBCB;
   --ink:#141414; --ink-2:#3C3A35; --grey:#8C8C8C; --fur:#A7A294; --land:#B9B2A2;
   --accent:#B03A2E;
+  --family-1:#286387; --family-2:#94701F; --family-3:#237A67; --family-4:#78548D;
   --serif:"EB Garamond","Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
   --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
 }
@@ -21,12 +22,14 @@
     --ground:#14130F; --panel:#1C1A16; --rule:#2E2B24;
     --ink:#ECE6D8; --ink-2:#C9C2B2; --grey:#7F796D; --fur:#5E594F; --land:#4A463D;
     --accent:#E0634C;
+    --family-1:#83B8D6; --family-2:#D9B86B; --family-3:#7DC6AF; --family-4:#C6A5DC;
   }
 }
 :root[data-theme="dark"]{
   --ground:#14130F; --panel:#1C1A16; --rule:#2E2B24;
   --ink:#ECE6D8; --ink-2:#C9C2B2; --grey:#7F796D; --fur:#5E594F; --land:#4A463D;
   --accent:#E0634C;
+  --family-1:#83B8D6; --family-2:#D9B86B; --family-3:#7DC6AF; --family-4:#C6A5DC;
 }
 *{box-sizing:border-box}
 [hidden]{display:none !important}
@@ -45,6 +48,19 @@ h1{font-weight:500;font-size:clamp(34px,5vw,48px);line-height:1.05;margin:0;lett
 .lab{position:absolute;transform:translate(8px,-50%);font-size:13px;line-height:1;white-space:nowrap;color:var(--ink);text-shadow:0 0 3px var(--ground),0 0 3px var(--ground),0 0 2px var(--ground);pointer-events:auto;cursor:pointer}
 .lab.inf{color:var(--grey);font-style:italic}
 .lab.sel{color:var(--accent)}
+.family-mode .lab.sel{color:var(--ink);font-weight:500;text-decoration:underline;text-underline-offset:3px}
+.family-mode .item.sel{color:var(--ink);font-weight:500}
+.family-mode .lab.inf.sel,.family-mode .item.inf.sel{color:var(--grey)}
+.family-key{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px}
+.family-key span{display:inline-flex;gap:7px;align-items:center}
+.family-swatch{display:inline-block;width:20px;border-top:2px solid var(--family-color,var(--ink));flex:none}
+.key i.transfer{border-top-style:dotted}
+.key i.composition{border-top-style:dashed}
+.family-mode .key i.red{border-top-color:var(--ink)}
+.location-evidence summary{cursor:pointer;font-size:15px}
+.location-evidence p{font-size:14px;margin-top:6px}
+.card .connections{display:flex;flex-wrap:wrap;gap:6px}
+.card .connections button{font-size:14px;padding:3px 8px}
 .year{position:absolute;left:14px;top:12px;font-family:var(--mono);font-size:13px;color:var(--grey)}
 .time{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center}
 .time output{font-family:var(--mono);font-size:14px;min-width:4ch;text-align:right}
@@ -87,6 +103,7 @@ aside{display:grid;gap:18px}
 .card .from b.p{font-weight:500;color:var(--ink)}
 .card .from i{color:var(--grey)}
 .card .from .ln{color:var(--grey)}
+.card a{color:var(--ink-2);text-underline-offset:3px}
 fieldset{border:0;border-top:1px solid var(--rule);margin:0;padding:12px 0 0;display:grid;gap:10px;min-width:0}
 legend{font-variant:small-caps;letter-spacing:.14em;color:var(--grey);font-size:14px;padding:0 8px 0 0}
 label{display:grid;gap:4px;font-size:15px;color:var(--ink-2)}
@@ -164,6 +181,8 @@ button:disabled{opacity:.45;cursor:default}
       <div class="key" aria-hidden="true">
         <span><i></i><span id="keyRec">record</span></span>
         <span id="keyInfl" hidden><i class="infl"></i><span id="keyInflT">influence</span></span>
+        <span id="keyTransfer" hidden><i class="transfer"></i>feature transfer</span>
+        <span id="keyComposition" hidden><i class="composition"></i>core used in a product</span>
         <span><i class="inf"></i><span id="keyInf">inference, not record</span></span>
         <span id="keyDet" hidden><i class="ring"></i>first detected here, not where it began</span>
         <span id="keyHatch" hidden><i class="hatch"></i>reconstructed, not recorded</span>
@@ -209,6 +228,13 @@ button:disabled{opacity:.45;cursor:default}
         <p class="blurb" id="dsBlurb"></p>
       </fieldset>
 
+      <fieldset id="familyPanel" hidden>
+        <legend>Branch colors</legend>
+        <label for="colorMode">Color by</label>
+        <select id="colorMode"><option value="family">Architectural family</option><option value="vendor">Manufacturer</option><option value="mono">Monochrome</option></select>
+        <div class="family-key" id="familyKey" aria-label="Branch color legend"></div>
+        <p class="blurb">A trace keeps its colors; unrelated branches fade. A mixed product keeps each incoming core’s color.</p>
+      </fieldset>
       <div class="card" id="card" aria-live="polite"></div>
 
       <fieldset>
@@ -635,13 +661,15 @@ button:disabled{opacity:.45;cursor:default}
   const uniforms = {
     tNow:{value:0}, tStart:{value:0}, tEnd:{value:1}, grad:{value:1}, R:{value:R},
     cInk:{value:new THREE.Color()}, cGrey:{value:new THREE.Color()}, cAcc:{value:new THREE.Color()}, cLand:{value:new THREE.Color()},
-    cutOn:{value:0}, cutN:{value:new THREE.Vector3(0,0,1)}, cutD:{value:.1}, psize:{value:4}
+    cutOn:{value:0}, cutN:{value:new THREE.Vector3(0,0,1)}, cutD:{value:.1}, psize:{value:4}, familyMode:{value:0}
   };
   // cls: 0 land · 1 record · 2 selected · 3 inference, or a line that ended · 4 first detected here (ring) · 5 detected, selected · 6 influence without code
   const vs = `
-    attribute vec3 dir; attribute float gen; attribute float cls;
+    attribute vec3 dir, branchColor; attribute float gen, cls, emphasis, pattern, along;
+    varying vec3 vBranchColor; varying float vEmphasis, vPattern, vAlong;
     uniform float tNow, tStart, tEnd, grad, R, psize; varying float vCls; varying vec3 vPos; varying float vHide; varying float vF;
     void main(){
+      vBranchColor = branchColor; vEmphasis = emphasis; vPattern = pattern; vAlong = along;
       vHide = gen > tNow + 0.001 ? 1.0 : 0.0;
       // Keep the time scale fixed while the present advances, one increment at a time.
       float age = clamp((tNow - gen) / max(tEnd - tStart, 1e-6), 0.0, 1.0);
@@ -652,13 +680,19 @@ button:disabled{opacity:.45;cursor:default}
       gl_PointSize = psize * ((cls > 1.5 && cls < 2.5) || cls > 4.5 ? 1.35 : 1.0) * (cls > 3.5 ? 1.25 : 1.0) * (0.45 + 0.55*(1.0-f)) * (3.4 / -mv.z);
     }`;
   const fs = pt => `
-    uniform vec3 cInk, cGrey, cAcc, cLand; uniform float cutOn, cutD; uniform vec3 cutN;
+    uniform vec3 cInk, cGrey, cAcc, cLand; uniform float cutOn, cutD, familyMode; uniform vec3 cutN;
+    varying vec3 vBranchColor; varying float vEmphasis, vPattern, vAlong;
     varying float vCls; varying vec3 vPos; varying float vHide; varying float vF;
     void main(){
       if (vHide > 0.5) discard;
       if (cutOn > 0.5 && dot(vPos, cutN) > cutD) discard;
       ${pt ? 'vec2 q = gl_PointCoord - 0.5; if (dot(q,q) > 0.25) discard;' : ''}
       if (vCls < 0.5) { gl_FragColor = vec4(cLand, 0.55 * (0.25 + 0.75*(1.0-vF))); return; }
+      if (familyMode > 0.5) {
+        ${pt ? 'if (vCls > 3.5 && vCls < 5.5 && dot(q,q) < 0.085) discard;' : 'if (vPattern > 0.5 && fract(vAlong * 24.0) > (vPattern > 1.5 ? 0.65 : 0.25)) discard;'}
+        vec3 color = vCls > 2.5 && vCls < 3.5 ? cGrey : vBranchColor;
+        gl_FragColor = vec4(color, vEmphasis); return;
+      }
       ${pt ? 'if (vCls > 3.5) { vec2 r = gl_PointCoord - 0.5; if (dot(r,r) < 0.085) discard; gl_FragColor = vec4(vCls > 4.5 ? cAcc : cInk, 1.0); return; }' : ''}
       if (vCls < 1.5) { gl_FragColor = vec4(cInk, 0.9); return; }
       if (vCls < 2.5) { gl_FragColor = vec4(cAcc, 1.0); return; }
@@ -710,6 +744,18 @@ button:disabled{opacity:.45;cursor:default}
     if (w < 1e-4) return a.slice(); const s = Math.sin(w), k1 = Math.sin((1-t)*w)/s, k2 = Math.sin(t*w)/s; return [a[0]*k1+b[0]*k2, a[1]*k1+b[1]*k2, a[2]*k1+b[2]*k2]; }
 
   let kindOf = {}, D, byId, parents, children, nodeDir, sel = null, objs = [], landObj = null, dsId = null;
+  let colorMode = 'family';
+  const hasFamilies = () => !!D?.meta.families && Object.keys(D.meta.families).length > 0;
+  const isTransfer = kind => kind === 'influence' || kind === 'transfer';
+  function familyColor(nd){
+    const groups = colorMode === 'vendor' ? D.meta.vendors : D.meta.families;
+    const group = groups?.[colorMode === 'vendor' ? nd.vendor : nd.family];
+    return css(colorMode === 'mono' || !group?.tone ? '--ink' : '--family-' + group.tone);
+  }
+  function familyLegend(){
+    const groups = colorMode === 'vendor' ? D.meta.vendors : D.meta.families;
+    $('familyKey').innerHTML = Object.values(groups || {}).map(g => `<span><i class="family-swatch" style="--family-color:${esc(css(colorMode === 'mono' || !g.tone ? '--ink' : '--family-' + g.tone))}"></i>${esc(g.label)}</span>`).join('');
+  }
 
   // ---------- time: every unit becomes a decimal year (years BP become negative) ----------
   const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -741,11 +787,14 @@ button:disabled{opacity:.45;cursor:default}
   const stepOf = span => ({ year:1, month:1/12, day:1/365.25 })[unit] || span/1000;
   const isInf = nd => nd.provenance ? nd.provenance === 'inferred' : !!nd.inferred;
 
-  function geo(verts){ // verts: [dir3, gen, cls]*
+  function geo(verts, styles = []){ // verts: [dir3, gen, cls]*; optional per-vertex color, emphasis, pattern and path position
     const n = verts.length/5, g = new THREE.BufferGeometry(), dir = new Float32Array(3*n), gen = new Float32Array(n), cls = new Float32Array(n);
     for (let i=0;i<n;i++){ dir[3*i]=verts[5*i]; dir[3*i+1]=verts[5*i+1]; dir[3*i+2]=verts[5*i+2]; gen[i]=verts[5*i+3]; cls[i]=verts[5*i+4]; }
     g.setAttribute('dir', new THREE.BufferAttribute(dir,3)); g.setAttribute('position', new THREE.BufferAttribute(dir,3));
     g.setAttribute('gen', new THREE.BufferAttribute(gen,1)); g.setAttribute('cls', new THREE.BufferAttribute(cls,1));
+    const branchColor = [], emphasis = [], pattern = [], along = [];
+    for (let i=0;i<n;i++){ const s = styles[i] || [0,0,0,1,0,0]; branchColor.push(...s.slice(0,3)); emphasis.push(s[3]); pattern.push(s[4]); along.push(s[5]); }
+    for (const [name, values, size] of [['branchColor',branchColor,3],['emphasis',emphasis,1],['pattern',pattern,1],['along',along,1]]) g.setAttribute(name, new THREE.Float32BufferAttribute(values,size));
     g.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 2); return g;
   }
   function buildLand(){
@@ -756,31 +805,36 @@ button:disabled{opacity:.45;cursor:default}
   }
   let followInfl = true; // trace through influence links too, or only through what was passed on
   function lineageOf(id){ // ancestors and descendants of the picked node
-    const set = new Set([id]); const up = [id], down = [id], ok = (a, b) => followInfl || kindOf[a + '>' + b] !== 'influence';
+    const set = new Set([id]); const up = [id], down = [id], ok = (a, b) => followInfl || !isTransfer(kindOf[a + '>' + b]);
     while (up.length){ const x = up.pop(); for (const p of parents[x]||[]) if (!set.has(p) && ok(p, x)){ set.add(p); up.push(p); } }
     while (down.length){ const x = down.pop(); for (const c of children[x]||[]) if (!set.has(c) && ok(x, c)){ set.add(c); down.push(c); } }
     return set;
   }
   function buildGraph(){
     for (const o of objs){ scene.remove(o); o.geometry.dispose(); } objs = [];
-    const S = sel ? lineageOf(sel) : null, tE = D.meta.tEnd;
-    const L = [], P = [];
-    const clsOf = (inf, on) => on ? 2 : inf ? 3 : 1;
+    const S = sel ? lineageOf(sel) : null, tE = D.meta.tEnd, family = hasFamilies();
+    const L = [], P = [], LS = [], PS = [];
+    const clsOf = (inf, on) => family && inf ? 3 : on ? 2 : inf ? 3 : 1;
+    const colors = new Map(D.nodes.map(nd => [nd.id, new THREE.Color(family ? familyColor(nd) : css('--ink')).toArray()]));
+    const style = (nd, on, pattern = 0, along = 0) => [...colors.get(nd.id), !S || on ? .95 : .18, pattern, along];
     for (const nd of D.nodes){
       const d = nodeDir[nd.id], on = S && S.has(nd.id), c = clsOf(isInf(nd), on), e = Math.min(tE, nd.tEnd ?? tE);
       const ended = nd.tEnd != null && nd.tEnd < tE, cw = ended && !on ? 3 : c; // a line that ended is drawn grey
       // the worldline: from when it began out to when it ended, or to the present
-      const n = 4; if (e > nd.t) for (let k=0;k<n;k++){ const t0 = nd.t + (e-nd.t)*k/n, t1 = nd.t + (e-nd.t)*(k+1)/n; L.push(...d,t0,cw,...d,t1,cw); }
-      if (ended && e > nd.t) P.push(...d, e, cw); // a plain terminus; occurrences have just one point
+      const n = 4; if (e > nd.t) for (let k=0;k<n;k++){ const t0 = nd.t + (e-nd.t)*k/n, t1 = nd.t + (e-nd.t)*(k+1)/n; L.push(...d,t0,cw,...d,t1,cw); LS.push(style(nd,on,isInf(nd)?1:0,k/n),style(nd,on,isInf(nd)?1:0,(k+1)/n)); }
+      if (ended && e > nd.t){ P.push(...d, e, cw); PS.push(style(nd,on)); } // a plain terminus; occurrences have just one point
       P.push(...d, nd.t, nd.provenance === 'detected' && !isInf(nd) ? (on ? 5 : 4) : c);
+      PS.push(style(nd,on));
     }
     for (const lk of D.links){
       const a = byId[lk.from], b = byId[lk.to]; if (!a || !b) continue;
-      const infl = lk.kind === 'influence', on = S && S.has(a.id) && S.has(b.id) && (!infl || followInfl), c = on ? 2 : infl ? 6 : clsOf(lk.inferred || isInf(b), false);
+      const infl = isTransfer(lk.kind), on = S && S.has(a.id) && S.has(b.id) && (!infl || followInfl), inferred = lk.inferred || isInf(a) || isInf(b);
+      const c = family ? clsOf(inferred,on) : on ? 2 : infl ? 6 : clsOf(lk.inferred || isInf(b), false);
+      const owner = infl || lk.kind === 'composition' ? a : b, pattern = inferred || infl ? 1 : lk.kind === 'composition' ? 2 : 0;
       const da = nodeDir[a.id], db = nodeDir[b.id], ta = Math.min(a.t, b.t), tb = b.t, n = Math.max(4, Math.min(32, Math.ceil(gc(da, db) * 24))); // segments by arc length
-      for (let k=0;k<n;k++){ const u0=k/n, u1=(k+1)/n; L.push(...slerp(da,db,u0), ta+(tb-ta)*u0, c, ...slerp(da,db,u1), ta+(tb-ta)*u1, c); }
+      for (let k=0;k<n;k++){ const u0=k/n, u1=(k+1)/n; L.push(...slerp(da,db,u0), ta+(tb-ta)*u0, c, ...slerp(da,db,u1), ta+(tb-ta)*u1, c); LS.push(style(owner,on,pattern,u0),style(owner,on,pattern,u1)); }
     }
-    const lo = new THREE.LineSegments(geo(L), matL), po = new THREE.Points(geo(P), matP);
+    const lo = new THREE.LineSegments(geo(L,LS), matL), po = new THREE.Points(geo(P,PS), matP);
     lo.frustumCulled = po.frustumCulled = false; lo.renderOrder = 1; po.renderOrder = 2;
     scene.add(lo); scene.add(po); objs = [lo, po];
   }
@@ -806,9 +860,9 @@ button:disabled{opacity:.45;cursor:default}
       const cut = uniforms.cutOn.value > .5 && v3.dot(uniforms.cutN.value) > uniforms.cutD.value;
       const facing = (v3.x*eyeDir.x + v3.y*eyeDir.y + v3.z*eyeDir.z) / (v3.length() || 1) > -0.15;
       const onSel = sel === nd.id || hoverId === nd.id;
-      if (!show && !onSel || !vis || cut || !facing){ el.style.display = 'none'; continue; }
-      v3.project(camera);
       const inL = !!(sel && lineageSet && lineageSet.has(nd.id));
+      if (!show && !onSel || !vis || cut || (!facing && !(hasFamilies() && (inL || onSel)))){ el.style.display = 'none'; continue; }
+      v3.project(camera);
       el.classList.toggle('sel', inL);
       cand.push({ el, x:(v3.x+1)/2*r.width, y:(1-v3.y)/2*r.height, pri: onSel ? 0 : inL ? 1 : 2, deg: (children[nd.id]||[]).length, t: nd.t });
     }
@@ -947,38 +1001,63 @@ button:disabled{opacity:.45;cursor:default}
     const nd = byId[sel], up = []; let x = sel; const seen = new Set();
     while ((parents[x]||[]).length && !seen.has(x)){ seen.add(x); x = parents[x][0]; up.unshift(byId[x].label); }
     const kids = (children[sel]||[]).map(k => byId[k].label), kinds = D.meta.linkKinds || {};
-    const comparison = D.meta.relationshipMode === 'comparison';
+    const comparison = D.meta.relationshipMode === 'comparison', network = D.meta.relationshipMode === 'network';
     const related = [...new Set([...(parents[sel] || []), ...(children[sel] || [])])].map(id => byId[id].label);
     const from = D.links.filter(l => l.to === sel && byId[l.from]).map(l => '<b class="p">' + esc(byId[l.from].label) + '</b>' +
-      (kinds[l.kind] ? ': ' + esc(kinds[l.kind]) : '') + (l.inferred ? ' <i>(inference)</i>' : '') + (l.note ? '. <span class="ln">' + esc(l.note) + '</span>' : ''));
+      (kinds[l.kind] ? ': ' + esc(kinds[l.kind]) : '') + (l.inferred ? ' <i>(inference)</i>' : '') + (l.note ? '. <span class="ln">' + esc(l.note) + '</span>' : '') +
+      (l.sources?.length ? ` <span class="meta">${l.sources.map((s,i) => sourceLink(s, 'Evidence ' + (i+1))).join(' · ')}</span>` : ''));
     c.innerHTML = `<h2>${esc(nd.label)}</h2><div class="meta">${nd.provenance === 'detected' ? 'first detected ' : ''}${nd.dateLabel ? esc(nd.dateLabel) : fmtT(nd.t) + (nd.tEnd != null && nd.tEnd !== nd.t ? '–' + fmtT(nd.tEnd) : '')} · ${esc(nd.place||'')}${isInf(nd) ? ' · inference' : ''}</div>` +
       (nd.note ? `<p>${esc(nd.note)}</p>` : '') +
-      (from.length ? `<p class="from">${from.map(f => (comparison ? 'Compared with ' : 'From ') + f + (/[.!?]<\/span>$|[.!?]$/.test(f) ? '' : '.')).join('<br>')}</p>` : '') +
-      (comparison ? `<p class="lineage">${related.length ? 'Linked comparisons: ' + related.map(esc).join('; ') + '.' : 'No comparison link in this sample.'} These links do not establish ancestry or migration.</p>` :
+      (hasFamilies() ? `<p class="meta">${esc(D.meta.families[nd.family].label)} · ${esc(D.meta.vendors?.[nd.vendor]?.label || nd.vendor || '')}</p>` : '') +
+      (nd.designLocation ? `<details class="location-evidence" open><summary>Design location · ${esc(nd.designLocation.precision)} scale</summary><p>${esc(nd.designLocation.role)}. ${esc(nd.designLocation.evidence)}</p>${nd.designLocation.otherPlaces?.length ? `<p>Other documented contributors: ${nd.designLocation.otherPlaces.map(esc).join('; ')}.</p>` : ''}<p>${nd.designLocation.sources.map((s,i) => sourceLink(s, 'Location evidence ' + (i+1))).join(' · ')}</p></details>` : '') +
+      (from.length ? `<p class="from">${from.map(f => (comparison ? 'Compared with ' : network ? 'Contribution from ' : 'From ') + f + (/[.!?]<\/span>$|[.!?]$/.test(f) ? '' : '.')).join('<br>')}</p>` : '') +
+      (network ? `<p class="lineage">${from.length ? 'These links distinguish design development, feature transfer and product composition.' : 'No incoming connection is claimed in this pilot.'} A missing link does not imply an independent origin.</p>` : comparison ? `<p class="lineage">${related.length ? 'Linked comparisons: ' + related.map(esc).join('; ') + '.' : 'No comparison link in this sample.'} These links do not establish ancestry or migration.</p>` :
         `<p class="lineage">${up.length ? 'Traced back: ' + up.map(esc).join(' → ') + ' → <b>' + esc(nd.label) + '</b>.' : '<b>' + esc(nd.label) + '</b> is a root of this lineage.'}` +
         (kids.length ? ` Led on to ${kids.map(esc).join(', ')}.` : '') + `</p>`) +
       (Array.isArray(nd.sources) && nd.sources.length ? `<p class="meta">Sources: ${nd.sources.map(citation).join('; ')}</p>` : '') +
+      (network && related.length ? `<div class="connections" aria-label="Connected designs">${[...new Set([...(parents[sel]||[]),...(children[sel]||[])])].map(id => `<button type="button" data-pick="${esc(id)}">${esc(byId[id].label)}</button>`).join('')}</div>` : '') +
       `<div><button type="button" id="bClear">Clear selection</button></div>`;
     $('bClear').onclick = () => pick(null);
+    c.querySelectorAll('[data-pick]').forEach(button => button.onclick = () => pick(button.dataset.pick));
   }
   const esc = s => String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
   const citation = s => /^https?:\/\/\S+$/i.test(String(s)) ? `<a href="${esc(s)}" target="_blank" rel="noopener noreferrer">${esc(s)}</a>` : esc(s);
+  const sourceLink = (s,label) => /^https?:\/\/\S+$/i.test(String(s)) ? `<a href="${esc(s)}" target="_blank" rel="noopener noreferrer">${esc(label)}</a>` : esc(s);
   function list(){
     const L = $('list'); L.innerHTML = '';
     [...D.nodes].sort((a,b)=>a.t-b.t || a.label.localeCompare(b.label)).forEach(nd => {
       const b = document.createElement('button'); b.type = 'button'; b.className = 'item' + (isInf(nd) ? ' inf' : '');
-      b.innerHTML = `<span class="y">${fmtT(nd.t)}</span><span>${esc(nd.label)}</span>`; b.onclick = () => pick(nd.id); b.onmouseenter = b.onfocus = () => hoverId = nd.id; b.onmouseleave = b.onblur = () => hoverId = null; b.dataset.id = nd.id; L.appendChild(b);
+      b.innerHTML = `<span class="y">${fmtT(nd.t)}</span><span>${hasFamilies() ? '<i class="family-swatch" aria-hidden="true"></i> ' : ''}${esc(nd.label)}</span>`; b.onclick = () => pick(nd.id); b.onmouseenter = b.onfocus = () => hoverId = nd.id; b.onmouseleave = b.onblur = () => hoverId = null; b.dataset.id = nd.id; L.appendChild(b);
     });
     syncList();
   }
-  function syncList(){ for (const b of $('list').children){ const nd = byId[b.dataset.id]; b.classList.toggle('sel', !!(lineageSet && lineageSet.has(nd.id))); b.classList.toggle('future', nd.t > uniforms.tNow.value); } }
+  function syncList(){ for (const b of $('list').children){ const nd = byId[b.dataset.id]; b.classList.toggle('sel', !!(lineageSet && lineageSet.has(nd.id))); b.classList.toggle('future', nd.t > uniforms.tNow.value); if (hasFamilies()) b.style.setProperty('--family-color',familyColor(nd)); } }
   function pick(id){ sel = id; lineageSet = id ? lineageOf(id) : null; buildGraph(); card(); syncList(); saveURL(); fossilViewer.show(dsId, byId[id], base); }
 
   // ---------- loading ----------
+  function validateDesignMetadata(data){
+    const object = value => value && typeof value === 'object' && !Array.isArray(value);
+    const nonempty = value => typeof value === 'string' && !!value.trim();
+    const sources = value => Array.isArray(value) && value.length && value.every(s => typeof s === 'string' && /^https?:\/\/\S+$/i.test(s));
+    const own = (obj,key) => object(obj) && typeof key === 'string' && Object.prototype.hasOwnProperty.call(obj,key);
+    if (!['lineage','comparison','network'].includes(data.meta.relationshipMode || 'lineage')) throw new Error('Unknown relationshipMode.');
+    for (const key of ['families','vendors']) if (data.meta[key] !== undefined){
+      const groups = data.meta[key];
+      if (!object(groups) || !Object.keys(groups).length || Object.values(groups).some(g => !object(g) || !nonempty(g.label) || !Number.isInteger(g.tone) || g.tone < 0 || g.tone > 4)) throw new Error(key + ' needs named groups with palette tones 0–4.');
+    }
+    for (const node of data.nodes){
+      if (data.meta.families && !own(data.meta.families,node.family)) throw new Error('Every node needs a declared family.');
+      if (data.meta.vendors && !own(data.meta.vendors,node.vendor)) throw new Error('Every node needs a declared vendor.');
+      const loc = node.designLocation;
+      if (loc !== undefined && (!object(loc) || !['city','region'].includes(loc.precision) || !['direct','author-affiliation'].includes(loc.basis) || !nonempty(loc.role) || !nonempty(loc.evidence) || !sources(loc.sources) || (loc.otherPlaces !== undefined && (!Array.isArray(loc.otherPlaces) || !loc.otherPlaces.every(nonempty))))) throw new Error('Design locations need a scale, evidence basis, role, explanation and source URLs.');
+    }
+    for (const link of data.links) if (link.sources !== undefined && !sources(link.sources)) throw new Error('Link sources must be nonempty HTTP(S) URL lists.');
+  }
   function load(src, id = null, want = {}){
     if (!src || !Array.isArray(src.nodes) || !src.nodes.length) throw new Error('The file needs a "nodes" array.');
     const data = JSON.parse(JSON.stringify(src)); // the file stays as written; the viewer works in decimal years
     data.links = data.links || []; data.meta = data.meta || {};
+    validateDesignMetadata(data);
     const u = data.meta.unit || 'year';
     if (!['year','month','day','yearBP'].includes(u)) throw new Error(`Unknown unit "${u}".`);
     const prev = unit; unit = u; // the dates convert in the new unit; on any error the old dataset keeps its own
@@ -996,6 +1075,14 @@ button:disabled{opacity:.45;cursor:default}
     data.meta.inferredSpans = (data.meta.inferredSpans || []).map(s => [toNum(s[0]), toNum(s[1])].sort((a,b) => a-b));
     dsId = id;
     D = data; byId = {}; parents = {}; children = {}; nodeDir = {};
+    colorMode = ['family','vendor','mono'].includes(want.color) ? want.color : 'family';
+    if (colorMode === 'vendor' && !D.meta.vendors) colorMode = 'family';
+    uniforms.familyMode.value = hasFamilies() ? 1 : 0;
+    document.body.classList.toggle('family-mode',hasFamilies());
+    $('familyPanel').hidden = !hasFamilies(); $('colorMode').value = colorMode;
+    $('colorMode').querySelector('[value="vendor"]').disabled = !D.meta.vendors;
+    familyLegend();
+    followInfl = want.transfers !== '0'; $('infl').checked = followInfl;
     for (const n of D.nodes){ byId[n.id] = n; nodeDir[n.id] = ll(n.lat, n.lng); }
     kindOf = {};
     for (const l of D.links){ (parents[l.to] = parents[l.to]||[]).push(l.from); (children[l.from] = children[l.from]||[]).push(l.to); kindOf[l.from + '>' + l.to] = l.kind || 'descent'; }
@@ -1014,13 +1101,15 @@ button:disabled{opacity:.45;cursor:default}
     if (want.t != null){ try { const w = toNum(unit === 'year' || unit === 'yearBP' ? +want.t : want.t); if (w >= D.meta.tStart && w <= D.meta.tEnd) t0 = w; } catch(e){} }
     setT(t0);
     const LK = D.meta.linkKinds || {}, used = new Set(D.links.map(l => l.kind || 'descent')), hasInfl = used.has('influence');
-    const solid = [...used].filter(k => k !== 'influence' && LK[k]).map(k => LK[k]);
+    const solid = [...used].filter(k => !isTransfer(k) && k !== 'composition' && LK[k]).map(k => LK[k]);
     $('keyRec').textContent = solid.length ? 'record: ' + solid.join(' · ') : 'record';
     $('keyRec').parentElement.hidden = !D.nodes.some(n => !isInf(n)) && !D.links.some(l => !l.inferred);
-    $('keySel').textContent = D.meta.relationshipMode === 'comparison' ? 'the comparison trace you picked' : 'the lineage you picked';
+    $('keySel').textContent = hasFamilies() ? 'traced connections stay bright' : D.meta.relationshipMode === 'comparison' ? 'the comparison trace you picked' : 'the lineage you picked';
     $('keyInfl').hidden = !hasInfl; $('keyInflT').textContent = LK.influence || 'influence, with nothing passed on';
-    $('inflRow').hidden = !hasInfl;
-    $('keyInf').textContent = D.meta.relationshipMode === 'comparison' ? 'estimated placement; comparison links, not ancestry' : D.nodes.some(n => n.tEnd != null && n.tEnd < D.meta.tEnd) ? 'inference, or a line that has ended' : 'inference, not record';
+    $('inflRow').hidden = !hasInfl && !used.has('transfer');
+    $('inflRow').lastChild.textContent = used.has('transfer') ? ' Include feature transfers in the trace' : ' Follow influence links when tracing';
+    $('keyTransfer').hidden = !used.has('transfer'); $('keyComposition').hidden = !used.has('composition');
+    $('keyInf').textContent = D.meta.relationshipMode === 'comparison' ? 'estimated placement; comparison links, not ancestry' : D.nodes.some(n => n.tEnd != null && n.tEnd > n.t && n.tEnd < D.meta.tEnd) ? 'inference, or a line that has ended' : 'inference, not record';
     $('keyDet').hidden = !D.nodes.some(n => n.provenance === 'detected');
     $('keyHatch').hidden = !D.meta.inferredSpans.length;
     frame0();
@@ -1050,6 +1139,7 @@ button:disabled{opacity:.45;cursor:default}
     if (!D) return;
     const q = new URLSearchParams();
     if (dsId){ q.set('d', dsId); if (sel) q.set('pick', sel); if (uniforms.tNow.value < D.meta.tEnd - 1e-9) q.set('t', rawT(uniforms.tNow.value)); }
+    if (dsId && hasFamilies()){ if (colorMode !== 'family') q.set('color',colorMode); if (!followInfl) q.set('transfers','0'); }
     const url = location.pathname + (q.toString() ? '?' + q : '');
     try { history.replaceState(null, '', url); } catch(e){}
   }
@@ -1152,11 +1242,12 @@ button:disabled{opacity:.45;cursor:default}
   bind('grad','oGrad',v=>(v/10).toFixed(1),v=>uniforms.grad.value=v/10);
   $('cut').onchange = e => uniforms.cutOn.value = e.target.checked ? 1 : 0;
   $('infl').onchange = e => { followInfl = e.target.checked; pick(sel); };
+  $('colorMode').onchange = e => { colorMode = e.target.value; familyLegend(); buildGraph(); syncList(); saveURL(); };
   $('spin').onchange = e => controls.autoRotate = e.target.checked; $('spin').checked = !reduce;
 
   // ---------- theme, size, loop ----------
   const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
-  function theme(){ if (typeof themeHatches === 'function') themeHatches(); renderer.setClearColor(new THREE.Color(css('--ground')),1); uniforms.cInk.value.set(css('--ink')); uniforms.cGrey.value.set(css('--grey')); uniforms.cAcc.value.set(css('--accent')); uniforms.cLand.value.set(css('--land')); ring.material.color.set(css('--accent')); }
+  function theme(){ if (typeof themeHatches === 'function') themeHatches(); renderer.setClearColor(new THREE.Color(css('--ground')),1); uniforms.cInk.value.set(css('--ink')); uniforms.cGrey.value.set(css('--grey')); uniforms.cAcc.value.set(css('--accent')); uniforms.cLand.value.set(css('--land')); ring.material.color.set(css('--accent')); if (hasFamilies()){ buildGraph(); syncList(); familyLegend(); } }
   function size(){ const r = view.getBoundingClientRect(); renderer.setSize(r.width, r.height, false); camera.aspect = r.width/r.height; camera.updateProjectionMatrix(); uniforms.psize.value = Math.max(3, r.width/180); }
   new ResizeObserver(size).observe(view);
   new MutationObserver(theme).observe(document.documentElement, { attributes:true, attributeFilter:['data-theme'] });
@@ -1178,7 +1269,7 @@ button:disabled{opacity:.45;cursor:default}
   load(EMBEDDED.data(), EMBEDDED.id); // draw at once; the catalog may replace it a moment later
   requestAnimationFrame(frame);
   openCatalog().then(async () => {
-    if (!await openDataset(q.get('d') || catalog[0].id, { pick:q.get('pick'), t:q.get('t') })) return;
+    if (!await openDataset(q.get('d') || catalog[0].id, { pick:q.get('pick'), t:q.get('t'), color:q.get('color'), transfers:q.get('transfers') })) return;
     const hasTour = TOUR.every(stop => catalog.some(entry => entry.id === stop.id));
     $('bTour').hidden = !hasTour;
     if (hasTour && !['d','pick','t'].some(key => q.has(key)) && !tourSeen()) await tourStop(0, false);
