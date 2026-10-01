@@ -85,8 +85,9 @@ test('latest dataset wins a race and failed data can be retried',async({page})=>
   await page.route('**/ias-machine-lineage/ias-machine-lineage.json',async route=>{await gate;await route.continue();},{times:1});
   const requested=page.waitForRequest('**/ias-machine-lineage/ias-machine-lineage.json');
   await page.locator('[data-level="mind"]').click();await requested;
-  await page.locator('[data-level="life"]').click();release();await settled(page);
+  await page.locator('#record').selectOption('omo-i');release();await settled(page);
   await expect(page.locator('#dataset')).toHaveValue('hominins');
+  await expect(page.locator('#record')).toHaveValue('omo-i');
   await page.route('**/sars-cov-2-lineages/sars-cov-2-lineages.json',r=>r.fulfill({json:{}}),{times:1});
   await page.locator('#dataset').selectOption('sars-cov-2');await expect(page.locator('#error')).toBeVisible();
   await expect(page.locator('#dataset')).toHaveValue('hominins');

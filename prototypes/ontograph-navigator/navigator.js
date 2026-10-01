@@ -83,6 +83,7 @@ async function connectFrames(){
 let framesReady=connectFrames();framesReady.catch(()=>{});
 async function sync(){
   if(!state)return;
+  ++loadRun; // A newer record/shell choice also cancels an uncommitted dataset switch.
   const run=++viewRun;
   controls();saveURL();
   if(['energy','matter'].includes(state.level)){busy(false);$('error').hidden=true;$('status').textContent='No dataset is assigned to this level.';return;}
