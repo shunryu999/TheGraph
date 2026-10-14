@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f7f9f8">
+  <meta name="description" content="Explore cultural transduction and the dimensional organization of cultural forms in Phylograph.">
+  <title>Cultural Dimensions | Phylograph</title>
+  <link rel="stylesheet" href="./style.css">
+  <script defer src="./assets/lucide.min.js"></script>
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <header class="masthead">
+    <a class="brand" href="../" aria-label="The Graph home"><i data-lucide="git-fork"></i><span>PHYLOGRAPH</span></a>
+    <div class="project-label"><span>09</span> Cultural dimensions</div>
+    <div class="header-actions">
+      <button class="quiet-button" id="model-button"><i data-lucide="notebook-tabs"></i><span>Model notes</span></button>
+      <button class="icon-button" id="share-button" aria-label="Copy link to this view" data-tooltip="Copy view link"><i data-lucide="link"></i></button>
+    </div>
+  </header>
+  <div class="workspace">
+    <aside class="library" aria-label="Example library">
+      <div class="library-heading"><h2>COLLECTION</h2><span id="dataset-count">03</span></div>
+      <nav id="dataset-list" aria-label="Datasets"></nav>
+      <div class="library-tools">
+        <button id="import-button" class="quiet-button"><i data-lucide="upload"></i>Import example</button>
+        <input id="import-file" type="file" accept="application/json,.json" hidden>
+        <button id="template-button" class="quiet-button"><i data-lucide="file-plus-2"></i>Example template</button>
+      </div>
+      <div class="library-foot"><span class="status-dot"></span> Research prototype<span>PHYLOGRAPH / PROJECT 09</span></div>
+    </aside>
+    <main>
+      <section class="page-heading">
+        <div><div class="eyebrow" id="dataset-kind">CONCEPTUAL FRAMEWORK</div><h1 id="dataset-title">Cultural dimensions</h1><p id="dataset-subtitle"></p></div>
+        <div class="export-wrap"><button class="outline-button" id="export-button" aria-haspopup="true" aria-expanded="false"><i data-lucide="download"></i>Export<i data-lucide="chevron-down"></i></button>
+          <div class="export-menu" id="export-menu" hidden><button id="export-data"><i data-lucide="braces"></i>Dataset (.json)</button><button id="export-image"><i data-lucide="image"></i>Chart (.svg)</button></div>
+        </div>
+      </section>
+      <div class="view-toolbar">
+        <div class="tabs" role="tablist" aria-label="View">
+          <button id="map-tab" role="tab" aria-selected="true" aria-controls="map-panel"><i data-lucide="workflow"></i>Map</button>
+          <button id="comparison-tab" role="tab" aria-selected="false" aria-controls="comparison-panel"><i data-lucide="columns-3"></i>Comparison</button>
+        </div>
+        <div class="playback" aria-label="Step through forms">
+          <button class="icon-button" id="previous-button" aria-label="Previous form" data-tooltip="Previous form"><i data-lucide="chevron-left"></i></button>
+          <button class="icon-button" id="play-button" aria-label="Play sequence" data-tooltip="Play sequence"><i data-lucide="play"></i></button>
+          <button class="icon-button" id="next-button" aria-label="Next form" data-tooltip="Next form"><i data-lucide="chevron-right"></i></button>
+          <span id="step-counter">01 / 06</span>
+        </div>
+      </div>
+      <div class="work-area">
+        <div class="visual-area">
+          <section id="map-panel" role="tabpanel" aria-labelledby="map-tab">
+            <div class="stage-strip" aria-label="Cultural progression">
+              <div><span>01</span><strong>Psychomeme</strong><small>Thought</small></div><i data-lucide="arrow-right"></i>
+              <div><span>02</span><strong>Phonomeme</strong><small>Speech</small></div><i data-lucide="arrow-right"></i>
+              <div><span>03</span><strong>Phenomeme</strong><small>Embodied &amp; material form</small></div>
+            </div>
+            <div class="chart-topline"><span id="chart-caption">CULTURAL FORMS</span><span class="chart-key"><span class="line-key"></span>Transformation</span></div>
+            <div class="graph" id="graph"><svg id="connections" aria-hidden="true"></svg><div class="nodes" id="nodes"></div></div>
+            <div class="dimension-band"><span>PHENOMEMETIC EVOLUTION</span><div><b>4D</b><i data-lucide="arrow-right"></i><b>3D</b><i data-lucide="arrow-right"></i><b>2D</b><i data-lucide="arrow-right"></i><b>1D</b></div><small>Embodied time · volume · plane · sequence</small></div>
+            <div class="selected-connection" id="selected-connection"></div>
+          </section>
+          <section id="comparison-panel" role="tabpanel" aria-labelledby="comparison-tab" hidden>
+            <div class="comparison-scroll"><table><thead><tr><th>Form</th><th>Organization</th><th>Preserved</th><th>Lost / unavailable</th><th>Gained</th></tr></thead><tbody id="comparison-body"></tbody></table></div>
+          </section>
+          <footer class="chart-footer"><span id="dataset-description"></span><button class="text-button" id="sources-button">Sources &amp; assumptions<i data-lucide="arrow-up-right"></i></button></footer>
+        </div>
+        <aside id="inspector" class="inspector" aria-label="Selected form"></aside>
+      </div>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status" hidden></div>
+  <dialog id="notes-dialog" aria-labelledby="notes-title"><div class="dialog-heading"><div><div class="eyebrow">PROJECT 09</div><h2 id="notes-title">Model notes</h2></div><button class="icon-button close-dialog" aria-label="Close notes"><i data-lucide="x"></i></button></div><div id="notes-content"></div></dialog>
+  <dialog id="import-dialog" aria-labelledby="import-title"><div class="dialog-heading"><h2 id="import-title">Import example</h2><button class="icon-button close-dialog" aria-label="Close import message"><i data-lucide="x"></i></button></div><div id="import-result" role="alert"></div></dialog>
+</body>
+</html>

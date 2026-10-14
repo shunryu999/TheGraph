@@ -2,6 +2,7 @@
   "name": "phylograph-checks",
   "private": true,
   "scripts": {
+    "test:model": "node --test tests/dimensional-reduction-model.test.mjs",
     "test:browser": "playwright test"
   },
   "devDependencies": {
