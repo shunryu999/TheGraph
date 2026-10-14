@@ -28,8 +28,10 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Check the cultural dimensions model
+        run: npm run test:model
       - run: npx playwright install --with-deps chromium
-      - name: Check the viewer in Chromium
+      - name: Check the prototypes in Chromium
         run: npm run test:browser
       - uses: actions/upload-artifact@v4
         if: failure()

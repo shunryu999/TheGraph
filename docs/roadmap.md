@@ -62,6 +62,8 @@ Projects run from the lowest-hanging fruit down to the heavy lifts. Each one nam
 
 It turns the memetics into something testable and is the conceptual groundwork for the cultural layer. **Output:** a chart plus a short essay.
 
+**Update (14 October 2026): first reusable version prepared.** The [cultural dimensions prototype](../prototypes/dimensional-reduction/) follows the owner's revised sequence: psychomeme → phonomeme → phenomeme, then 4D embodied event → 3D object → 2D image → 1D symbolic sequence. It includes a sourced *Paradise Lost* transmission case, a constructed movement example, a comparison view, source notes, validated JSON imports and JSON/SVG exports. The [example schema](dimensional-reduction-data-format.md) separates forms and transformations from evidence; the [model essay](dimensional-reduction-model.md) distinguishes representational dimension, physical carrier, and different senses of fidelity. The framework has no asserted universal chronology or numerical longevity/fidelity ranking. Nested-code bit counts remain outside this first version pending precise definitions.
+
 **10. The twelve links mapped onto the Ontograph.** *Thread: pinned in the 2026 vision note and on the Notion home page; the Ontograph's chain of conditioned levels ending in "I am."* Set the twelve links (*paṭiccasamuppāda*) beside the Ontograph's pinched loops and the untie sequence, and note where they match, where they don't, and what each tradition shows the other. This fits naturally with *The Jeweled Mirror*. **Output:** an essay section and a plate.
 
 **11. Stratasphere viewer MVP.** *Threads: the whole of §5 of the Recapitulation; the design document.* A web viewer (WebGL/Three.js), so it can be shared and published as an artifact:

@@ -23,6 +23,7 @@ This repo holds the buildable parts: prototypes, datasets, specs and the public 
 | 5 | [Ontograph plates](prototypes/ontograph-plates/): eight plates for the Ontograph in the Illustration Brief style, with prompts | First version |
 | 7 | [Life on the Stratasphere](prototypes/life-sphere/): Conway's Life on a sphere, its history nested as shells | First version |
 | 8 | [IAS machine family](data/ias-machine-lineage/): 23 machines, 1946–1960, placed and dated with sources | First version |
+| 9 | [Cultural dimensions](prototypes/dimensional-reduction/): reusable psychomeme → phonomeme → phenomeme map, then 4D → 3D → 2D → 1D, with source-based and constructed examples | First version |
 | 11 | [Stratasphere viewer](prototypes/stratasphere-viewer/): IAS computers, printing, Unix, SARS-CoV-2 and hominin fossil comparisons as nested shells | M5 released; deep-time case study prepared |
 
 The full ranked list is in [`docs/roadmap.md`](docs/roadmap.md). The viewer's milestones and outstanding source/platform checks are in [`docs/stratasphere-viewer-roadmap.md`](docs/stratasphere-viewer-roadmap.md).
@@ -57,6 +58,7 @@ Browser checks additionally need Node.js 22 or later. These development dependen
 ```sh
 npm ci
 npx playwright install chromium
+npm run test:model
 npm run test:browser
 ```
 
@@ -67,6 +69,8 @@ On Linux, use `npx playwright install --with-deps chromium` to install browser s
 Start with the [v1 format and worked spreadsheet example](docs/data-format.md#worked-example-two-spreadsheets-to-one-lineage). Read the [data design specification](docs/stratasphere-data-design.md) for the representation's scope and limitations. A proposed dataset needs sources, a licence, explicit inference and a bounded claim, as well as valid JSON. Add it to `data/catalog.json`, run both sets of checks, and open a pull request for review.
 
 The printing source verification, Unix source expansion, Safari export and real-GPU performance checks remain open. Structural validation and browser checks do not certify the underlying evidence.
+
+The cultural dimensions prototype has its own [versioned example format](docs/dimensional-reduction-data-format.md), independent of geographic lineage datasets. Open `http://localhost:8000/prototypes/dimensional-reduction/` to inspect the general model, the *Paradise Lost* case, or a constructed movement example. New cases can be imported as JSON and exported with their provenance; the [model essay](docs/dimensional-reduction-model.md) explains the representational choices.
 
 ## Publishing
 
