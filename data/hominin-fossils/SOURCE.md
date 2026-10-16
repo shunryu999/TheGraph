@@ -6,7 +6,7 @@ Open the viewer with `?d=hominins&pick=knm-wt-15000`. The stronger initial densi
 
 ## Sources and selection
 
-The [Smithsonian National Museum of Natural History fossil collection](https://humanorigins.si.edu/evidence/human-fossils/fossils) supplies specimen identities, named discovery sites, approximate ages and taxonomic assignments. Individual records were retrieved on 28 September 2026 and are cited on every node. Facts are curated manually; no museum prose, photographs, scans or models are included. This is a source-specific selection, not an exhaustive review of all current dating or taxonomic literature.
+The [Smithsonian National Museum of Natural History fossil collection](https://humanorigins.si.edu/evidence/human-fossils/fossils) supplies specimen identities, named discovery sites, approximate ages and taxonomic assignments. Individual records were retrieved on 28 September 2026 and are cited on every node. Facts are curated manually; no museum prose, scans or models are included in the lineage file. The optional fossil panel uses the separately attributed photographs documented in [MEDIA.md](MEDIA.md). This is a source-specific selection, not an exhaustive review of all current dating or taxonomic literature.
 
 Three age decisions use dating research alongside the museum record:
 
@@ -72,7 +72,7 @@ Coordinates below are the editorial regional placements described above. The plo
 
 ## Rights and reproducibility
 
-All rights reserved for this compilation until launch, following the current project handoff. Third-party source material retains its own terms; citation does not relicense it. No museum media or article text is redistributed. The compilation uses factual fields and original summaries.
+All rights reserved for this compilation until launch, following the current project handoff. Third-party source material retains its own terms; citation does not relicense it. The lineage compilation uses factual fields and original summaries, without article text. Photographs for the fossil panel retain their separate credits and terms in [MEDIA.md](MEDIA.md); they are excluded from the compilation notice.
 
 The JSON is the curated source of truth, with stable specimen ids, node citations and explicit overrides above. Revision history records future corrections. There is no live scrape at runtime and no external source fetch required to render the dataset. To check structure and the viewer from the repository root:
 

@@ -285,3 +285,111 @@ test('deep-time comparisons show age limits, sources and dataset defaults', asyn
   await expect(page.locator('#keySel')).toHaveText('the lineage you picked');
   await expect(page.locator('#card')).toContainText('Traced back');
 });
+
+const fossilMedia = require('../../data/hominin-fossils/media.json');
+const fossils = dataset(catalog.find(entry => entry.id === 'hominins')).nodes;
+
+test('every fossil shows its own drawing or an explicit missing-photo state', async ({ page }) => {
+  test.setTimeout(60000);
+  await page.goto(`${viewer}?d=hominins&pick=tm-266-01-060-1`);
+  for (const fossil of fossils) {
+    await page.locator(`#list [data-id="${fossil.id}"]`).click();
+    await expect(page.locator('#fossilName')).toHaveText(fossil.label);
+    await expect(page.locator('#fossilSource')).toHaveAttribute('href', fossil.sources[0]);
+    const media = fossilMedia.specimens[fossil.id];
+    if (media.status === 'unavailable') {
+      await expect(page.locator('#fossilPanel')).toHaveAttribute('data-state', 'unavailable');
+      await expect(page.locator('#fossilCanvas')).toBeHidden();
+      await expect(page.locator('#fossilStatus')).toContainText('no photograph');
+    } else {
+      await expect(page.locator('#fossilPanel')).toHaveAttribute('data-state', 'ready');
+      await expect(page.locator('#fossilCanvas')).toHaveAttribute('aria-label', `Line drawing from a photograph of ${fossil.label}. ${media.alt}`);
+      await expect(page.locator('#fossilCredit')).toHaveText(media.credit);
+      // Real pixels in each of the 29 drawings, not just a populated caption.
+      const marks = await page.locator('#fossilCanvas').evaluate(c => {
+        const data = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;
+        let ink = 0, clear = 0;
+        for (let i = 3; i < data.length; i += 4) { if (data[i] > 40) ink++; if (data[i] === 0) clear++; }
+        return { ink, clear, area: c.width * c.height };
+      });
+      expect(marks.ink, fossil.id).toBeGreaterThan(100);
+      expect(marks.clear, fossil.id).toBeGreaterThan(marks.area * .35);
+    }
+  }
+});
+
+test('fossil controls, selection clearing and dataset changes stay in sync', async ({ page }) => {
+  await page.goto(`${viewer}?d=hominins&pick=tm-266-01-060-1`);
+  const panel = page.locator('#fossilPanel'), canvas = page.locator('#fossilCanvas');
+  await expect(panel).toHaveAttribute('data-state', 'ready');
+  const position = await page.evaluate(() => ({fossil:document.getElementById('fossilPanel').getBoundingClientRect().bottom, dataset:document.querySelector('.pick-ds').getBoundingClientRect().top}));
+  expect(position.fossil).toBeLessThan(position.dataset);
+  const line = await canvas.evaluate(c => c.toDataURL());
+  await page.locator('#fossilPhoto').click();
+  await expect(page.locator('#fossilPhoto')).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('#fossilDetailRow')).toBeHidden();
+  expect(await canvas.evaluate(c => c.toDataURL())).not.toEqual(line);
+  await page.locator('#fossilLine').click();
+  await page.locator('#fossilZoomIn').click();
+  await expect(page.locator('#fossilReset')).toHaveText('1.5× · Fit');
+  const time = await page.locator('#oT').textContent();
+  await canvas.focus(); await page.keyboard.press('ArrowRight');
+  await expect(page.locator('#oT')).toHaveText(time);
+  await page.keyboard.press('0');
+  await expect(page.locator('#fossilReset')).toHaveText('Fit');
+  await page.locator('#fossilDetail').fill('10');
+  expect(await canvas.evaluate(c => c.toDataURL())).not.toEqual(line);
+  await page.locator('#bClear').click();
+  await expect(panel).toBeVisible();
+  await expect(page.locator('#fossilName')).toHaveText('Select a fossil');
+  await expect(canvas).toBeHidden();
+  await expect(page.locator('#fossilSource')).toBeHidden();
+  await page.locator('#ds').selectOption('ias');
+  await expect(panel).toBeHidden();
+  await page.locator('#ds').selectOption('hominins');
+  await expect(panel).toHaveAttribute('data-state', 'ready');
+  await expect(page.locator('#fossilName')).toHaveText('KNM-WT 15000');
+});
+
+test('a slow old fossil image cannot replace the current selection', async ({ page }) => {
+  let release;
+  const held = new Promise(resolve => { release = resolve; });
+  await page.route('**/images/tm-266-01-060-1.webp', async route => { await held; await route.continue(); });
+  const requested = page.waitForRequest('**/images/tm-266-01-060-1.webp');
+  await page.goto(`${viewer}?d=hominins&pick=tm-266-01-060-1`);
+  await requested;
+  await page.locator('#list [data-id="knm-wt-15000"]').click();
+  await expect(page.locator('#fossilPanel')).toHaveAttribute('data-state', 'ready');
+  const current = await page.locator('#fossilCanvas').evaluate(c => c.toDataURL());
+  const responded = page.waitForResponse('**/images/tm-266-01-060-1.webp');
+  release(); await responded;
+  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+  await expect(page.locator('#fossilName')).toHaveText('KNM-WT 15000');
+  expect(await page.locator('#fossilCanvas').evaluate(c => c.toDataURL())).toEqual(current);
+});
+
+test('an unreadable photo leaves a source link and recovers on the next selection', async ({ page }) => {
+  await page.route('**/images/knm-wt-15000.webp', r => r.fulfill({status:200,contentType:'image/webp',body:'invalid image'}));
+  await page.goto(`${viewer}?d=hominins`);
+  await expect(page.locator('#fossilPanel')).toHaveAttribute('data-state', 'error');
+  await expect(page.locator('#fossilCanvas')).toBeHidden();
+  await expect(page.locator('#fossilStatus')).toContainText('could not be loaded');
+  await expect(page.locator('#fossilSource')).toBeVisible();
+  await page.unroute('**/images/knm-wt-15000.webp');
+  await page.locator('#list [data-id="knm-wt-15000"]').click();
+  await expect(page.locator('#fossilPanel')).toHaveAttribute('data-state', 'ready');
+});
+
+test('fossil view fits a narrow screen and draws in the dark theme', async ({ page }) => {
+  await page.setViewportSize({width:390,height:844});
+  await page.goto(`${viewer}?d=hominins&pick=tm-266-01-060-1`);
+  await expect(page.locator('#fossilPanel')).toHaveAttribute('data-state', 'ready');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+  await page.emulateMedia({colorScheme:'dark'});
+  await expect.poll(() => page.locator('#fossilCanvas').evaluate(c => {
+    const data = c.getContext('2d').getImageData(0,0,c.width,c.height).data;
+    let marks=0; for(let i=0;i<data.length;i+=4) if(data[i]>200 && data[i+3]>100) marks++;
+    return marks;
+  })).toBeGreaterThan(100);
+  await page.locator('#fossilPanel').screenshot({path:test.info().outputPath('fossil-mobile-dark.png')});
+});
